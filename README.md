@@ -28,7 +28,7 @@ I operate at the intersection where product thinking meets AI capability. My wor
 
 Traditional product management: *Research → Write specs → Build → Test*
 
-**AI-native product management: *Build → Test → Extract specs — grounded in what actually works***
+**AI-native product management: *Research → Build → Test → Extract specs — grounded in what actually works***
 
 That inversion — building first, specifying second — is what I teach, practice, and help teams adopt.
 
