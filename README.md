@@ -81,6 +81,35 @@ Each skill is a markdown instruction set that gives an AI agent specialized prod
 
 ---
 
+### [Rhythm](./rhythm/)
+
+A **34-skill integrated system** for engineering squad operations, built using a recording studio metaphor. Where PM-OS gives individual PMs superpowers, Rhythm gives entire squads an encoded operating rhythm: sprint ceremonies, delivery tracking, SDLC compliance, launch readiness, and retrospectives, all orchestrated by AI.
+
+**The architecture:**
+
+| Layer | What It Contains | Analogy |
+|-------|-----------------|---------|
+| `skills/` | 25 universal instruments | The instruments, same for every band |
+| `plugins/rehearsal-room/` | 9 methodology instruments | The rehearsal space, where skills get better |
+| `sheet-music/` | SDLC rules, templates, gate definitions | The genre's theory book |
+
+**Highlights:**
+
+| Flow | Skills Orchestrated |
+|------|-------------------|
+| Sprint Planning | `whos-available` > `scan-horizon` > `set-goals` > `check-health` > `forecast` |
+| Sprint Close | outcome review > carry-over > health check > epic progress > status updates > velocity |
+| Initiative Lifecycle | `start-discovery` > `gate-1-review` > `start-design` > `start-build` > `check-launch` > `ship-it` |
+| Self-Improvement | `improve-skill` (rehearse against real data) > `save-work` (commit + ship learnings) |
+
+**Key concept: The Rehearsal Room.** Skills improve through structured rehearsal cycles. Corrections from real usage are captured, classified (principled vs friction), and encoded as permanent lessons. The system gets smarter with every session.
+
+**Key concept: Two-Persona Design.** Every skill must work for both "Expert Claude" (with full conversation context) and "Blank-Slate Claude" (reading only the persisted files). If knowledge only exists in conversation history, it's lost next session. The files ARE the bridge.
+
+[Browse all 34 skills &rarr;](./rhythm/)
+
+---
+
 ### [Dejan Coaching Hub](https://github.com/DJN-KRS-2709/Dejan-Coaching-Hub)
 
 The platform behind [dejan-krstic.com](https://www.dejan-krstic.com/) — built to support 1:1 product leadership coaching with AI-enhanced frameworks, session management, and resource delivery.
