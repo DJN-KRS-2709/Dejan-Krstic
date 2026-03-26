@@ -57,6 +57,30 @@ A complete 6-module certification program teaching product managers how to proto
 
 ---
 
+### [PM-OS Skills Library](./skills/)
+
+A library of **35 AI Skills** built for PM-OS (Product Management Operating System), a structured workspace where AI copilots help product managers think, write, communicate, and ship.
+
+Each skill is a markdown instruction set that gives an AI agent specialized product management capabilities. Skills enforce rigorous PM methodology: problem-before-solution thinking, tradeoff architecture, evidence-grounded decisions, and narrative coherence.
+
+**Highlights:**
+
+| Category | Skills |
+|----------|--------|
+| Brief Pipeline | `product-brainstorm` > `write-brief` > `execute-brief` > `verify-brief` |
+| Quality | `sense-check` (Ralph Wiggum Mode), `fti-groove-validator` |
+| Career | `product-coach` (gap-to-next-level coaching) |
+| Stakeholders | `personas` (encrypted stakeholder simulation) |
+| Data | `metrics`, `vedder` (natural language to SQL) |
+| Prototyping | `rapidly` (CPM + Figma + HTML from discovery docs) |
+| Meta | `write-plugin` (TDD-for-skills methodology) |
+
+**Key concept: TDD-for-Skills.** Every skill exists because an AI agent failed without it. The failure is documented, the rationalization is predicted, and the skill prevents both. Skills are behavioral contracts, not prompts.
+
+[Browse all 35 skills &rarr;](./skills/)
+
+---
+
 ### [Dejan Coaching Hub](https://github.com/DJN-KRS-2709/Dejan-Coaching-Hub)
 
 The platform behind [dejan-krstic.com](https://www.dejan-krstic.com/) — built to support 1:1 product leadership coaching with AI-enhanced frameworks, session management, and resource delivery.
