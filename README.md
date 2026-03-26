@@ -110,6 +110,18 @@ A **34-skill integrated system** for engineering squad operations, built using a
 
 ---
 
+### [System Architecture](./ARCHITECTURE.md)
+
+How PM-OS and Rhythm work together as a unified system: **69 skills** covering the full product-to-engineering lifecycle. Includes the Rehearsal Room methodology that makes both systems self-improving.
+
+---
+
+### [Coaching Toolkit](./coaching-toolkit/)
+
+Curated skill packs for common coaching scenarios. Seven starter packs that combine PM-OS and Rhythm skills for specific outcomes: new PM onboarding, career development, team operations, stakeholder management, launch readiness, problem-to-prototype sprints, and self-improving skill development.
+
+---
+
 ### [Dejan Coaching Hub](https://github.com/DJN-KRS-2709/Dejan-Coaching-Hub)
 
 The platform behind [dejan-krstic.com](https://www.dejan-krstic.com/) — built to support 1:1 product leadership coaching with AI-enhanced frameworks, session management, and resource delivery.
