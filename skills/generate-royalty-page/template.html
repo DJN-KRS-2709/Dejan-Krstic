@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{DOMAIN_NAME}}</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: #0a0a0f;
+  color: #e1e4e8;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTIONS (scroll-snap)
+   ═══════════════════════════════════════════════════════════════ */
+section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  padding: 80px 60px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+section.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION — Side dots + top bar
+   ═══════════════════════════════════════════════════════════════ */
+.nav-dots {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px; z-index: 100;
+}
+.nav-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #333; border: none; cursor: pointer;
+  transition: all 0.3s; position: relative;
+}
+.nav-dot.active { background: #1DB954; box-shadow: 0 0 8px #1DB95488; transform: scale(1.3); }
+.nav-dot:hover { background: #1DB954aa; }
+.nav-dot .tooltip {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  background: #1a1a2e; color: #ccc; padding: 4px 10px; border-radius: 6px;
+  font-size: 11px; white-space: nowrap; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s; border: 1px solid #333;
+}
+.nav-dot:hover .tooltip { opacity: 1; }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
+  background: linear-gradient(90deg, #1DB954, #1ed760);
+  transition: width 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+h1 { font-size: 56px; font-weight: 800; color: #fff; line-height: 1.1; }
+h2 { font-size: 40px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+h3 { font-size: 22px; font-weight: 600; color: #ccc; }
+p, li { font-size: 17px; line-height: 1.7; color: #a0a8b4; }
+.subtitle { font-size: 20px; color: #6b7280; margin-top: 8px; margin-bottom: 32px; }
+.section-label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 3px;
+  color: #1DB954; margin-bottom: 12px; font-weight: 600;
+}
+strong { color: #e1e4e8; }
+code {
+  background: #1a1a2e; padding: 2px 8px; border-radius: 4px;
+  font-size: 14px; color: #1DB954; font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CARDS
+   ═══════════════════════════════════════════════════════════════ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px; margin-top: 24px;
+}
+.card {
+  background: linear-gradient(135deg, #12121f 0%, #0e0e1a 100%);
+  border: 1px solid #1e1e30;
+  border-radius: 16px; padding: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-accent, #1DB954);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.card:hover { border-color: var(--card-accent, #1DB954); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+.card:hover::before { transform: scaleX(1); }
+.card h3 { color: var(--card-accent, #1DB954); font-size: 18px; margin-bottom: 10px; }
+.card p { font-size: 14px; color: #8b949e; }
+.card .card-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+.card .click-hint {
+  font-size: 11px; color: #555; margin-top: 14px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+.card.green { --card-accent: #3fb950; }
+.card.blue { --card-accent: #58a6ff; }
+.card.orange { --card-accent: #d29922; }
+.card.purple { --card-accent: #bc8cff; }
+.card.red { --card-accent: #f85149; }
+.card.cyan { --card-accent: #39d2c0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 200; display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #12121f; border: 1px solid #2a2a40; border-radius: 20px;
+  max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto;
+  padding: 40px; position: relative;
+  animation: modalIn 0.3s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-close {
+  position: absolute; top: 16px; right: 20px;
+  background: none; border: none; color: #666; font-size: 24px;
+  cursor: pointer; width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: #1e1e30; color: #fff; }
+.modal h3 { font-size: 24px; color: #fff; margin-bottom: 16px; }
+.modal p { margin-bottom: 12px; }
+.modal table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.modal th, .modal td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #1e1e30; font-size: 14px; }
+.modal th { color: #6b7280; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal td { color: #a0a8b4; }
+.modal ul { padding-left: 20px; margin: 8px 0; }
+.modal li { font-size: 14px; margin-bottom: 6px; }
+.modal .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px; margin-right: 4px; }
+.modal .tag.green { background: #0f5323; color: #56d364; }
+.modal .tag.blue { background: #0d419d; color: #79c0ff; }
+.modal .tag.orange { background: #4b2e05; color: #e3b341; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SVG DIAGRAMS — Shared
+   ═══════════════════════════════════════════════════════════════ */
+.diagram-container {
+  width: 100%; margin: 28px 0; display: flex; justify-content: center;
+}
+.diagram-container svg { max-width: 100%; height: auto; }
+
+/* Animated particles along paths */
+@keyframes flowParticle {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.flow-particle {
+  offset-rotate: 0deg;
+  animation: flowParticle 3s linear infinite;
+}
+.flow-particle:nth-child(2) { animation-delay: 1s; }
+.flow-particle:nth-child(3) { animation-delay: 2s; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+@keyframes dash { to { stroke-dashoffset: -20; } }
+
+.animated-line {
+  stroke-dasharray: 8 4;
+  animation: dash 1s linear infinite;
+}
+
+/* Glow effect for highlighted boxes */
+@keyframes softGlow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(29, 185, 84, 0.3)); }
+  50% { filter: drop-shadow(0 0 12px rgba(29, 185, 84, 0.6)); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPARISON BOXES
+   ═══════════════════════════════════════════════════════════════ */
+.comparison {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; margin-top: 24px;
+}
+.compare-box {
+  background: #12121f; border: 1px solid #1e1e30;
+  border-radius: 16px; padding: 32px;
+  border-top: 3px solid var(--accent);
+}
+.compare-box h3 { color: var(--accent); margin-bottom: 16px; }
+.compare-box p { font-size: 15px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   STAT CALLOUTS
+   ═══════════════════════════════════════════════════════════════ */
+.stats {
+  display: flex; gap: 40px; margin-top: 32px; flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat .number {
+  font-size: 44px; font-weight: 800; color: #1DB954;
+  line-height: 1;
+}
+.stat .label { font-size: 13px; color: #6b7280; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   STATUS BADGES
+   ═══════════════════════════════════════════════════════════════ */
+.status-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  font-weight: 600;
+}
+.status-badge.active { background: #0f5323; color: #56d364; }
+.status-badge.planned { background: #4b2e05; color: #e3b341; }
+.status-badge::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TABLE (for reference sections)
+   ═══════════════════════════════════════════════════════════════ */
+.ref-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.ref-table th, .ref-table td { text-align: left; padding: 14px 18px; border-bottom: 1px solid #1a1a2e; font-size: 14px; }
+.ref-table th { color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.ref-table td { color: #a0a8b4; }
+.ref-table tr:hover td { background: #12121f; }
+.ref-table code { font-size: 13px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TWO-COLUMN LAYOUT
+   ═══════════════════════════════════════════════════════════════ */
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════════════════════════════ */
+.hero {
+  align-items: center; text-align: center;
+  background: radial-gradient(ellipse at 50% 30%, #0d2818 0%, #0a0a0f 60%);
+}
+.hero h1 { font-size: 64px; margin-bottom: 4px; }
+.hero h1 span { color: #1DB954; }
+.hero .subtitle { font-size: 22px; max-width: 600px; margin: 12px auto 40px; }
+.hero .scroll-hint {
+  font-size: 13px; color: #444; margin-top: 48px;
+  animation: pulse 2s ease infinite;
+}
+.hero .scroll-hint span { display: block; margin-top: 8px; font-size: 20px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   ZOOMABLE DIAGRAM
+   ═══════════════════════════════════════════════════════════════ */
+.zoom-container {
+  position: relative; width: 100%; height: 520px;
+  background: #080810; border: 1px solid #1e1e30; border-radius: 12px;
+  overflow: hidden; cursor: grab; user-select: none;
+}
+.zoom-container:active { cursor: grabbing; }
+.zoom-inner {
+  transform-origin: 0 0;
+  position: absolute; top: 0; left: 0;
+}
+.zoom-controls {
+  position: absolute; top: 12px; right: 12px; z-index: 10;
+  display: flex; gap: 6px;
+}
+.zoom-controls button {
+  background: #1a1a2e; border: 1px solid #333; color: #ccc;
+  width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+}
+.zoom-controls button:hover { background: #2a2a3e; }
+.zoom-container.fullscreen { position: fixed !important; top: 0; left: 0; width: 100vw !important; height: 100vh !important; z-index: 9999; border-radius: 0; max-height: none !important; }
+.zoom-container.fullscreen .zoom-hint { display: none; }
+.zoom-hint {
+  position: absolute; bottom: 10px; left: 12px;
+  font-size: 10px; color: #444;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  section { padding: 40px 24px; }
+  h1 { font-size: 36px; }
+  h2 { font-size: 28px; }
+  .hero h1 { font-size: 40px; }
+  .cols { grid-template-columns: 1fr; }
+  .comparison { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+  .nav-dots { display: none; }
+  .stats { gap: 20px; }
+  .stat .number { font-size: 32px; }
+}
+
+/* ═══ Story Map Styles ═══ */
+.storymap-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px 0 16px 0;
+  scrollbar-color: #30363d #0d1117;
+  scrollbar-width: thin;
+}
+.storymap-container::-webkit-scrollbar { height: 8px; }
+.storymap-container::-webkit-scrollbar-track { background: #0d1117; border-radius: 4px; }
+.storymap-container::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+.storymap-container::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+.storymap-grid {
+  display: grid;
+  grid-template-columns: 130px repeat(5, minmax(210px, 1fr));
+  gap: 2px;
+  min-width: 1200px;
+}
+.storymap-lane-label {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #0d1117;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-right: 2px solid #21262d;
+}
+.storymap-lane-label.lane-phase { color: #d29922; border-left: 3px solid #d29922; }
+.storymap-lane-label.lane-activity { color: #f0883e; border-left: 3px solid #f0883e; }
+.storymap-lane-label.lane-users { color: #79c0ff; border-left: 3px solid #79c0ff; }
+.storymap-lane-label.lane-sentiment { color: #bc8cff; border-left: 3px solid #bc8cff; }
+.storymap-lane-label.lane-systems { color: #39d2c0; border-left: 3px solid #39d2c0; }
+.storymap-lane-label.lane-teams { color: #ff7b72; border-left: 3px solid #ff7b72; }
+
+.storymap-cell {
+  background: #0d1117;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 1px solid #21262d11;
+}
+.storymap-phase-card {
+  background: #2a1f05;
+  border: 1px solid #d2992244;
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.storymap-phase-card h4 {
+  color: #d29922;
+  font-size: 13px;
+  margin: 0 0 4px 0;
+  font-weight: 700;
+}
+.storymap-phase-card .phase-knowledge {
+  font-size: 10px;
+  color: #6b7280;
+}
+.storymap-activity-card {
+  background: #1a1510;
+  border: 1px solid #f0883e44;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #f0883e;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.storymap-activity-card:hover {
+  border-color: #f0883e;
+  background: #251c10;
+}
+.storymap-tag {
+  display: inline-block;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin: 2px;
+  font-weight: 600;
+}
+.storymap-tag.tag-user { background: #0d2140; color: #79c0ff; border: 1px solid #79c0ff33; }
+.storymap-tag.tag-system { background: #0d2a25; color: #39d2c0; border: 1px solid #39d2c033; }
+.storymap-tag.tag-team { background: #2a1215; color: #ff7b72; border: 1px solid #ff7b7233; }
+
+.storymap-sentiment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 4px;
+}
+.storymap-sentiment .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.storymap-sentiment .dot.happy { background: #3fb950; box-shadow: 0 0 6px #3fb95044; }
+.storymap-sentiment .dot.neutral { background: #d29922; box-shadow: 0 0 6px #d2992244; }
+.storymap-sentiment .dot.pain { background: #f85149; box-shadow: 0 0 6px #f8514944; }
+.storymap-sentiment .sent-label {
+  font-size: 10px;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HOME BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+.home-btn {
+  position: fixed; top: 16px; left: 20px; z-index: 100;
+  display: flex; align-items: center; gap: 6px;
+  background: #1a1a2e; border: 1px solid #333; color: #aaa;
+  padding: 6px 14px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-family: inherit; text-decoration: none;
+  transition: all 0.2s;
+}
+.home-btn:hover { background: #2a2a3e; color: #fff; border-color: #1DB954; }
+.home-btn svg { width: 14px; height: 14px; fill: currentColor; }
+</style>
+</head>
+<body>
+
+<!-- Home button -->
+<a class="home-btn" href="{{HOME_URL}}">
+  <svg viewBox="0 0 16 16"><path d="M8 1L1 7h2v7h4V10h2v4h4V7h2L8 1z"/></svg>
+  Home
+</a>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- Modal overlay -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: HERO
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="hero" data-title="Overview">
+  <div class="section-label">Welcome to</div>
+  <h1>{{DOMAIN_ICON}} <span>{{DOMAIN_NAME}}</span></h1>
+  <p class="subtitle">Your guide to how this domain works at Spotify</p>
+  {{HERO_STATS_HTML}}
+  <div class="scroll-hint">Scroll down or use arrow keys to navigate<span>&#8595;</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: THE BIG PICTURE
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Big Picture">
+  <div class="section-label">01 &mdash; The Big Picture</div>
+  {{BIG_PICTURE_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: TIERS (optional — omit if empty)
+     ═══════════════════════════════════════════════════════════════ -->
+{{TIERS_SECTION_HTML}}
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: LICENSORS / PARTNERS
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Licensor Types">
+  <div class="section-label">02 &mdash; Who We Pay</div>
+  {{LICENSORS_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: ROYALTY MODELS
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Royalty Models">
+  <div class="section-label">03 &mdash; Royalty Models</div>
+  {{ROYALTY_MODELS_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: CALCULATION ENGINE
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Calculation Engine">
+  <div class="section-label">04 &mdash; Calculation Engine</div>
+  {{CALC_ENGINE_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: KEY COMPLEXITY AREAS
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Complexity">
+  <div class="section-label">05 &mdash; Key Complexity Areas</div>
+  {{COMPLEXITY_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: CONFIGURATION SYSTEM
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Configuration">
+  <div class="section-label">06 &mdash; Configuration System</div>
+  {{BLOOM_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: OPERATIONAL UI
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Operational UI">
+  <div class="section-label">07 &mdash; Operational UI</div>
+  {{ROYALTY_STUDIO_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: USER STORY MAP / SYSTEM LANDSCAPE
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="System Landscape">
+  <div class="section-label">08 &mdash; How It Works</div>
+  <h2>The Royalty Journey</h2>
+  <p class="subtitle">User story map: activities, people, systems, and sentiment across the lifecycle. Scroll horizontally to explore.</p>
+
+  <div class="storymap-container">
+    <div class="storymap-grid">
+      {{STORY_MAP_HTML}}
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: ZOOMABLE E2E SYSTEM MAP
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="E2E Diagram">
+  <div class="section-label">09 &mdash; System Map</div>
+  <h2>System Map</h2>
+  <p class="subtitle">Overview of all systems and how data flows between them. Open fullscreen to zoom and explore.</p>
+
+  {{E2E_SVG_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: REPORTING PIPELINE
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Reporting Pipeline">
+  <div class="section-label">10 &mdash; Reporting Pipeline</div>
+  {{REPORTING_HTML}}
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION: KEY SYSTEMS & REPOS
+     ═══════════════════════════════════════════════════════════════ -->
+<section data-title="Systems Reference">
+  <div class="section-label">11 &mdash; Reference</div>
+  <h2>Key Systems &amp; Repos</h2>
+  <p class="subtitle">The complete system landscape</p>
+
+  <table class="ref-table">
+    <thead>
+      <tr><th>System</th><th>Repository</th><th>What It Does</th></tr>
+    </thead>
+    <tbody>
+      {{SYSTEMS_TABLE_HTML}}
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+// ── Modal Content ──────────────────────────────────────────────
+const modals = {
+  {{MODALS_JS}}
+};
+
+// ── Modal Logic ────────────────────────────────────────────────
+function openModal(key) {
+  const data = modals[key];
+  if (!data) return;
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `<h3>${data.title}</h3>${data.body}`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Scroll-based visibility (IntersectionObserver) ─────────────
+const sections = document.querySelectorAll('section');
+const navDotsContainer = document.getElementById('navDots');
+const sectionTitles = [];
+
+sections.forEach((sec, i) => {
+  const title = sec.dataset.title || `Section ${i + 1}`;
+  sectionTitles.push(title);
+  const dot = document.createElement('button');
+  dot.className = 'nav-dot';
+  dot.innerHTML = `<span class="tooltip">${title}</span>`;
+  dot.onclick = () => sec.scrollIntoView({ behavior: 'smooth' });
+  navDotsContainer.appendChild(dot);
+});
+
+const dots = document.querySelectorAll('.nav-dot');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      const idx = Array.from(sections).indexOf(entry.target);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      const pct = ((idx + 1) / sections.length) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+    }
+  });
+}, { threshold: 0.35 });
+
+sections.forEach(sec => observer.observe(sec));
+
+// ── Keyboard navigation ────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('modalOverlay').classList.contains('open')) {
+    if (e.key === 'Escape') closeModalDirect();
+    return;
+  }
+  const current = Array.from(sections).findIndex(s => s.classList.contains('visible'));
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    const next = Math.min(current + 1, sections.length - 1);
+    sections[next].scrollIntoView({ behavior: 'smooth' });
+  }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    e.preventDefault();
+    const prev = Math.max(current - 1, 0);
+    sections[prev].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// ── Zoom/Pan for E2E diagram ───────────────────────────────────
+(function() {
+  const container = document.getElementById('zoomContainer');
+  const inner = document.getElementById('zoomInner');
+  if (!container || !inner) return;
+
+  // Read SVG dimensions from the embedded SVG element
+  const svg = inner.querySelector('svg');
+  const svgW = svg ? parseFloat(svg.getAttribute('width') || svg.viewBox.baseVal.width) : 1700;
+  const svgH = svg ? parseFloat(svg.getAttribute('height') || svg.viewBox.baseVal.height) : 750;
+  let scale = 0.6, panX = 0, panY = 0, isDragging = false, startX, startY;
+
+  function getMinScale() {
+    const rect = container.getBoundingClientRect();
+    return Math.min(rect.width / svgW, rect.height / svgH);
+  }
+
+  function applyTransform() {
+    inner.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  }
+
+  // Set initial scale to fit-to-container
+  function fitToContainer() {
+    scale = getMinScale();
+    panX = 0; panY = 0;
+    applyTransform();
+  }
+  fitToContainer();
+
+  container.addEventListener('wheel', (e) => {
+    // Only allow zoom in fullscreen mode — otherwise let the page scroll normally
+    if (!container.classList.contains('fullscreen')) return;
+    e.preventDefault();
+    const factor = e.deltaY < 0 ? 1.1 : 0.9;
+    const rect = container.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const minScale = getMinScale();
+    const newScale = Math.max(minScale, Math.min(3, scale * factor));
+    panX = mx - (mx - panX) * (newScale / scale);
+    panY = my - (my - panY) * (newScale / scale);
+    scale = newScale;
+    applyTransform();
+  }, { passive: false });
+
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true; startX = e.clientX - panX; startY = e.clientY - panY;
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    panX = e.clientX - startX; panY = e.clientY - startY;
+    applyTransform();
+  });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+
+  window.zoomDiagram = (factor) => {
+    const minScale = getMinScale();
+    scale = Math.max(minScale, Math.min(3, scale * factor));
+    applyTransform();
+  };
+  window.resetZoom = () => { fitToContainer(); };
+  window.toggleFullscreen = () => {
+    container.classList.toggle('fullscreen');
+    const btn = document.getElementById('fsBtn');
+    if (container.classList.contains('fullscreen')) {
+      btn.textContent = '\u2715';
+      btn.title = 'Exit fullscreen';
+    } else {
+      btn.textContent = '\u26F6';
+      btn.title = 'Fullscreen';
+    }
+    setTimeout(fitToContainer, 100);
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && container.classList.contains('fullscreen')) {
+      toggleFullscreen();
+    }
+  });
+})();
+
+// Make first section visible immediately
+sections[0].classList.add('visible');
+
+</script>
+
+</body>
+</html>

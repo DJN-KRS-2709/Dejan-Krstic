@@ -1,12 +1,12 @@
 # System Architecture: PM-OS + Rhythm
 
-Two complementary AI skill systems that cover the full product-to-engineering lifecycle. Together they represent **69 skills** that give AI copilots deep, opinionated product and engineering capabilities.
+Two complementary AI skill systems that cover the full product-to-engineering lifecycle. Together they represent **70 skills** that give AI copilots deep, opinionated product and engineering capabilities.
 
 ---
 
 ## The Two Systems
 
-### PM-OS: The PM's Operating System (35 skills)
+### PM-OS: The PM's Operating System (36 skills)
 
 PM-OS gives individual product managers superpowers. Each skill is a standalone behavioral contract that enforces rigorous methodology.
 
@@ -151,7 +151,7 @@ Human judgment is the highest-priority signal. The AI provides data and drafts; 
 
 ## Skill Inventory (69 total)
 
-### PM-OS Skills (35)
+### PM-OS Skills (36)
 
 | Category | Skills |
 |----------|--------|
@@ -164,7 +164,7 @@ Human judgment is the highest-priority signal. The AI provides data and drafts; 
 | Communication | `exec-updates`, `jira-reporting`, `export-slides`, `pitch-deck-builder`, `intake-submission` |
 | Data | `metrics`, `vedder`, `spp-issues`, `my-spp-tickets` |
 | Productivity | `prios`, `meeting-booker`, `sync`, `sync-gdoc`, `uat-to-sheets` |
-| Prototyping | `rapidly` |
+| Prototyping & Visualization | `rapidly`, `generate-royalty-page` |
 | Workspace | `synka`, `systems-inventory`, `onboarding`, `groove-linking`, `private-docs`, `domain-prs-summary` |
 | Meta | `write-plugin`, `skill-installer` |
 
