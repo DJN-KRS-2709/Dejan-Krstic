@@ -59,7 +59,7 @@ A complete 6-module certification program teaching product managers how to proto
 
 ### [PM-OS Skills Library](./skills/)
 
-A library of **35 AI Skills** built for PM-OS (Product Management Operating System), a structured workspace where AI copilots help product managers think, write, communicate, and ship.
+A library of **36 AI Skills** built for PM-OS (Product Management Operating System), a structured workspace where AI copilots help product managers think, write, communicate, and ship.
 
 Each skill is a markdown instruction set that gives an AI agent specialized product management capabilities. Skills enforce rigorous PM methodology: problem-before-solution thinking, tradeoff architecture, evidence-grounded decisions, and narrative coherence.
 
@@ -77,7 +77,7 @@ Each skill is a markdown instruction set that gives an AI agent specialized prod
 
 **Key concept: TDD-for-Skills.** Every skill exists because an AI agent failed without it. The failure is documented, the rationalization is predicted, and the skill prevents both. Skills are behavioral contracts, not prompts.
 
-[Browse all 35 skills &rarr;](./skills/)
+[Browse all 36 skills &rarr;](./skills/)
 
 ---
 
