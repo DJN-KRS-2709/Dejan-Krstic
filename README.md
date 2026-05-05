@@ -2,7 +2,7 @@
 
 **Product Leadership Coach | AI Strategist | Vibe Coding Instructor**
 
-I help product teams build smarter by combining 12+ years of product leadership with hands-on AI prototyping, intelligent automation, and modern product frameworks.
+I help product teams build smarter by combining 16+ years of product leadership with hands-on AI prototyping, intelligent automation, and modern product frameworks.
 
 I don't just talk about AI in product management — I build with it, teach it, and coach others to do the same.
 
