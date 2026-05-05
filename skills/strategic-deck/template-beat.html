@@ -1,0 +1,116 @@
+<!--
+  Template beat file. Copy this to beat-N-{name}.html and edit:
+  - <title> tag
+  - The <section> content
+  - Component-specific CSS at the bottom of <style>
+
+  The assembler scopes everything to a unique beat-N class, so the
+  CSS in this file does not need to be globally unique. Use class
+  selectors. Avoid touching `body` or `html` rules. those are set
+  globally and will be stripped.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beat N: Title</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+body {
+  font-family: 'Lato', -apple-system, sans-serif;
+  background: #07162C;
+  color: #e8e8f0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === SECTION (default content slide) === */
+section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  padding: 70px 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 35%, rgba(255,255,255,0.05) 0%, #07162C 65%);
+}
+
+h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.section-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #8899bb;
+  margin: 0 auto 22px;
+  line-height: 1.5;
+  max-width: 880px;
+}
+
+.inner {
+  max-width: 1280px;
+  width: 100%;
+  text-align: left;
+}
+
+/* === COLOR TOKENS (use these, don't invent more) ===
+   --c-done:    #6ee7b7   green   live / done / O1
+   --c-flight:  #60a5fa   blue    in flight / O2
+   --c-planned: #fbbf24   amber   planned / next / O3
+   --c-cross:   #d4a8ff   purple  cross-functional input
+   --c-gap:     #f87171   red     ownership gap / risk
+   --c-mute:    #8899bb   slate   subtitle / footer text
+*/
+
+/* === COMPONENT CSS. add only what THIS beat needs === */
+
+/* Example: status icons + initiative rows
+.status-icon { font-weight: 800; font-size: 13px; }
+.status-icon.done    { color: #6ee7b7; }
+.status-icon.flight  { color: #60a5fa; }
+.status-icon.planned { color: #fbbf24; }
+.status-icon.cross   { color: #d4a8ff; }
+
+.init-name { color: #fff; font-weight: 700; font-size: 13px; }
+.init-note { color: #8899bb; font-style: italic; font-size: 12px; }
+*/
+
+</style>
+</head>
+<body>
+
+<section>
+  <div class="inner">
+    <div class="section-label">Optional small framing</div>
+    <h2>Replace with your headline</h2>
+    <p class="subtitle">One-line subtitle a 12-year-old could parse.</p>
+
+    <!-- Your visual / content here -->
+
+  </div>
+</section>
+
+</body>
+</html>
