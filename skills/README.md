@@ -97,6 +97,7 @@ They follow a TDD-for-skills philosophy: every skill exists because an AI agent 
 |-------|-------------|
 | [rapidly](./rapidly/) | Generates prototype outputs from discovery docs: CPM (Customer Problem Map), Figma Make prompt, and interactive HTML prototype. |
 | [generate-royalty-page](./generate-royalty-page/) | Generates interactive HTML onboarding pages for royalty content verticals (Music, Lyrics, Podcasts, Audiobooks). Queries BigQuery for real data, creates animated SVG diagrams, zoomable system maps, and deploys to Snow. Includes a full HTML template. |
+| [strategic-deck](./strategic-deck/) | Builds a strategic HTML presentation in the FinE-leadership-tested style. Beat-by-beat HTML files, Python assembler with scoped CSS, scroll-snap navigation, dark navy + Poppins/Lato system. Encodes hard rules: no em-dashes, no "X, not Y" rhetoric, 12 main beats max, 3 asks max. Bundles assembler and template-beat scaffold. |
 
 ### Workspace Management
 
@@ -159,10 +160,10 @@ skills/<name>/
 | Communication & Reporting | 5 |
 | Data & Metrics | 4 |
 | Productivity & Coordination | 5 |
-| Prototyping & Visualization | 2 |
+| Prototyping & Visualization | 3 |
 | Workspace Management | 6 |
 | Meta / Skill Development | 2 |
-| **Total** | **36** |
+| **Total** | **37** |
 
 ---
 
