@@ -98,6 +98,7 @@ They follow a TDD-for-skills philosophy: every skill exists because an AI agent 
 | [rapidly](./rapidly/) | Generates prototype outputs from discovery docs: CPM (Customer Problem Map), Figma Make prompt, and interactive HTML prototype. |
 | [generate-royalty-page](./generate-royalty-page/) | Generates interactive HTML onboarding pages for royalty content verticals (Music, Lyrics, Podcasts, Audiobooks). Queries BigQuery for real data, creates animated SVG diagrams, zoomable system maps, and deploys to Snow. Includes a full HTML template. |
 | [strategic-deck](./strategic-deck/) | Builds a strategic HTML presentation in the FinE-leadership-tested style. Beat-by-beat HTML files, Python assembler with scoped CSS, scroll-snap navigation, dark navy + Poppins/Lato system. Encodes hard rules: no em-dashes, no "X, not Y" rhetoric, 12 main beats max, 3 asks max. Bundles assembler and template-beat scaffold. |
+| [course-to-github-pages](./course-to-github-pages/) | Transforms a legacy course (Word docs, PowerPoint, PDFs) into a GitHub Pages design library: scroll-snap HTML decks (instructor + shareable), Markdown notes, single-file interactive tools, a forkable project template, and root pages — all in the Product School AI certification visual system (navy `#07162C`, Poppins/Lato/IBM Plex Mono). Tool-agnostic: ships `PROMPT.md` (paste anywhere), `CLAUDE.md` (Claude Code/Project), and `SKILL.md` (Cursor/Claude Code skills). |
 
 ### Workspace Management
 
@@ -160,10 +161,10 @@ skills/<name>/
 | Communication & Reporting | 5 |
 | Data & Metrics | 4 |
 | Productivity & Coordination | 5 |
-| Prototyping & Visualization | 3 |
+| Prototyping & Visualization | 4 |
 | Workspace Management | 6 |
 | Meta / Skill Development | 2 |
-| **Total** | **37** |
+| **Total** | **38** |
 
 ---
 
