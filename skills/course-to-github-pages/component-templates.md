@@ -4,6 +4,8 @@ This is the catalog of every section component used across the certification fam
 
 If you're authoring HTML directly (no Python generator), copy the HTML pattern verbatim. The CSS classes resolve against `design-system.css`.
 
+> **For visual layouts inside individual slides** (cards with header bands, snake roadmap arrows, the AI iceberg, the PM Decision Triangle, the Eval Stack Pyramid, "GIF-like" CSS animations, the repo-tree visualisation) **see [`visual-primitives.md`](visual-primitives.md)**. Those helpers are field-tested across M1–M6 of AI Product Managers — reuse them rather than authoring bespoke layouts.
+
 ---
 
 ## Slide deck section components
@@ -423,4 +425,186 @@ This folder holds your Module 1 deliverables.
 <!-- Your reflection here. -->
 ```
 
-The top-level `README.md` of the project template is the **certificate**. Every module's `applied_work` slides feed into it. The Final Project Brief tells learners to finalise it in M6 using the `Final Project Deliverables Builder.html` tool.
+The top-level `README.md` of the project template is the **certificate**. Every module's `applied_work` slides feed into it. The Final Project Brief tells learners to finalise it in M6 using the `Final Project Deliverables Builder.html` tool — which generates BOTH `pitch.html` AND `README.md` (see "Pitch HTML output" below).
+
+The project-template repo itself must have `is_template=true` so GitHub shows the "Use this template" button. The course's M1 deck links to it via the **one-click create URL**:
+
+```
+https://github.com/new?template_name={template-repo-name}&template_owner={owner}
+```
+
+This URL opens the GitHub "create from template" form pre-filled. Always link this form. Never link to the bare template repo URL — that requires the learner to find the "Use this template" button manually. (Set `is_template=true` via `gh api -X PATCH repos/{owner}/{repo} -f is_template=true`.)
+
+---
+
+## Embedded video (Google Drive, Loom, YouTube, Vimeo)
+
+When the source slide references a video, embed it _and_ keep the link as a fallback. For Google Drive videos, use the `/preview` URL — `…/view` does not render in iframes.
+
+```html
+<div style="display:flex; flex-direction:column; gap:14px; max-width:920px; margin:0 auto;">
+  <div style="position:relative; width:100%; aspect-ratio:16/9; background:#000;
+              border-radius:12px; overflow:hidden; box-shadow:0 12px 36px rgba(0,0,0,0.40);">
+    <iframe src="https://drive.google.com/file/d/{FILE_ID}/preview"
+            allow="autoplay" allowfullscreen
+            style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
+  </div>
+  <a href="https://drive.google.com/file/d/{FILE_ID}/view" target="_blank" rel="noopener"
+     style="color:#79c0ff; font-size:13px; text-decoration:none; align-self:flex-start;">
+    Open in a new tab ↗
+  </a>
+</div>
+```
+
+For Loom: `https://www.loom.com/embed/{ID}`. For YouTube: `https://www.youtube.com/embed/{ID}?rel=0`. For Vimeo: `https://player.vimeo.com/video/{ID}`.
+
+---
+
+## Tool-as-walkthrough — pre-selected chip pattern
+
+When a tool replaces a paper-style worksheet that contains worked examples or option lists, the tool **starts with pre-selected option chips**. The learner toggles chips into a textarea (which is the source of truth for the export). This preserves the scaffolding the worksheet provided.
+
+```html
+<div class="field">
+  <label>ROLE — Who is the model pretending to be?</label>
+  <p class="hint">Click chips to add / remove. Edit freely below.</p>
+  <div class="chips" id="role-chips">
+    <span class="chip selected" data-text="Frontend Engineer">Frontend Engineer</span>
+    <span class="chip selected" data-text="building dashboards">building dashboards</span>
+    <span class="chip" data-text="in dark mode">in dark mode</span>
+    <span class="chip" data-text="React + Tailwind">React + Tailwind</span>
+  </div>
+  <textarea id="role" oninput="render()">Act as a Frontend Engineer building dashboards.</textarea>
+</div>
+```
+
+```css
+.chips { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+.chip {
+  font-size: 12px; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  background: rgba(96,165,250,0.05); color: var(--muted);
+  border: 1px solid rgba(96,165,250,0.20); user-select: none;
+}
+.chip.selected {
+  background: rgba(96,165,250,0.15); color: var(--accent2);
+  border-color: rgba(96,165,250,0.50);
+}
+```
+
+```js
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    c.classList.toggle('selected');
+    rebuildField(c.closest('.field'));
+  });
+});
+function rebuildField(field) {
+  const ta = field.querySelector('textarea');
+  const phrases = [...field.querySelectorAll('.chip.selected')].map(c => c.dataset.text);
+  // Merge into the textarea preserving any free-text edits the user made.
+  // Strategy: only autofill if textarea matches the previous chip-derived string.
+  const prev = field.dataset.lastChipString || '';
+  if (ta.value === prev) {
+    ta.value = phrases.join(' · ');
+    field.dataset.lastChipString = ta.value;
+    render();
+  }
+}
+```
+
+This is mandatory wherever the source has worked examples or a list of options. See [`visual-primitives.md`](visual-primitives.md) for context.
+
+---
+
+## Pitch HTML output (Final Project Deliverables Builder)
+
+The capstone tool generates **two** outputs from one form: a visual `pitch.html` (the screen-shareable one-pager) and a `README.md` (the repo deliverable). The pitch HTML reuses the slide-deck colour tokens (`#07162C` background, Poppins/Lato fonts) but is a single-scroll one-page layout, not a slide deck.
+
+The tool's right pane has:
+
+1. A live `iframe` that re-renders the pitch on every keystroke (`iframe.srcdoc = pitchHTML()`).
+2. Buttons: **Download `pitch.html`** (creates a Blob URL) and **Open in new tab** (writes to a fresh `window.open` document).
+
+### Pitch sections (in order)
+
+1. **Hero** — eyebrow badge ("AI Product Management Certification") · title (large, gradient white→light-blue) · one-line pitch · name/cohort meta · CTAs (`View the repo →` + optional `📹 3-min walkthrough`).
+2. **Module artefacts** (6-card grid) — one card per module, colour-coded with the module's accent (M1 blue, M2 amber, M3 violet, M4 green, M5 pink, M6 cyan). Each card shows the module number + name + linked artefact paths. Each path links to `${repo}/blob/main/${path}` so the recipient can click straight into the file on GitHub.
+3. **PM Execution Plan rail** — five cards: `01 · Now`, `02 · Next`, `03 · Watch`, `04 · Red lines`, `05 · Governance`. Each renders the textarea body with `<br>` for line breaks.
+4. **Build insights** — three cards in a row: `😣 Friction` (red border) · `🧠 Learning` (blue border) · `💡 Aha` (amber border).
+5. **Loom callout** (only if the optional Loom URL was provided).
+6. **Footer** — `{name} · Certification submission · {Course Name}`.
+
+### Skeleton (JS function)
+
+```js
+function pitchHTML() {
+  function esc(s){return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+  function nl(s){return esc(s).replace(/\n/g,'<br>')}
+  const title = esc(v('title')) || 'Juno PM';
+  const pitch = esc(v('pitch')) || '...';
+  const repo  = esc(v('repo'));
+  const loom  = esc(v('loom'));
+  const linkTo = (p, isUrl) => !p ? '' : (isUrl ? p : (repo ? repo.replace(/\/$/,'') + '/blob/main/' + p : p));
+  const moduleCard = (num, col, icon, name, links) => {
+    const l = links.map(([label, val, isUrl]) => !val
+      ? `<div class="m-link missing">· ${label}: <em>missing</em></div>`
+      : `<a class="m-link" href="${esc(linkTo(val,isUrl))}" target="_blank">→ ${label}: <code>${esc(val)}</code></a>`
+    ).join('');
+    return `<div class="m-card" style="--col:${col}">
+      <div class="m-head"><div class="m-num">${num} ${icon}</div><div class="m-name">${name}</div></div>
+      <div class="m-body">${l}</div></div>`;
+  };
+  // ... build modulesHTML, execHTML, insightsHTML ...
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title} — Pitch</title>
+    <style>/* navy bg-glow, Poppins/Lato/IBM Plex Mono, color-coded module cards */</style></head>
+    <body><main>
+      <section class="hero">...</section>
+      <section class="block">...modulesHTML...</section>
+      <section class="block">...execHTML...</section>
+      <section class="block">...insightsHTML...</section>
+      ${loom ? `<section class="loom-wrap">...</section>` : ''}
+      <footer>${who} · Certification submission · {Course Name}</footer>
+    </main></body></html>`;
+}
+
+function downloadPitch() {
+  const b = new Blob([pitchHTML()], {type:'text/html'});
+  const u = URL.createObjectURL(b);
+  const a = document.createElement('a');
+  a.href = u; a.download = 'pitch.html'; a.click();
+  URL.revokeObjectURL(u);
+}
+
+function openPitch() {
+  const w = window.open('','_blank');
+  if (w) { w.document.open(); w.document.write(pitchHTML()); w.document.close(); }
+}
+
+function refreshPitchFrame() {
+  const f = document.getElementById('pitchFrame');
+  if (f) f.srcdoc = pitchHTML();
+}
+```
+
+### Right-pane HTML
+
+```html
+<div class="rtab-row">
+  <button class="rtab active" data-pane="pitch" onclick="switchTab(this)">🌟 Pitch (HTML)</button>
+  <button class="rtab" data-pane="tree" onclick="switchTab(this)">Repo tree</button>
+  <button class="rtab" data-pane="md" onclick="switchTab(this)">README preview</button>
+  <button class="rtab" data-pane="prompt" onclick="switchTab(this)">Pitch prompt</button>
+  <button class="rtab" data-pane="checklist" onclick="switchTab(this)">Self-review</button>
+</div>
+
+<div class="rtab-pane active" data-pane="pitch">
+  <div class="row" style="margin-bottom:10px">
+    <button onclick="downloadPitch()">⬇ Download pitch.html</button>
+    <button class="secondary" onclick="openPitch()">↗ Open in new tab</button>
+  </div>
+  <iframe id="pitchFrame" style="width:100%; height:620px; border:0;
+          background:#07162C; border-radius:12px; border:1px solid var(--line);"></iframe>
+</div>
+```
+
+The full implementation is in the AI Product Management repo at `Modules/Final Project Deliverables Builder.html` — clone it as the starting point.

@@ -19,6 +19,11 @@ This certification family is solo-format. Every exercise, prompt, and rubric is 
 | "the team will…" | "you will…" |
 | "co-author" | "author" |
 | "vote together" | "thumb-vote, then click to reveal" (provocation pattern) |
+| "Solo Reflection" | "Reflection" (cohort format is implicitly solo) |
+| "Solo Lab" | "Lab" |
+| "Solo Applied Work" | "Applied work" |
+
+> **Exception:** the source label `Instructor-Led Q&A` stays literal. The instructor still runs it live; async cohort learners post their answer in `#cohort-channel`. Do not rebrand it as a reflection.
 
 ## Required structure for every exercise
 
@@ -50,6 +55,49 @@ Every exercise on every module deck must have all five of these:
 - **Provocation framing is OPTIONAL.** Use the `provocation()` component only when the source slide is itself a "true / false / it depends" question slide. Don't manufacture provocations to "open" a module.
 - **Real companies as evidence.** When you cite an example, prefer the same public product the source slide cites. If the source mentions Perplexity, keep Perplexity — don't substitute or stack additional examples.
 - **Live preview always.** Every tool has a right-pane markdown preview that updates as the learner types. The preview is what they commit.
+- **Toolkit slides — current entrants only.** Audit "PM's AI Toolkit" / "AI Stack" every regeneration. Drop defunct or merged products (e.g. retire Microsoft Bing). Swap in the most-hyped recent entrants. Keep the count steady at 8–12. Each product gets one line of context — what it does, why it matters for AI PMs.
+
+## Tool-as-walkthrough — pre-selected option chips
+
+When a tool replaces a paper-style worksheet (M1 Prompt Anatomy Builder, M2 Decision Matrix, etc.), the tool **must start with pre-selected option chips** that the learner can toggle/edit. Empty placeholders that disappear on first keystroke throw away the scaffolding the worksheet provided.
+
+**Pattern:** for each field, render 3–6 chips, with 1–2 pre-selected. Clicking a chip toggles it into a textarea below; the textarea is the source of truth for the export. The learner can edit the textarea freely after seeding it from chips.
+
+This is mandatory wherever the source has worked examples or a list of options. See `visual-primitives.md` for the full pattern + HTML.
+
+## Repo-as-concept onboarding (M1)
+
+The course is forkable, but unless M1 says so, learners default to "where do I commit this?" mode. Add a slide _early_ in M1 (between the toolkit and the first lab) that:
+
+1. Shows the **one-click GitHub template URL**: `https://github.com/new?template_name={template-repo}&template_owner={owner}` — opens the GitHub "create from template" form pre-filled. Always link this URL form; never link to the bare template repo.
+2. Names the folders the learner will commit into across M1–M6.
+3. Shows the path to the first artefact they'll commit.
+
+Every later module's "Resources & Templates" tile lists tools / artefacts THAT module needs — not M1's list copy-pasted.
+
+## Single-viewport breakout slides
+
+Every `applied_work` / lab slide must fit on one screen.
+
+- Steps as a 4-line ordered list maximum.
+- Tool CTA = single button + one-line description.
+- Repo footer = one line.
+- Heading + subtitle ≤ 3 lines combined.
+
+If the breakout has more steps, move the overflow into the tool's right-pane checklist.
+
+## Two consecutive breakouts → two separate tools
+
+If the source has Lab 1 (build it) and Lab 2 (configure it) on consecutive slides, build TWO distinct tools, one per slide. Reusing one tool across both slides forces learners to scroll within the tool to find the part for the current slide.
+
+## Capstone tool ships pitch.html, not just README.md
+
+The README is the repo deliverable; the **pitch** is what the learner screen-shares. The Final Project Deliverables Builder generates BOTH:
+
+- `pitch.html` — visual one-page deck (hero, 6 module cards, PM Execution Plan rail, Build Insights, optional Loom).
+- `README.md` — markdown for the repo root.
+
+Slide language across the M6 capstone deck and Final Project Brief must reference both deliverables explicitly. Don't say "the README is the pitch" — they are different artefacts with different audiences.
 
 ## Voice across deck types
 
@@ -63,7 +111,20 @@ Every exercise on every module deck must have all five of these:
 
 ```bash
 # Quick voice audit — banned phrases must return zero.
-grep -rEi "your group|as a team|round[ -]?robin|pair up|with a partner|breakout|peer red[- ]team|report back" Modules/ index.html *.html
+grep -rEi "your group|as a team|round[ -]?robin|pair up|with a partner|breakout|peer red[- ]team|report back|solo (reflection|lab|applied)" Modules/ index.html *.html
 ```
 
 If any return matches, fix the source generator (not the rendered HTML) and re-run.
+
+Also audit:
+
+```bash
+# Module-ordering sanity (should print one match per module, in order)
+grep -nE "Module [1-6]" Curriculum\ Map.html | head -20
+
+# Toolkit currency — Bing/old products should not appear unless the source still cites them
+grep -niE "(microsoft bing|bing search|cortana)" Modules/*.html
+
+# Capstone deliverables — should reference BOTH pitch.html and README.md
+grep -niE "(pitch\.html|README\.md)" Modules/Module\ 6*.html "Final Project Brief.html"
+```

@@ -111,7 +111,29 @@ gh repo edit {owner}/{course-slug}-project-template --enable-issues=false --enab
 gh api -X PATCH repos/{owner}/{course-slug}-project-template -f is_template=true
 ```
 
-Now the **Use this template** button shows up in the GitHub UI. The Final Project Brief tells learners to click it.
+Now the **Use this template** button shows up in the GitHub UI.
+
+### One-click create URL (use this everywhere — never link to the bare template repo)
+
+```
+https://github.com/new?template_name={course-slug}-project-template&template_owner={owner}
+```
+
+This URL opens the GitHub "Create a new repository from template" form pre-filled. Always link this form from:
+
+- The **M1 repo-onboarding slide** (between the toolkit and the first lab).
+- The **Final Project Brief** (under "Set up your repo").
+- The **Course Overview** root page.
+- Every **Resources & Templates** tile that references the template.
+
+Linking to the bare template repo URL (`https://github.com/{owner}/{course-slug}-project-template`) requires the learner to find the "Use this template" button manually — that is friction, not progress.
+
+Verify `is_template=true`:
+
+```bash
+gh api repos/{owner}/{course-slug}-project-template --jq '.is_template'
+# expected: true
+```
 
 ## Re-running on a working course (idempotent)
 
@@ -122,6 +144,9 @@ The generators overwrite the deck files. **Never hand-edit a generated deck** �
 python3 scripts/gen_module_decks.py
 python3 scripts/gen_root_pages.py
 python3 scripts/refresh_tool_palette.py     # only if you tweaked tool CSS
+
+# Voice + ordering audit (banned phrases must return zero)
+grep -rEi "your group|as a team|round[ -]?robin|pair up|with a partner|breakout|peer red[- ]team|report back|solo (reflection|lab|applied)" Modules/ index.html *.html
 
 git add -A && git commit -m "course: regenerate with updated content"
 git push

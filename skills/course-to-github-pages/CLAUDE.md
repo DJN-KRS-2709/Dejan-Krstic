@@ -21,8 +21,9 @@ Read `PROMPT.md` first — it is the full system prompt and contains everything 
 - `design-system.css` — verbatim CSS for every HTML deck. Paste inside `<style>...</style>`.
 - `design-system.js` — verbatim controller (progress bar / nav dots / sorter / keyboard nav). Paste inside `<script>...</script>` at end of body.
 - `component-templates.md` — every section pattern (hero, provocation, lecture_table, applied_work, case_study, takeaways, …) plus the interactive-tool skeleton.
+- **`visual-primitives.md`** — the M5/M6 vocabulary distilled from AI Product Managers (the `_m5_card` family, snake-roadmap, decision triangle, eval pyramid, AI iceberg, repo tree, "GIF-like" CSS animations, arrow-routing rules, responsive SVG-HTML alignment, pitch.html, "tool-as-walkthrough" chip pattern, single-viewport breakout constraint). **Open this BEFORE authoring any visual layout** — bespoke per-slide layouts are the #1 regression risk.
 - `voice.md` — banned phrases + required substitutions (the individual-only voice rules).
-- `deployment.md` — GitHub Pages enable + verify recipes.
+- `deployment.md` — GitHub Pages enable + verify recipes (incl. one-click template URLs).
 - `exemplars.md` — the two reference courses already shipped (AI Product Strategy + AI Product Management).
 - `scripts/gen_module_decks_template.py` — Python generator skeleton for module decks.
 - `scripts/gen_root_pages_template.py` — root-pages generator skeleton.
@@ -41,9 +42,14 @@ Read `PROMPT.md` first — it is the full system prompt and contains everything 
 ## Hard rules (do not violate)
 
 - **Voice is 100% individual.** No groups. No "with a partner". No "report back to the room". See `voice.md` for the banned-phrase list.
+- **"Solo" prefix is voice-noise.** Render `Reflection · 5 min`, NOT `Solo Reflection`. Same for `Lab`, `Applied work`. Exception: `Instructor-Led Q&A` keeps its source label literally.
 - **Speaker notes are instructor-only.** They appear in `Module N - Slides.html`, never in `Module N - Slides (Shareable).html`.
 - **Per-slide takeaway boxes are not used in shareable decks.** Only one consolidated `Key Takeaways` slide near the end of each deck.
-- **Module names stay literal.** Use the original Curriculum Map titles. Don't rename modules for theming.
+- **Module names stay literal.** Use the original Curriculum Map titles. Don't rename modules for theming. Verify M5/M6 ordering on every regeneration (M5 = Agentic, M6 = Evals — not the other way around in the AI PM source).
+- **Visual primitives — reuse, do not redraw.** Before authoring any new visual layout, scan `visual-primitives.md`. The `_m5_card`, `_m5_annotation`, `_m5_callout` helpers, the snake roadmap arrow, the iceberg, the decision triangle, the eval pyramid, the repo tree are field-tested.
+- **Arrows never cross tiles or other arrows; they take the SHORTEST path; same `stroke-width` for every arrow in a diagram.** Use cubic Béziers with matched tangents (C1-continuous joins).
+- **SVG arrows + HTML blocks — position HTML with PERCENTAGES, not pixels.** `aspect-ratio` on container + `viewBox` on SVG (matching) + `preserveAspectRatio="none"`.
+- **Animated mockups pause off-screen via IntersectionObserver.** Otherwise CPU pegs to 100%.
 - **Generators are idempotent.** They overwrite deck files. Never hand-edit a generated deck — update the generator and re-run.
 - **`@import` font rules go at the very top of `<style>`.** Browsers ignore imports placed lower.
 - **Add source archives to `.gitignore`.** `.pptx` and `.pdf` files can be 100MB+ each.
