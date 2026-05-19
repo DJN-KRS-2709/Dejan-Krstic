@@ -33,6 +33,41 @@ This skill is the canonical recipe for turning a course (slides, docs, exercises
 
 ---
 
+## RULE 0 — Source Fidelity (read this before anything else)
+
+The skill applies a **visual + structural design system** to a source course. **It does not invent content.** Every component below (`provocation()`, `recall_section()`, `synthesis()`, `course_arc()`, `bridge()`, etc.) is a **palette you draw from when the source slide already contains that idea** — not a checklist of slides to add.
+
+The default mapping is **one source slide = one HTML slide, rendered in source order**.
+
+### The only allowed transformations
+
+1. **Solo conversion of group activities.** "Breakout Group Exercise" → solo lab. "Instructor-Led Q&A" → solo reflection. Replace banned phrases per `voice.md`.
+2. **Tool replaces handout.** When the source has a paper-style worksheet, table, or exercise template, replace it with a single-file HTML tool that exports markdown. The slide still mirrors the source slide.
+3. **Speaker-note answers surfaced for solo learners.** When the source is instructor-led and the answers live in speaker notes, render the answers on the slide so a solo learner doesn't need a teacher to walk through.
+
+### Banned additions (never include unless they exist in the source)
+
+- Provocation slides (TRUE / FALSE / PARTIAL thumb-vote claims).
+- "Recall" or "What you brought from M{N-1}" recap slides.
+- "Final-Project Progress" tracker cards.
+- "Synthesis · Your Repo After Today" folder strip slides.
+- "Bridge to next module" arc-flow slides.
+- "Wrong vs Right" / "Old way vs New way" contrast framings inserted on a slide that didn't have a contrast in the source.
+- Themed slide names (rename a literal Curriculum Map slide to a punchier title).
+- Any extra "tone-setting" or "energy" slides not present in the source.
+
+### How to check
+
+Before writing any `add(...)` call, point at the corresponding source slide. If you can't, **don't add the slide**. After generating, verify:
+
+```
+slide_count(generated) == slide_count(source) - removed_thank_you - other_explicit_removals
+```
+
+If the count drifts up, you've invented something. Find it and remove it.
+
+---
+
 ## When to invoke
 
 Invoke this skill when the user says any of:
@@ -212,26 +247,31 @@ This certification family is solo-format. Every exercise, prompt, and rubric is 
 
 ---
 
-## Per-module deck flow (the canonical 25-section structure)
+## Per-module deck flow — render the source
 
-This flow is what ships in every certification module. Use it as the default skeleton in every `build_module_N()`:
+Default skeleton: **mirror the source PowerPoint slide-by-slide, in order.** Use the component palette (hero, lecture_table, applied_work, case_study, takeaways, etc.) to render whatever the source slide actually contains.
 
-1. **Hero** — title (lead + accent) + subtitle + 3 waypoints + `Out:` line + scroll hint + Product School logo.
-2. **How This Module Runs** — 6 expect-cards (solo-format expectations).
-3. **The Course Arc** — 6 nodes, current module active.
-4. **Recall / Scenario** — for M1, the course scenario. For M2–M6, "What you brought from M{N-1}" with green-check waypoints.
-5. **Provocation** — 3 thumb-vote claims (TRUE / FALSE / PARTIAL, click to reveal).
-6. **Lecture(s)** — 1–3 slides of the module's frameworks (cards / tables / 2-column).
-7. **Section break — Lab 1** — full-bleed lab header (52px Poppins lab name).
-8. **Applied Work** — open the tool · `⏰ N min` lab timer · table or fields · repo CTA.
-9. **Break ☕** — short pause slide.
-10. More lectures + applied work.
-11. **Case Study** — 3-act (Bet · Crack · Correction).
-12. **Synthesis** — "Your Repo After Today" (folder strip showing committed components).
-13. **Bridge to next module** — arc-flow with next module active.
-14. **Key Takeaways** — `takeaway-list`, 3–5 items. *(Only one in the deck — no per-slide takeaway boxes.)*
-15. **Extra Practice** — 2 evidence-cards.
-16. **Q&A**.
+Only render these patterns if the source has the equivalent slide:
+
+| Component | Render only if the source has… |
+|---|---|
+| `hero(...)` | The Module title slide. Always present. |
+| `class_expectations(...)` | A "Class Expectations / Cameras On" slide. Most modules have this. |
+| `course_arc(...)` | A standalone arc-of-the-course slide. Rare — usually only the cohort kickoff has it. |
+| `recall_section(...)` | A "What you brought from M{N-1}" slide. **Don't add if absent.** |
+| `provocation(...)` | A real true/false claim slide in the source. **Don't add if absent.** |
+| `synthesis(...)` | A "Your Repo After Today" slide. **Don't add if absent.** |
+| `bridge(...)` | A "Next Session" / "Coming up next" slide. |
+| `case_study(...)` | A 3-act case-study slide in the source. |
+| `applied_work(...)` | Any lab / breakout / individual exercise slide. Always solo. |
+| `takeaways(...)` | The Key Takeaways slide near the end. |
+| `extra_practice(...)` | The "Dig Deeper" / "Optional Practice" slide. |
+| `qa_section(...)` | The Q&A slide. |
+| `break_section(...)` / `cameras_on(...)` | The Break and Cameras-On reminder slides. |
+
+The hero is the only slide where the design system adds its own structure on top of the source title. Waypoints in the hero are derived from the module's own section dividers — they describe what the module already covers, they don't add new sections.
+
+Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put per-slide takeaway boxes on shareable decks** — only one consolidated `takeaways(...)` section near the end (if the source has a Key Takeaways slide).
 
 ---
 

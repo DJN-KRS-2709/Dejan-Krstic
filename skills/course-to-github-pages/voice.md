@@ -46,8 +46,9 @@ Every exercise on every module deck must have all five of these:
 ## Tone
 
 - **Direct, not cheerful.** "Stop chatting with AI. Start configuring it." not "Let's explore prompting!"
-- **Provocation framing** opens every module. The pattern is: 3 thumb-vote claims (TRUE / FALSE / PARTIAL). Click reveals. Each claim has a sharp `tf-claim` line + a one-sentence `tf-why` that names a real product as evidence.
-- **Real companies as evidence.** Wherever you can, name a public product (Linear, Cursor, Notion AI, Google Assistant) — not "imagine an app like…"
+- **Render what the source says, sharper.** The voice tightens existing source copy (kills filler, lifts speaker-note answers onto the slide for solo learners) — it doesn't fabricate new framings, contrast spreads, or "wrong-vs-right" theatrics that aren't in the source.
+- **Provocation framing is OPTIONAL.** Use the `provocation()` component only when the source slide is itself a "true / false / it depends" question slide. Don't manufacture provocations to "open" a module.
+- **Real companies as evidence.** When you cite an example, prefer the same public product the source slide cites. If the source mentions Perplexity, keep Perplexity — don't substitute or stack additional examples.
 - **Live preview always.** Every tool has a right-pane markdown preview that updates as the learner types. The preview is what they commit.
 
 ## Voice across deck types
