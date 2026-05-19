@@ -74,7 +74,7 @@ If you're authoring a course by hand:
 1. Read `PROMPT.md` end-to-end — it's the full workflow.
 2. Open `component-templates.md` in a second tab — keep it open while authoring.
 3. Copy `design-system.css` and `design-system.js` into every HTML deck's `<style>` and `<script>` blocks.
-4. Author each module deck using the canonical 25-section flow (in `PROMPT.md`).
+4. Author each module deck by mirroring its source PowerPoint slide-by-slide using the component palette (see `SKILL.md` Rule 0 — Source Fidelity, in `PROMPT.md`).
 5. Author each interactive tool using the skeleton in `component-templates.md`.
 6. Follow `deployment.md` to ship.
 
