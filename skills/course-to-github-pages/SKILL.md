@@ -41,9 +41,10 @@ The default mapping is **one source slide = one HTML slide, rendered in source o
 
 ### The only allowed transformations
 
-1. **Solo conversion of group activities.** "Breakout Group Exercise" → solo lab. "Instructor-Led Q&A" → solo reflection. Replace banned phrases per `voice.md`.
+1. **Solo conversion of group breakouts only.** "Breakout Group Exercise" → solo lab. Replace banned phrases per `voice.md`.
+   - **Do NOT convert "Instructor-Led Q&A" slides into solo reflections.** The instructor still runs them live. Keep the source label "Instructor-Led Q&A", the source timer, and the source copy. Async cohort learners post their answer in `#cohort-channel`.
 2. **Tool replaces handout.** When the source has a paper-style worksheet, table, or exercise template, replace it with a single-file HTML tool that exports markdown. The slide still mirrors the source slide.
-3. **Speaker-note answers surfaced for solo learners.** When the source is instructor-led and the answers live in speaker notes, render the answers on the slide so a solo learner doesn't need a teacher to walk through.
+3. **Speaker-note answers stay in speaker notes.** When the source is instructor-led and the answers live in speaker notes, keep them in the speaker notes (`note=` argument on `add(...)`). The instructor delivers them live; the shareable deck doesn't show them. *(Exception: if the source slide itself is a fully self-paced solo activity with no instructor expected, surface the answer in a `<details>` reveal. Default = keep in speaker notes.)*
 
 ### Banned additions (never include unless they exist in the source)
 
