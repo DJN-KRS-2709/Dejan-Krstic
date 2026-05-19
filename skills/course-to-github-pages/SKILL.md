@@ -24,12 +24,14 @@ This skill is the canonical recipe for turning a course (slides, docs, exercises
 - One landing page (`index.html`) and 4 root pages (Course Overview, Curriculum Map, Final Project Brief, Tools Overview).
 - Two HTML decks per module — Instructor (with speaker notes) and Shareable (no notes).
 - One Markdown notes file per module + module-specific Frameworks Reference Card + Glossary + Pre-Read.
-- 1–4 single-file HTML interactive tools per module (vanilla JS, `localStorage`, Copy-as-markdown).
-- A forkable project template (one folder per module, pre-filled READMEs).
+- 1–4 single-file HTML interactive tools per module (vanilla JS, `localStorage`, Copy-as-markdown). The capstone tool exports BOTH a visual `pitch.html` AND `README.md`.
+- A forkable project template (one folder per module, pre-filled READMEs) that learners spin up via a **one-click "Use this template" URL** referenced from M1.
 - A pitch deck (HTML).
 - GitHub Pages deployment.
 
 **Voice:** 100% individual format. No groups. No live presentation required. Submission = repo URL.
+
+**Visual vocabulary:** harmonised across modules via the helpers in [`visual-primitives.md`](visual-primitives.md) (`_m5_card`, `_m5_annotation`, `_m5_callout`, snake-roadmap, decision triangle, eval pyramid, AI iceberg, repo tree, "GIF-like" CSS animations). When you author module N, **scan that file before drawing a new layout** — the field-tested helpers are listed there for a reason.
 
 ---
 
@@ -43,8 +45,13 @@ The default mapping is **one source slide = one HTML slide, rendered in source o
 
 1. **Solo conversion of group breakouts only.** "Breakout Group Exercise" → solo lab. Replace banned phrases per `voice.md`.
    - **Do NOT convert "Instructor-Led Q&A" slides into solo reflections.** The instructor still runs them live. Keep the source label "Instructor-Led Q&A", the source timer, and the source copy. Async cohort learners post their answer in `#cohort-channel`.
+   - **Do NOT prefix labels with "Solo".** The cohort format is implicitly solo. Render `Reflection · 5 min`, not `Solo Reflection`. Same for `Lab`, `Applied work`, etc. (See `voice.md`.)
 2. **Tool replaces handout.** When the source has a paper-style worksheet, table, or exercise template, replace it with a single-file HTML tool that exports markdown. The slide still mirrors the source slide.
+   - **Tool-as-walkthrough:** if the worksheet has a worked example or a list of options, the tool **starts with pre-selected option chips** that the learner can toggle/edit. Empty placeholders that disappear on first keystroke throw away the scaffolding. (See `visual-primitives.md`.)
 3. **Speaker-note answers stay in speaker notes.** When the source is instructor-led and the answers live in speaker notes, keep them in the speaker notes (`note=` argument on `add(...)`). The instructor delivers them live; the shareable deck doesn't show them. *(Exception: if the source slide itself is a fully self-paced solo activity with no instructor expected, surface the answer in a `<details>` reveal. Default = keep in speaker notes.)*
+4. **Two consecutive breakouts → two separate tools.** If the source has Lab 1 (build it) and Lab 2 (configure it) on consecutive slides, build two distinct tools. Linking both slides to the same tool forces learners to scroll within the tool to find the part for their current slide. (Real bug from the AI PM build — M1 had this.)
+5. **Source GIFs / animated diagrams → CSS keyframe mockups.** When the source slide carries an animated GIF (e.g. trust-gap mockups), reproduce the motion with `@keyframes`. A static screenshot is a regression. Pause animations off-screen via `IntersectionObserver`.
+6. **Embed videos, do not just link.** If the source slide references a video (Google Drive, Loom, YouTube, Vimeo), embed it with an `iframe` _and_ keep the link as a fallback. Drive videos use the `https://drive.google.com/file/d/{id}/preview` URL.
 
 ### Banned additions (never include unless they exist in the source)
 
@@ -200,6 +207,21 @@ The landing `index.html` is hand-authored (not generated). Use the AI Product St
 
 Each module's interactive tools must export markdown that lands directly in the matching folder. Wire that up via the `repo_path` parameter on `applied_work(...)` calls.
 
+**Repo-as-concept onboarding (M1).** The course is forkable, but unless M1 says so, learners default to "where do I commit this?" mode. Add a slide _early_ in M1 (between the toolkit and the first lab) that:
+
+1. Shows the **one-click GitHub template URL**: `https://github.com/new?template_name={template-repo}&template_owner={owner}` — clicking opens the GitHub "create from template" form pre-filled. Use this URL form everywhere; never link to the bare template repo URL because that requires the learner to find the "Use this template" button manually.
+2. Names the folders the learner will commit into across M1–M6 (`01-prompting/`, `02-strategy/`, …).
+3. Shows the path to the first artefact they'll commit (e.g. `01-prompting/system-prompt.md`).
+
+**Resources & Templates per module — module-specific.** Each module's "Resources & Templates" tile lists tools / artefacts THAT module needs, not M1's list copy-pasted. Audit per module.
+
+**Capstone tool ships TWO artefacts.** The Final Project Deliverables Builder generates BOTH:
+
+- `pitch.html` — visual one-page deck (hero · 6 module cards · PM Execution Plan rail · Build Insights · optional Loom). Self-contained, fonts from CDN, screen-shareable in any browser.
+- `README.md` — markdown for the repo root.
+
+The tool's right pane has a **live `iframe` preview** of the pitch (re-renders on every keystroke) plus Download `pitch.html` and Open-in-new-tab buttons. The skeleton is in [`component-templates.md`](component-templates.md) under "Pitch HTML output (Final Deliverables Builder)".
+
 ### Step 6 — Deploy to GitHub Pages
 
 ```bash
@@ -283,9 +305,12 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 | `design-system.css` | **Yes — verbatim** | Same tokens across the whole certification family. |
 | `design-system.js` | **Yes — verbatim** | Sorter / nav dots / progress bar — universal. |
 | Section components (hero, provocation, lecture_table, applied_work, case_study, takeaways, etc.) | **Yes — verbatim** | Author-once, fill content per course. |
+| Visual primitives (`_m5_card`, `_m5_annotation`, `_m5_callout`, snake-roadmap, decision triangle, eval pyramid, iceberg, repo tree, "GIF" animations) | **Yes — verbatim** | See [`visual-primitives.md`](visual-primitives.md). Reuse, do not redraw. |
+| Pitch HTML output skeleton (Final Deliverables Builder) | **Yes — verbatim** | Visual one-pager built from form inputs. See [`component-templates.md`](component-templates.md). |
 | Generator scripts | **Skeleton reusable** | Templates in `scripts/`. Edit `MODULES_META` + `build_module_N()`. |
 | Interactive tool skeleton | **Yes — verbatim** | Two-pane HTML in [`component-templates.md`](component-templates.md). |
-| Project template structure | **Yes** | One folder per module · matching deliverables · pre-filled READMEs. |
+| Tool-as-walkthrough chip pattern | **Yes — verbatim** | Pre-selected option chips that toggle into a textarea. See [`visual-primitives.md`](visual-primitives.md). |
+| Project template structure | **Yes** | One folder per module · matching deliverables · pre-filled READMEs. Spun up via the one-click GitHub template URL referenced from M1. |
 | Course content (modules, scenario, frameworks) | **No** | Course-specific. Author per certification. |
 | Logo / brand string | Default to Product School | Override `LOGO_REL` and the `Module {N} — {Course} Certification` label per course. |
 
@@ -302,6 +327,18 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 7. **Module names stay literal.** Do **not** rename module titles for theming. Use the original Curriculum Map names. Domain shorthand is fine inside the `arc-flow` strip (e.g., `Prompting · Strategy · RAG / PRD · AI-UX · Agentic · Evals`) since those match the project-template folder names.
 8. **Individual-only voice slips back in easily.** Search for banned phrases (see `voice.md`) after every regeneration.
 9. **Run the generators idempotently.** They overwrite the deck files. Never hand-edit a generated deck — always update the generator + re-run.
+10. **Module ordering is NOT obvious — verify against the Curriculum Map.** The AI PM source has M5 = "Deploy Agentic Systems and Workflows" and M6 = "Measure AI Quality with Evals and Guardrails". Swapping them is a common slip. Audit `MODULES_META`, the index landing page, and every bridge slide after every regeneration.
+11. **"Solo Reflection" / "Solo Lab" labels — drop the "Solo" prefix.** The cohort format is implicitly solo. Render `Reflection · 5 min`, `Lab · 12 min`, `Applied work` — NOT `Solo Reflection`. (Exception: `Instructor-Led Q&A` keeps its source label literally.)
+12. **Visual harmonisation across modules — reuse helpers, don't reinvent.** When authoring module N, scan [`visual-primitives.md`](visual-primitives.md) FIRST. The `_m5_card`, `_m5_annotation`, `_m5_callout` helpers, the snake roadmap path, the iceberg, the decision triangle, the eval pyramid, the repo tree — these are field-tested. Authoring a bespoke layout when a 70% match exists is a regression.
+13. **Arrows must NEVER cross other tiles, boxes, or other arrows.** They take the SHORTEST path to the target. All arrows in a diagram have the same `stroke-width`. Use cubic Béziers with matched tangents at every L→C and C→L join (C1-continuous). `stroke-linejoin="round"` and `stroke-linecap="round"` on every path. (See `visual-primitives.md` for the full list of arrow rules — getting this wrong took 4–5 iterations on multiple slides.)
+14. **Mixing SVG arrows with HTML content blocks — position the HTML with PERCENTAGES, not pixels.** Otherwise alignment drifts when the container resizes. Use `aspect-ratio` on the container + `viewBox` on the SVG (matching aspect) + `preserveAspectRatio="none"`. (See `visual-primitives.md`.)
+15. **Animated mockups — IntersectionObserver pause is mandatory.** Otherwise the CSS keyframes pin a CPU core to 100% on slides the learner is not viewing. Set `animationPlayState` to `paused` when off-screen.
+16. **Embedded videos — use the `/preview` URL for Google Drive.** The `https://drive.google.com/file/d/{id}/view` URL doesn't render in an iframe. The `…/preview` form does.
+17. **Breakout / lab slides MUST fit on one screen.** Steps as ≤ 4 lines, single-line tool CTA, single-line repo footer, ≤ 3 lines of heading + subtitle. Anything longer goes into the tool's right-pane checklist. (M1 originally had two breakouts where each slide overflowed.)
+18. **Two consecutive breakouts → two separate tools.** Linking both slides to the same tool forces scroll-hunting within the tool. Build distinct tools per breakout.
+19. **Capstone tool ships TWO outputs (`pitch.html` + `README.md`).** The README is the repo deliverable; the pitch is what the learner screen-shares. Don't conflate them.
+20. **GitHub template repos use one-click create URLs.** `https://github.com/new?template_name={repo}&template_owner={owner}` — never link to the bare template repo. Set `is_template=true` on the repo via `gh api -X PATCH`.
+21. **Toolkit slides age fast.** Audit the "PM's AI Toolkit" / "AI Stack" slide every regeneration: drop defunct products (e.g. Bing), swap in the most-hyped recent entrants. Keep count steady (8–12).
 
 ---
 
@@ -310,6 +347,7 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 - [`design-system.css`](design-system.css) — verbatim CSS. Copy into every deck.
 - [`design-system.js`](design-system.js) — verbatim controller. Copy into every deck.
 - [`component-templates.md`](component-templates.md) — every section pattern (hero, provocation, lecture_table, applied_work, case_study, takeaways, etc.) with HTML snippets you can paste.
+- [`visual-primitives.md`](visual-primitives.md) — **field-tested helpers from M1–M6 of AI Product Managers.** The `_m5_card` family, the snake roadmap arrow, the AI Iceberg, the PM Decision Triangle, the Eval Stack Pyramid, the Repo Tree, "GIF-like" CSS animations, arrow-routing rules, responsive SVG-HTML alignment, "tool-as-walkthrough" chip pattern, pitch.html output, single-viewport breakout constraint, repo-as-concept onboarding, module-ordering verification, "Reflection" not "Solo Reflection". **Read this before authoring any visual layout.**
 - [`voice.md`](voice.md) — individual-only voice rules + required substitutions.
 - [`deployment.md`](deployment.md) — GitHub repo bootstrap + Pages enablement + verification recipes.
 - [`scripts/gen_module_decks_template.py`](scripts/gen_module_decks_template.py) — Python generator skeleton. Edit `MODULES_META` and `build_module_N()`.

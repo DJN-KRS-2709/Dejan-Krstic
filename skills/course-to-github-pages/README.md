@@ -27,9 +27,10 @@ course-to-github-pages/
 │
 ├── design-system.css                      # Verbatim CSS — paste into every deck
 ├── design-system.js                       # Verbatim controller — paste into every deck
-├── component-templates.md                 # Section-by-section HTML reference + interactive-tool skeleton
+├── component-templates.md                 # Section-by-section HTML reference + interactive-tool skeleton + pitch.html
+├── visual-primitives.md                   # Field-tested helpers from M1–M6 (cards · arrows · iceberg · triangle · pyramid · animations)
 ├── voice.md                               # Individual-only voice rules + banned-phrase list
-├── deployment.md                          # GitHub Pages enable + verify recipes
+├── deployment.md                          # GitHub Pages enable + verify recipes (incl. one-click template URLs)
 ├── exemplars.md                           # The two reference courses already shipped
 └── scripts/
     ├── gen_module_decks_template.py       # Python skeleton for module decks
@@ -72,11 +73,11 @@ When you say things like "transform my course as a GitHub repo", the agent activ
 If you're authoring a course by hand:
 
 1. Read `PROMPT.md` end-to-end — it's the full workflow.
-2. Open `component-templates.md` in a second tab — keep it open while authoring.
+2. Open `component-templates.md` AND `visual-primitives.md` in two tabs — keep them open while authoring. The first is the section palette; the second is the visual helper library (cards, arrows, iceberg, triangle, pyramid, animations).
 3. Copy `design-system.css` and `design-system.js` into every HTML deck's `<style>` and `<script>` blocks.
-4. Author each module deck by mirroring its source PowerPoint slide-by-slide using the component palette (see `SKILL.md` Rule 0 — Source Fidelity, in `PROMPT.md`).
-5. Author each interactive tool using the skeleton in `component-templates.md`.
-6. Follow `deployment.md` to ship.
+4. Author each module deck by mirroring its source PowerPoint slide-by-slide using the component palette (see `SKILL.md` Rule 0 — Source Fidelity, in `PROMPT.md`). For visual layouts inside slides, **scan `visual-primitives.md` BEFORE drawing anything** — bespoke per-slide layouts are the #1 regression risk.
+5. Author each interactive tool using the skeleton in `component-templates.md`. The capstone tool ships TWO outputs (`pitch.html` + `README.md`).
+6. Follow `deployment.md` to ship. Use the one-click GitHub template URL pattern for the project template.
 
 ## The 6-step workflow
 
@@ -95,9 +96,14 @@ When you ship a new pattern across a course, fold it back here so the next cours
 
 1. Tweak `design-system.css` / `design-system.js` if the visual system changed.
 2. Add new section helpers to `scripts/gen_module_decks_template.py`.
-3. Document the new component in `component-templates.md`.
-4. If you discovered a new gotcha, add a row to the **Gotchas** section in `PROMPT.md` (and `SKILL.md`/`CLAUDE.md` if relevant).
-5. Push.
+3. Document the new section component in `component-templates.md`.
+4. If the new pattern is a **visual primitive** (an in-slide helper — card variant, diagram type, animation), add it to `visual-primitives.md` instead. That file is the canonical home for things you reuse across modules.
+5. If you discovered a new gotcha, add a row to the **Gotchas** section in `PROMPT.md` (and `SKILL.md`/`CLAUDE.md` if relevant).
+6. If the voice pattern changed (banned phrase, new rule), update `voice.md`.
+7. If a new exemplar course shipped, add it to `exemplars.md`.
+8. Push.
+
+The AI Product Managers exemplar (`DJN-KRS-2709/AI-Product-Managers`) folded back ~20 patterns this way — see the "What this exemplar contributed back to the skill" section in `exemplars.md` for the inventory.
 
 ## License
 
