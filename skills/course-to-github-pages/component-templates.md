@@ -253,9 +253,54 @@ Single consolidated takeaways slide near the end of every deck. **This is the on
 
 Optional async exercises + a one-line teaser for the next module.
 
-### `break_section()` and `qa_section()`
+### `break_section()` + `cameras_on()` — always paired
 
-Standalone slides — coffee break and Q&A respectively. No content to author.
+The break and the cameras-on reminder are a **pair**. They sit immediately next to each other in every module deck (break first, cameras-on second). Shipping one without the other is a regression — the sequence is the rhythm reset, not just a pause.
+
+The "new superpower" / Skill Markdowns / tools-lecture style slide always lands **BEFORE** the break, never after. Energy and attention are highest before the pause — that's where the big-idea lecture should land. After the break is for the second half of the session (demo, Lab 2, etc.).
+
+```html
+<!-- BREAK — "Take a Beat" + ☕. Plain centered slide. -->
+<section class="centered" data-title="Break">
+  <div class="inner">
+    <div class="demo-tag tag-break">Take a Beat</div>
+    <h1 style="font-size:64px; color:#333; margin-top:40px;">☕</h1>
+    <div class="subtitle" style="margin:16px auto;">Pause. Stretch. Refill. Back in five.</div>
+  </div>
+</section>
+
+<!-- CAMERAS ON — photo-strip pattern. Course logo + reminder card (left), portrait photo (right). -->
+<section class="cameras-section" data-title="Cameras On">
+  <div class="cameras-inner">
+    <div class="cameras-layout">
+      <div class="cameras-left">
+        <img class="cameras-logo" src="../Design/Product-School-Logo.png" alt="Course logo"/>
+        <div class="cameras-card">
+          <h2>Reminder! 🎒</h2>
+          <div class="cameras-arrow">&rarr; Cameras On</div>
+          <p>It's always better to see your smiling face! Be present and visible to stay engaged and keep interactions valuable.</p>
+        </div>
+      </div>
+      <div class="cameras-photo-strip">
+        <img src="../Design/cameras-on.png" alt="Cameras On"/>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+**Required Design assets** (drop in `Design/` before generating):
+
+| File | Format | Used as |
+|---|---|---|
+| `Design/Product-School-Logo.png` (or course-specific logo) | Square, ~48px display | `.cameras-logo` mark above the reminder card |
+| `Design/cameras-on.png` | Portrait, ~220×480 display ratio (any size with that aspect works) | `.cameras-photo-strip` photo on the right |
+
+**CSS** (`.cameras-section` and friends) lives verbatim in `design-system.css`. Don't redefine it per-module.
+
+### `qa_section()`
+
+Standalone Q&A slide. No content to author.
 
 ---
 
