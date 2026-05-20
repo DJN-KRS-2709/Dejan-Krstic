@@ -367,11 +367,45 @@ def synthesis(active_n, deliverables):
 
 
 def break_section():
+    """Coffee break slide. ALWAYS paired with `cameras_on()` immediately after.
+    Never ship one without the other — see gotcha #22 in SKILL.md."""
     return """<section class="centered" data-title="Break">
   <div class="inner">
     <div class="demo-tag tag-break">Take a Beat</div>
     <h1 style="font-size:64px; color:#333; margin-top:40px;">☕</h1>
     <div class="subtitle" style="margin:16px auto;">Pause. Stretch. Refill. Back in five.</div>
+  </div>
+</section>
+"""
+
+
+def cameras_on(course_logo_path="../Design/Product-School-Logo.png",
+               cameras_photo_path="../Design/cameras-on.png",
+               reminder_copy="It&rsquo;s always better to see your smiling face! Be present and visible to stay engaged and keep interactions valuable."):
+    """Welcome-back / cameras-on reminder slide. ALWAYS paired with `break_section()`
+    immediately before. Photo strip on the right + reminder card on the left.
+
+    Required Design assets:
+      - course_logo_path  (square logo, ~48px display) — e.g. ../Design/Product-School-Logo.png
+      - cameras_photo_path (portrait photo, ~220x480 ratio) — e.g. ../Design/cameras-on.png
+
+    The `.cameras-section` CSS in design-system.css positions everything.
+    See gotcha #22 in SKILL.md for the always-paired rule."""
+    return f"""<section class="cameras-section" data-title="Cameras On">
+  <div class="cameras-inner">
+    <div class="cameras-layout">
+      <div class="cameras-left">
+        <img class="cameras-logo" src="{course_logo_path}" alt="Course logo"/>
+        <div class="cameras-card">
+          <h2>Reminder! 🎒</h2>
+          <div class="cameras-arrow">&rarr; Cameras On</div>
+          <p>{reminder_copy}</p>
+        </div>
+      </div>
+      <div class="cameras-photo-strip">
+        <img src="{cameras_photo_path}" alt="Cameras On"/>
+      </div>
+    </div>
   </div>
 </section>
 """

@@ -269,6 +269,37 @@ section.centered ul li::before { display: none; }
 .diag-axis .da-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
 .diag-axis .da-q { font-size: 13px; color: #8899bb; line-height: 1.4; }
 
+/* CAMERAS ON — photo-strip pattern. Always paired with the Break slide and sits
+   immediately after it. Course logo + reminder card on the left, portrait photo
+   on the right. Required assets: ../Design/{course-logo}.png and ../Design/cameras-on.png. */
+section.cameras-section { padding: 0; }
+section.cameras-section .cameras-inner {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #07162C 0%, #0c2244 50%, #1241B0 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.cameras-layout { display: flex; align-items: center; gap: 60px; max-width: 900px; width: 100%; padding: 0 40px; }
+.cameras-left { flex: 1; position: relative; }
+.cameras-logo { width: 48px; height: 48px; margin-bottom: 40px; opacity: 0.9; }
+.cameras-card {
+  border: 1.5px solid rgba(255,255,255,0.15); border-radius: 20px;
+  padding: 48px 64px; max-width: 520px; text-align: left;
+  background: rgba(255,255,255,0.02);
+}
+.cameras-card h2 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+.cameras-card .cameras-arrow { font-size: 18px; font-weight: 700; color: #60a5fa; margin-bottom: 12px; }
+.cameras-card p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+.cameras-photo-strip {
+  flex-shrink: 0; width: 220px; height: 480px; border-radius: 16px;
+  overflow: hidden; border: 1.5px solid rgba(255,255,255,0.12);
+}
+.cameras-photo-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 900px) {
+  .cameras-layout { flex-direction: column; gap: 32px; max-width: 90%; }
+  .cameras-photo-strip { width: 100%; max-width: 280px; height: 360px; }
+  .cameras-card { padding: 28px 36px; }
+}
+
 /* SECTION BREAK */
 section.section-break { padding: 0; }
 section.section-break .section-break-inner {
