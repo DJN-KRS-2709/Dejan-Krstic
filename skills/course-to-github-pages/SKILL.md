@@ -318,6 +318,7 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 
 ## Gotchas (lessons learned, in priority order)
 
+0. **NEVER invent class names. Use the canonical catalog.** Before writing markup for any section (hero, expectations, arc, section-break, cameras-on, demo, lab, reflection, end), open [`canonical-classes.md`](canonical-classes.md) and copy the exact class names from the catalog. Improvised first-pass guesses (`expect-tile`, `arc-tile`, `arc-mod`, `arc-name`, `arc-desc`, `arc-grid`, `section-desc`, `cameras-right`, `ap-pill`, `ap-list`, `end-slide`, `end-mark`) are unstyled — they render as plain centered text and look broken next to M1-M3. The canonical names are: `expect-card`, `arc-node` + `ad-num` + `active-node` (inside `arc-flow`), `lab-title` + `lab-name` + `lab-desc` (inside `section-break-inner`), `cameras-photo-strip` with `Design/cameras-on.png`, `artifact-preview` + `ap-title` for the closing slide. After every regenerate, run `python3 scripts/audit_class_names.py "path/to/Module N - Slides.html"` — it exits non-zero if any class is used but not defined in the deck's own `<style>` (or in `design-system.css`). This caught a real M4 regression that shipped to the user before the audit existed.
 1. **`@import` rules must be at the very top of `<style>`.** If a tool refresh runs the imports lower, browsers ignore them. The included scripts handle this — don't reorder.
 2. **Source `.pptx` and reference PDFs can be huge.** Add the source folder (e.g., `Old artefacts AI Product Manager /`) to `.gitignore` so you don't push 100+MB into the repo.
 3. **Per-slide takeaway boxes on shareable decks are noise.** Only one consolidated `Key Takeaways` slide per deck.
@@ -348,10 +349,12 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 
 - [`design-system.css`](design-system.css) — verbatim CSS. Copy into every deck.
 - [`design-system.js`](design-system.js) — verbatim controller. Copy into every deck.
+- [`canonical-classes.md`](canonical-classes.md) — **the class-name catalog. Read this BEFORE writing any section markup.** Lists the exact class names for hero, expectations, course arc, section-break, cameras-on, demo, reflection, flow-steps, callout, extra-practice, next-arrow-bar, resources, end. Maps every common improvisation mistake (`expect-tile`, `arc-tile`, `section-desc`, `cameras-right`, `end-slide`, `ap-pill`, `ap-list`) to the canonical name. Pair with `scripts/audit_class_names.py`.
 - [`component-templates.md`](component-templates.md) — every section pattern (hero, provocation, lecture_table, applied_work, case_study, takeaways, etc.) with HTML snippets you can paste.
 - [`visual-primitives.md`](visual-primitives.md) — **field-tested helpers from M1–M6 of AI Product Managers.** The `_m5_card` family, the snake roadmap arrow, the AI Iceberg, the PM Decision Triangle, the Eval Stack Pyramid, the Repo Tree, "GIF-like" CSS animations, arrow-routing rules, responsive SVG-HTML alignment, "tool-as-walkthrough" chip pattern, pitch.html output, single-viewport breakout constraint, repo-as-concept onboarding, module-ordering verification, "Reflection" not "Solo Reflection". **Read this before authoring any visual layout.**
 - [`voice.md`](voice.md) — individual-only voice rules + required substitutions.
 - [`deployment.md`](deployment.md) — GitHub repo bootstrap + Pages enablement + verification recipes.
+- [`scripts/audit_class_names.py`](scripts/audit_class_names.py) — **run after every deck regeneration.** Flags any class used in markup but not defined in `<style>`, and verifies `<section>` / `<div>` tag balance. `python3 scripts/audit_class_names.py "path/to/Module N - Slides.html"`.
 - [`scripts/gen_module_decks_template.py`](scripts/gen_module_decks_template.py) — Python generator skeleton. Edit `MODULES_META` and `build_module_N()`.
 - [`scripts/gen_root_pages_template.py`](scripts/gen_root_pages_template.py) — root-pages generator skeleton.
 - [`scripts/refresh_tool_palette.py`](scripts/refresh_tool_palette.py) — idempotent CSS palette refresh for interactive tools.

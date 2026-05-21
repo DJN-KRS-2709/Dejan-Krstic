@@ -295,6 +295,7 @@ Every exercise needs all five:
 
 ## GOTCHAS (in priority order)
 
+0. **NEVER invent class names. Use the canonical catalog (`canonical-classes.md`).** Before writing markup for any section (hero, expectations, arc, section-break, cameras-on, demo, lab, reflection, end), look up the exact class names. Improvised guesses (`expect-tile`, `arc-tile`, `arc-mod`, `arc-name`, `arc-desc`, `arc-grid`, `section-desc`, `cameras-right`, `ap-pill`, `ap-list`, `end-slide`, `end-mark`) render UNSTYLED — plain centered text that visibly diverges from the rest of the design family. Canonical names: `expect-card`; `arc-flow > arc-node + ad-num + active-node`; section-break uses `lab-title + lab-name + lab-desc`; cameras uses `cameras-photo-strip` with `Design/cameras-on.png`; the end slide is `.centered + .demo-tag + .artifact-preview + .ap-title`. **After every regenerate, run `python3 scripts/audit_class_names.py "path/to/Module N - Slides.html"`** — it exits non-zero if any class is used in markup but not defined in `<style>` / `design-system.css`. This caught a real M4 regression shipped to the user before the audit existed.
 1. **`@import` rules must be at the very top of `<style>`.** Browsers ignore imports placed lower.
 2. **Source `.pptx` and reference PDFs can be huge.** Add the source folder to `.gitignore` so you don't push 100+MB into the repo.
 3. **Per-slide takeaway boxes on shareable decks are noise.** Only one consolidated `Key Takeaways` slide per deck.
@@ -327,10 +328,12 @@ All in `https://github.com/DJN-KRS-2709/Dejan-Krstic` under `skills/course-to-gi
 
 - `design-system.css` — verbatim CSS for every deck.
 - `design-system.js` — verbatim controller (progress bar / nav dots / sorter / keyboard nav).
+- **`canonical-classes.md`** — the class-name catalog. **Read FIRST before authoring any section markup.** Maps every common improvisation (`expect-tile`, `arc-tile`, `section-desc`, `cameras-right`, `end-slide`, `ap-pill`, `ap-list`) to the canonical name.
 - `component-templates.md` — every section pattern (hero, provocation, lecture_table, applied_work, case_study, takeaways, …) plus the interactive-tool skeleton.
 - **`visual-primitives.md`** — field-tested helpers from M1–M6 of AI Product Managers: `_m5_card` family, snake-roadmap arrow, AI Iceberg, PM Decision Triangle, Eval Stack Pyramid, Repo Tree, GIF-like CSS animations, arrow-routing rules, responsive SVG-HTML alignment, "tool-as-walkthrough" chip pattern, pitch.html output, single-viewport breakout constraint, repo-as-concept onboarding, module-ordering verification, "Reflection" not "Solo Reflection". **Read this before authoring any visual layout.**
 - `voice.md` — banned phrases + required substitutions (full reference).
 - `deployment.md` — GitHub Pages enable + verify recipes (incl. one-click template URLs and `is_template=true`).
+- **`scripts/audit_class_names.py`** — run after every deck regenerate. `python3 scripts/audit_class_names.py "path/to/Module N - Slides.html"`. Flags any undefined class + verifies tag balance.
 - `scripts/gen_module_decks_template.py` — Python generator skeleton.
 - `scripts/gen_root_pages_template.py` — root-pages generator skeleton.
 - `scripts/refresh_tool_palette.py` — idempotent palette refresh for interactive tools.
