@@ -20,11 +20,13 @@ Read `PROMPT.md` first — it is the full system prompt and contains everything 
 
 - `design-system.css` — verbatim CSS for every HTML deck. Paste inside `<style>...</style>`.
 - `design-system.js` — verbatim controller (progress bar / nav dots / sorter / keyboard nav). Paste inside `<script>...</script>` at end of body.
+- **`canonical-classes.md`** — the class-name catalog. **Read FIRST before writing any section markup.** Lists the canonical class names for hero / expectations / arc / section-break / cameras-on / demo / reflection / lab / end, and maps every known improvisation mistake (`expect-tile`, `arc-tile`, `section-desc`, `cameras-right`, `end-slide`, `ap-pill`, `ap-list`) to its canonical replacement. Pair with `scripts/audit_class_names.py` and run the audit after every regenerate.
 - `component-templates.md` — every section pattern (hero, provocation, lecture_table, applied_work, case_study, takeaways, …) plus the interactive-tool skeleton.
 - **`visual-primitives.md`** — the M5/M6 vocabulary distilled from AI Product Managers (the `_m5_card` family, snake-roadmap, decision triangle, eval pyramid, AI iceberg, repo tree, "GIF-like" CSS animations, arrow-routing rules, responsive SVG-HTML alignment, pitch.html, "tool-as-walkthrough" chip pattern, single-viewport breakout constraint). **Open this BEFORE authoring any visual layout** — bespoke per-slide layouts are the #1 regression risk.
 - `voice.md` — banned phrases + required substitutions (the individual-only voice rules).
 - `deployment.md` — GitHub Pages enable + verify recipes (incl. one-click template URLs).
 - `exemplars.md` — the two reference courses already shipped (AI Product Strategy + AI Product Management).
+- **`scripts/audit_class_names.py`** — run after every deck regenerate. `python3 scripts/audit_class_names.py "path/to/Module N - Slides.html"`. Flags any class used in markup but not defined in `<style>` and verifies `<section>` / `<div>` balance. Non-zero exit on failure.
 - `scripts/gen_module_decks_template.py` — Python generator skeleton for module decks.
 - `scripts/gen_root_pages_template.py` — root-pages generator skeleton.
 - `scripts/refresh_tool_palette.py` — idempotent palette refresh for interactive tools.
