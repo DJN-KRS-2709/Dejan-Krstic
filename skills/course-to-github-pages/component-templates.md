@@ -653,3 +653,20 @@ function refreshPitchFrame() {
 ```
 
 The full implementation is in the AI Product Management repo at `Modules/Final Project Deliverables Builder.html` — clone it as the starting point.
+
+---
+
+## Prompt → HTML capstone variant (Final Project Deliverables Prompt Generator)
+
+Some courses (Advanced AI Agents, Product Experimentation) don't ship the final deck as a hand-built `pitch.html`. Instead the capstone tool aggregates the learner's work across all modules into **one master LLM prompt** the learner pastes into an agent (Cursor / Claude / ChatGPT) to *generate* their final presentation HTML. Pick this variant when the source's "Final Project Deliverables" template is a slide/section spec rather than a fixed one-pager — it hands the learner the same scroll-snap deck capability the course itself was built with.
+
+Same single-file tool skeleton as every other tool (left input pane + right output pane, `localStorage`, Copy + Download + Reset). The differences:
+
+- **Input fields** mirror the deliverables template section-by-section — one field (or chip-scaffolded textarea) per required slide of the final deck (cover, the per-module deliverable, individual insights, etc.). Ship a **worked preset** (e.g. a FinWise button) so the learner sees a fully-populated example, exactly like the pre-selected chip pattern.
+- **Outputs** (right-pane tabs):
+  1. **Master prompt** — a single copy-pasteable prompt that tells the agent to build a scroll-snap HTML deck in the Product School visual system from the learner's inputs. Bake the design-system constraints (navy `#07162C`, Poppins/Lato/IBM Plex Mono, one-section-per-slide, nav dots/progress bar) into the prompt text so the generated deck matches the family.
+  2. **README preview** — the repo deliverable, same as the pitch variant.
+  3. **Critic prompt** — a second prompt ("act as a VP of Growth / VP of Product and pressure-test this deck…") the learner runs after generating, to harden the narrative before submitting.
+- Live preview re-renders the prompt on every keystroke (`textarea.value = buildPrompt()`); Copy-to-clipboard + Download `.md` on each output.
+
+Reference implementation: Product Experimentation `Modules/Final Project Deliverables Prompt Generator.html`. The two capstone variants are interchangeable per course — both still produce a `README.md`; choose pitch-HTML when the deliverable is a one-pager, prompt→HTML when the deliverable is a full generated deck.

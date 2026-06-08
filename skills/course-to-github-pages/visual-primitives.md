@@ -1,6 +1,6 @@
 # Visual Primitives — the M5 / M6 vocabulary
 
-Field-tested helpers from the AI Product Management certification (M1–M6 build). Use these instead of authoring bespoke per-slide layouts. Every helper here has been battle-tested across at least two modules, so you get visual harmony for free if you reuse them.
+Field-tested helpers from the AI Product Management certification (M1–M6 build), extended by the Product Experimentation certification (the **Learner-Journey rail** and the **grid-balance** rule below). Use these instead of authoring bespoke per-slide layouts. Every helper here has been battle-tested across at least two modules, so you get visual harmony for free if you reuse them.
 
 If you find yourself drawing a "card with a coloured header band and 1–2 metadata sub-blocks underneath", **stop** — use `_m5_card`. The same goes for triangles, pyramids, icebergs, and the snake roadmap. They are all listed below.
 
@@ -185,6 +185,78 @@ CSS:
 .tree .missing { color:var(--danger); opacity:0.55; }
 .tree .ind     { display:inline-block; color:#445; margin-right:6px; }
 ```
+
+### Learner-Journey rail (recap slide — CONSISTENCY-CRITICAL)
+
+The closing "look at everything you've built" / course-recap slide uses **one canonical layout across every course in the family**: a vertical title rail on the left + N numbered columns on the right (one per module), with the *current* module's column highlighted (`lj-active`). It is **not** a free-form diagram — authoring a bespoke node-path or scatter SVG per module is the regression this primitive exists to kill (Product Experimentation M6 originally shipped a diagonal node-path and had to be rebuilt to match AI Evals / AI PM).
+
+Each column carries: an inline line-icon (24×24, `stroke="currentColor"`), a big number, the module title, and 2–3 short bullets (the first bolded as the module's headline takeaway). The active column recolours icon + number + bullet dots to the module's accent.
+
+```html
+<div class="lj-frame">
+  <div class="lj-title-rail"><span class="lj-rail-text">Learner Journey</span></div>
+  <div class="lj-cols">
+    <div class="lj-col"><svg class="lj-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">…</svg>
+      <div class="lj-num-big">1</div>
+      <div class="lj-mod">Module-1 title</div>
+      <div class="lj-bullets">
+        <div class="lj-bullet"><strong>Headline takeaway</strong></div>
+        <div class="lj-bullet">Second point</div>
+        <div class="lj-bullet">Third point</div>
+      </div>
+    </div>
+    <!-- …columns 2-5… -->
+    <div class="lj-col lj-active"><!-- final / current module --></div>
+  </div>
+</div>
+```
+
+```css
+.lj-section .inner{max-width:1340px;}                    /* widen the slide — 6 columns need it */
+.lj-frame{display:grid;grid-template-columns:78px 1fr;gap:16px;margin-top:22px;align-items:stretch;}
+.lj-title-rail{background:linear-gradient(180deg,rgba(96,165,250,0.15),rgba(167,139,250,0.14));
+  border:1px solid rgba(96,165,250,0.28);border-radius:14px;display:flex;align-items:center;justify-content:center;padding:18px 0;}
+.lj-title-rail .lj-rail-text{font-family:'Poppins',sans-serif;font-size:36px;font-weight:900;color:#fff;
+  letter-spacing:-0.01em;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;line-height:1;}
+.lj-cols{display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative;}
+.lj-cols::before{content:'';position:absolute;left:calc(100%/6);right:calc(100%/6);top:88px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(96,165,250,0.30) 14%,rgba(96,165,250,0.30) 86%,transparent);}
+.lj-col{position:relative;padding:18px 14px 16px;display:flex;flex-direction:column;gap:8px;border-radius:12px;border:1px solid transparent;}
+.lj-col + .lj-col::before{content:'';position:absolute;left:0;top:14%;bottom:14%;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(96,165,250,0.20),transparent);}
+.lj-col.lj-active{background:linear-gradient(180deg,rgba(167,139,250,0.12),rgba(7,22,44,0.40));
+  border-color:rgba(167,139,250,0.45);box-shadow:0 14px 36px rgba(167,139,250,0.18);}
+.lj-col.lj-active + .lj-col::before,.lj-col + .lj-col.lj-active::before{display:none;}
+.lj-icon{width:32px;height:32px;color:#79c0ff;align-self:center;}
+.lj-col.lj-active .lj-icon{color:#a78bfa;}
+.lj-col .lj-num-big{font-family:'Poppins',sans-serif;font-size:30px;font-weight:900;color:#79c0ff;line-height:0.9;letter-spacing:-0.04em;text-align:center;}
+.lj-col.lj-active .lj-num-big{color:#a78bfa;}
+.lj-col .lj-mod{font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:900;color:#fff;line-height:1.25;
+  text-align:center;min-height:32px;display:flex;align-items:center;justify-content:center;padding:0 4px;margin-bottom:4px;}
+.lj-col .lj-bullets{display:flex;flex-direction:column;gap:7px;margin-top:4px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08);}
+.lj-col .lj-bullet{font-size:11px;color:#cdd5e3;line-height:1.5;padding-left:11px;position:relative;}
+.lj-col .lj-bullet::before{content:'';position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;background:#60a5fa;}
+.lj-col.lj-active .lj-bullet::before{background:#a78bfa;}
+.lj-col .lj-bullet strong{color:#fff;}
+@media (max-width:900px){.lj-cols{grid-template-columns:1fr 1fr 1fr;}.lj-cols::before,.lj-col + .lj-col::before{display:none;}}
+@media (max-width:560px){.lj-cols{grid-template-columns:1fr 1fr;}}
+```
+
+**Rules:**
+- The base accent is blue (`#79c0ff` / `#60a5fa`); the *active* column uses the current module's accent (Product Experimentation M6 used violet `#a78bfa`). Keep the structure identical across modules — only the active index and the per-column copy change.
+- Bump `.lj-section .inner` to `max-width:1340px` (the default 880px crushes 6 columns). Apply the `lj-section` class to the slide's `<section>`.
+- Six modules → six columns at full width, collapsing to 3-up then 2-up on narrow viewports.
+
+### Grid balance — never orphan the last card
+
+Resource/option grids built on `grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))` will **orphan the last card** when the item count doesn't divide evenly into the computed column count (4 cards render as a lopsided **3 + 1**). For any even-count grid, set the columns explicitly and centre the block:
+
+```html
+<!-- 4 cards → force a tidy 2×2, centred -->
+<div class="cards-grid" style="grid-template-columns:repeat(2,1fr);max-width:760px;margin-left:auto;margin-right:auto">…</div>
+```
+
+For four peer items inside a slide, either one row of four or a 2×2 — never 3 + 1. If you need a 4-up variant of an existing 3-up grid, add a modifier class (`.eng-grid--4{grid-template-columns:repeat(4,1fr)}` with 2×2 / 1-col fallbacks) rather than mutating the shared grid. (Product Experimentation M6 hit this twice: the "How AI is changing pricing" slide and the Resources slide.)
 
 ### RAG flow (M3)
 

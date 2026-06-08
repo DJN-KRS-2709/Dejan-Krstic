@@ -319,6 +319,8 @@ Every exercise needs all five:
 19. **Capstone tool ships TWO outputs (`pitch.html` + `README.md`).** The README is the repo deliverable; the pitch is what the learner screen-shares.
 20. **GitHub template repos use one-click create URLs.** `https://github.com/new?template_name={repo}&template_owner={owner}`. Set `is_template=true` on the repo via `gh api -X PATCH`.
 21. **Toolkit slides age fast.** Audit "PM's AI Toolkit" / "AI Stack" every regeneration: drop defunct products (e.g. Bing), swap in the most-hyped recent entrants. Keep count steady (8–12).
+22. **The Learner-Journey / course-recap slide is CONSISTENCY-CRITICAL — use the shared rail+columns primitive, not a bespoke diagram.** The closing recap is always the vertical "Learner Journey" title rail + N numbered columns (one per module), current module's column `lj-active`. A free-form node-path / scatter SVG per module is a regression — Product Experimentation M6 shipped one and had to be rebuilt to match AI Evals / AI PM. See `lj-frame` in `visual-primitives.md`.
+23. **Never orphan the last card in a grid.** `repeat(auto-fit, minmax(…))` renders 4 cards as a lopsided 3 + 1. For even-count grids, set `grid-template-columns` explicitly (4 cards → 2×2 or one row of four) and centre with `max-width` + `margin:auto`. Add a `--4` modifier class rather than mutating a shared 3-up grid. (See `visual-primitives.md` → "Grid balance".)
 
 ---
 
@@ -330,7 +332,7 @@ All in `https://github.com/DJN-KRS-2709/Dejan-Krstic` under `skills/course-to-gi
 - `design-system.js` — verbatim controller (progress bar / nav dots / sorter / keyboard nav).
 - **`canonical-classes.md`** — the class-name catalog. **Read FIRST before authoring any section markup.** Maps every common improvisation (`expect-tile`, `arc-tile`, `section-desc`, `cameras-right`, `end-slide`, `ap-pill`, `ap-list`) to the canonical name.
 - `component-templates.md` — every section pattern (hero, provocation, lecture_table, applied_work, case_study, takeaways, …) plus the interactive-tool skeleton.
-- **`visual-primitives.md`** — field-tested helpers from M1–M6 of AI Product Managers: `_m5_card` family, snake-roadmap arrow, AI Iceberg, PM Decision Triangle, Eval Stack Pyramid, Repo Tree, GIF-like CSS animations, arrow-routing rules, responsive SVG-HTML alignment, "tool-as-walkthrough" chip pattern, pitch.html output, single-viewport breakout constraint, repo-as-concept onboarding, module-ordering verification, "Reflection" not "Solo Reflection". **Read this before authoring any visual layout.**
+- **`visual-primitives.md`** — field-tested helpers from M1–M6 of AI Product Managers (+ Product Experimentation): `_m5_card` family, snake-roadmap arrow, AI Iceberg, PM Decision Triangle, Eval Stack Pyramid, Repo Tree, **Learner-Journey rail**, **grid-balance rule**, GIF-like CSS animations, arrow-routing rules, responsive SVG-HTML alignment, "tool-as-walkthrough" chip pattern, pitch.html output, single-viewport breakout constraint, repo-as-concept onboarding, module-ordering verification, "Reflection" not "Solo Reflection". **Read this before authoring any visual layout.**
 - `voice.md` — banned phrases + required substitutions (full reference).
 - `deployment.md` — GitHub Pages enable + verify recipes (incl. one-click template URLs and `is_template=true`).
 - **`scripts/audit_class_names.py`** — run after every deck regenerate. `python3 scripts/audit_class_names.py "path/to/Module N - Slides.html"`. Flags any undefined class + verifies tag balance.
