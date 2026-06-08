@@ -1,6 +1,6 @@
 # Exemplars
 
-Two production courses ship with this design system. When in doubt, clone the closest exemplar and adapt.
+Three production courses ship with this design system. When in doubt, clone the closest exemplar and adapt.
 
 ## 1. AI Product Strategy Certification
 
@@ -43,6 +43,21 @@ When you start a new course, treat this as the floor. Every pattern below was ha
 - **`Reflection · 5 min`, NOT `Solo Reflection`.** Cohort format is implicitly solo. (Exception: `Instructor-Led Q&A` keeps its source label literally.)
 - **Toolkit currency audit.** "PM's AI Toolkit" slide updated each regeneration: drop defunct (Bing), swap in current entrants (Cursor, Lovable, Bolt, v0, Claude, Granola, etc.).
 - **`is_template=true` on the project-template repo** so GitHub shows the "Use this template" button.
+
+## 3. Product Experimentation Certification
+
+- **Repo:** `Product-School-Platform/ps-content-library` → `outputs/certifications/product-experimentation/`
+- **Throughline:** ignite a PLG motion → price the value you built, across 6 modules.
+- **Course arc:** PLG Motion → Acquisition & Activation → Retention & Engagement → Data & Analytics → Advanced Experimentation → Pricing & Monetization.
+- **Generator layout:** split per module — `gen_decks.py` (shared base + `section()` helper) · `gen_mN.py` (module entry + `MN_EXTRA_CSS`, each extending the previous) · `mN_sections.py` (slide content) · `mN_diagrams.py` (per-module SVGs). New modules inherit `M(N-1)_EXTRA_CSS` so the visual system compounds.
+- **Capstone:** the **prompt → HTML** variant (`Final Project Deliverables Prompt Generator.html`) instead of a hand-built pitch — a master prompt + critic prompt the learner runs to generate the final deck. See `component-templates.md` → "Prompt → HTML capstone variant".
+
+### What this exemplar contributed back to the skill
+
+- **Learner-Journey rail (consistency-critical).** The course-recap slide is the shared vertical title rail + N numbered columns (current module `lj-active`), identical across every module and every course. M6 originally shipped a bespoke diagonal node-path and had to be rebuilt to match AI Evals / AI PM — which is exactly why this is now a named primitive + a gotcha. (`visual-primitives.md` → "Learner-Journey rail".)
+- **Grid-balance rule.** `repeat(auto-fit, minmax(…))` orphans the last card (4 → 3 + 1). Even-count grids set `grid-template-columns` explicitly (2×2 or one row of four), centred; add a `--4` modifier rather than mutating the shared grid. (`visual-primitives.md` → "Grid balance".)
+- **Prompt → HTML capstone variant.** A second, interchangeable capstone shape for courses whose final deliverable is a full generated deck rather than a one-pager.
+- **Compounding `MN_EXTRA_CSS` per-module generators.** Each module's CSS extends the previous module's, so later modules inherit every stabilised component for free.
 
 ## When you're starting a new course, do this
 
