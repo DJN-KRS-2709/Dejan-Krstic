@@ -37,9 +37,13 @@ This skill is the canonical recipe for turning a course (slides, docs, exercises
 
 ## RULE 0 — Source Fidelity (read this before anything else)
 
-The skill applies a **visual + structural design system** to a source course. **It does not invent content.** Every component below (`provocation()`, `recall_section()`, `synthesis()`, `course_arc()`, `bridge()`, etc.) is a **palette you draw from when the source slide already contains that idea** — not a checklist of slides to add.
+> **RULE 0 applies to Mode A only — format conversion.** "Don't invent content" is the rule when the job is **converting an existing source** (PDF, PowerPoint, Google Slides, Word) into HTML — a 1:1 format port where the content already exists and your job is to re-render it, not rewrite it. It is **not** a rule against writing new content. In **Mode B (build from scratch / market-led rebuild)** and **Mode C (improve / re-evaluate an existing course)**, authoring new content is the entire point — write it. "Don't reinvent" is tightly coupled to format conversion; it never means "never create." See "Three operating modes" below. (And in every mode the chrome skeleton is mandatory — see the scope note after the next paragraph.)
 
-The default mapping is **one source slide = one HTML slide, rendered in source order**.
+The skill applies a **visual + structural design system** to a source course. **In a format conversion (Mode A) it does not invent content.** Every component below (`provocation()`, `recall_section()`, `synthesis()`, `course_arc()`, `bridge()`, etc.) is a **palette you draw from when the source slide already contains that idea** — not a checklist of slides to add when porting a deck.
+
+The default mapping **for a conversion** is **one source slide = one HTML slide, rendered in source order**.
+
+> **Scope of RULE 0 — content, not chrome.** Source fidelity governs the *teaching content* (lectures, labs, case studies, frameworks, examples). It does **not** govern the **standard module skeleton** — the certification-family scaffolding (Class Expectations, Introductions, Final Project, Set Up Repo, Syllabus, Agenda, Break + Cameras On, Key Takeaways, Extra Practice, Resources & Templates, Q&A, and the final-module Final Project Showcase). That chrome is **always present in every module**, whether or not the source slide exists, and it is the **mandatory baseline when there is no source at all** (a from-scratch or market-led rebuild). The rule is two-sided: **don't add *content* the source doesn't have — and never *drop the chrome* because the source lacked it.** See **"The standard module skeleton"** and **"Session timing"** below. (This is the exact failure that shipped in the *Shipping AI Agents* rebuild: no source PPTX, so the chrome was skipped and had to be retrofitted across all six modules.)
 
 ### The only allowed transformations
 
@@ -298,6 +302,62 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 
 ---
 
+## The standard module skeleton (mandatory chrome)
+
+Every module ships with the certification-family **chrome** below. This is **not** source-gated — it is always present, in this order, in every course (source-based, from-scratch, or rebuild). The *teaching content* lives between the open and the close and is what RULE 0 governs; the chrome around it is fixed.
+
+**Module 1 (full course-open):**
+
+1. **Hero** — module title.
+2. **Class Expectations** — cameras-on ground rules (present · individual · the repo is the artifact · the course's tone). `expect-grid` of 4.
+3. **Introductions** — instructor + cohort + the throughline character/scenario (e.g. *Atlas*, *Juno*).
+4. **Final Project** — what the learner ships by the end + the deliverables.
+5. **Set Up Your Repo** — the one-click template URL (`https://github.com/new?template_name={repo}&template_owner={owner}`), the folder map (`01-…/` … `06-…/`), and the first artifact path.
+6. **Syllabus** — all N modules, today marked. `.waypoints` list.
+7. **Agenda** — today's run-of-show, carrying the **session-timing budget** (see below).
+   - *…teaching content (source-faithful)…*
+8. **Hands-On Lab** (section-break) → **Lab** (split) → **Debrief**.
+9. **Break** + **Cameras On** — always paired, in that order (`Design/cameras-on.png`).
+   - *…teaching content / close…*
+10. **Key Takeaways** · **Extra Practice** (Dig Deeper, optional) · **Resources & Templates** (module-specific) · **Q&A** · then the **Next-session bridge**.
+
+**Modules 2 → second-to-last (lighter open):** Hero · Class Expectations · Agenda (+ optional `recall_section` if the source set it up) · …content… · Lab block · Break + Cameras On · …close… · Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge.
+
+**Final module (capstone close) — additionally:** Syllabus recap (final module marked "today") · Capstone Lab (assemble all deliverables) · **Learner-Journey / Course Recap** (the shared `lj-frame` rail — never a bespoke diagram) · **Final Project Showcase** (async, optional: 3-min Loom + repo URL in `#cohort-channel`; instructor replies in-thread within ~5 days; **no live/group demo**) · **Presentation Kick-Off** (assemble the pitch via the capstone tool) · **Submit Your Final Project** · **Q&A · Thank You**.
+
+> Verify the chrome with the `data-title` list: `grep -o 'data-title="[^"]*"' "Module N - Slides (Shareable).html"` and check it against this skeleton. A module missing the chrome is a regression even if every content slide is perfect.
+
+---
+
+## Session timing — fit a 2-hour slot (≈100 min + 20-min buffer)
+
+Default cohort session = **2 hours**. The instructor runs the entire run-of-show in **≈100 minutes (1 h 40 m)**, leaving a **20-minute buffer** for Q&A and overruns. Rules:
+
+- **The hands-on lab is the protected block** — the single largest segment (~36–40 min; keep the solo-build sub-row generous). Absorb cuts from lectures, Q&A, activities, and the close — **never the lab**.
+- Keep the **5-min Break** (+ Cameras On) inside the budget.
+- **Three artifacts must reconcile to the same numbers:** the deck **Agenda** slide, the Instructor Guide **run-of-show** table (per-row times *and* phase totals), and the **budget bar** (`flex:` values = phase minutes). All three sum to **100** (the content budget).
+- **State the buffer explicitly.** Agenda label: `Today · 2-hour session`; subtitle begins `≈ 100 min run-of-show + a 20-min buffer`; run-of-show note: `Total ≈ 100 min — built to run in 1 h 40 m, leaving a 20-min buffer in the 2-hour slot.`
+- Override only if the user names a different session length — then **content budget = session − 20-min buffer**, lab still protected.
+- Verify: `grep -o '<td class="t-time">[0-9]*m</td>' "Module N - Instructor Guide.html"` sums to the content budget; the Agenda time cells sum to the same; budget-bar `flex` values equal the phase minutes.
+
+---
+
+## Three operating modes
+
+The skill runs in one of three modes. The **skeleton and timing above are mandatory in all three.**
+
+**A — Build from a source** (PPTX / PDF / docs / Curriculum Map exist). Mirror source *teaching content* slide-by-slide (RULE 0) **inside** the mandatory skeleton. If the source lacks a chrome slide (e.g. no Syllabus), still add it — it is family standard, not invented content.
+
+**B — Build from scratch / market-led rebuild** (no source deck; you have a brief, research, or a retired course to replace). Author the teaching content from the brief; the **skeleton + timing are the baseline you build into.** Do not let "no source" become "no chrome." *(This is the lesson from the Shipping AI Agents rebuild.)*
+
+**C — Improve / re-evaluate an existing course.** RULE 0 does **not** apply here — **creating new content is expected.** When you re-evaluate a course you replace stale atoms (models, examples, frameworks, use cases), rewrite weak sections, and add new ones as the field moves. Two sub-flavors:
+- **Freshness pass** — swap dated atoms, retime, retrofit any missing chrome. Structure mostly stable.
+- **Renovation** — rethink and rewrite teaching content for a module or the whole course (e.g. the *AI Evals v2* rework). New content is the whole job.
+
+What stays fixed in *both*: the **chrome skeleton** and the **session timing**. Before editing, **audit** each deck against the skeleton (the `data-title` checklist) and the timing (run-of-show sum vs. content budget); retrofit missing chrome and retime. Don't gratuitously reorder content you aren't changing, but freely rewrite/replace the content you *are* improving. Keep the skeleton identical across updates so the course stays consistent module-to-module and cohort-to-cohort. When a new pattern proves out, **fold it back into this skill** (see the README's "Updating the skill").
+
+---
+
 ## What's reusable across courses (and what's not)
 
 | Asset | Reusable? | Notes |
@@ -346,6 +406,9 @@ Speaker notes live inside `add(html, note=..., takeaway=...)` calls. **Never put
 25. **Never orphan the last card in a grid.** `repeat(auto-fit, minmax(…))` renders 4 cards as 3 + 1. For even-count grids set `grid-template-columns` explicitly (4 → 2×2 or one row of four), centred with `max-width` + `margin:auto`; add a `--4` modifier class rather than mutating a shared 3-up grid. (See [`visual-primitives.md`](visual-primitives.md) → "Grid balance".)
 
 ---
+
+26. **The chrome skeleton is MANDATORY even with no source PPTX.** RULE 0 governs *teaching content*, not chrome. A module (or a whole course) that skips Class Expectations / Introductions / Final Project / Set Up Repo / Syllabus / Agenda / Break + Cameras On / Resources & Templates / Q&A / Final Showcase is a regression — the *Shipping AI Agents* market-led rebuild shipped exactly this way (it had no source deck, so the chrome was dropped) and had to be retrofitted across all six modules. After authoring, grep the `data-title` list against "The standard module skeleton" and fill every gap.
+27. **Time every module to the session length: ≈100 min run-of-show + a 20-min buffer in a 2-hour slot.** The deck Agenda, the Instructor-Guide run-of-show (per-row *and* phase totals), and the budget bar (`flex` values) must all reconcile to the same content budget (100 by default). The hands-on lab is the protected single-largest block — take cuts from lectures, Q&A, and the close, never the build. See "Session timing." (Default 120-min content with no buffer is the pre-retime state that bit Shipping AI Agents.)
 
 ## Reference files (progressive disclosure)
 

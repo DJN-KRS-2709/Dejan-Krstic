@@ -55,6 +55,16 @@ Read `PROMPT.md` first — it is the full system prompt and contains everything 
 - **Generators are idempotent.** They overwrite deck files. Never hand-edit a generated deck — update the generator and re-run.
 - **`@import` font rules go at the very top of `<style>`.** Browsers ignore imports placed lower.
 - **Add source archives to `.gitignore`.** `.pptx` and `.pdf` files can be 100MB+ each.
+- **The chrome skeleton is mandatory — even with no source.** RULE 0 (source fidelity) governs *teaching content*, not the certification-family chrome. Every module always carries: Class Expectations · Introductions (M1) · Final Project (M1) · Set Up Repo (M1) · Syllabus · Agenda · Break + Cameras On · Key Takeaways · Extra Practice · Resources & Templates · Q&A; the final module adds the Learner-Journey recap, **Final Project Showcase** (async, no live/group demo), Presentation Kick-Off, and Submit. Never drop the chrome because the source lacked it. See "The module skeleton, timing & modes" below.
+- **Time every module to a 2-hour slot: ≈100 min run-of-show + a 20-min buffer.** The deck Agenda, the Instructor-Guide run-of-show (per-row + phase totals), and the budget bar (`flex` values) all reconcile to the same content budget (100). The hands-on lab is the protected single-largest block.
+
+## The module skeleton, timing & modes (mandatory)
+
+**Skeleton.** Read "The standard module skeleton" in `SKILL.md` / `PROMPT.md`. It lists the exact chrome slides per module (M1 full open · M2→ lighter · final-module capstone close). Verify with `grep -o 'data-title="[^"]*"' "Module N - Slides (Shareable).html"` against that list.
+
+**Timing.** Default session = 2 hours → ≈100 min content + 20-min buffer. Lab protected as the largest block; Agenda + run-of-show + budget bar all sum to 100. State the buffer on the Agenda and run-of-show.
+
+**Three modes (skeleton + timing mandatory in all):** A) **format conversion** (PDF/PowerPoint/Google Slides/Word → HTML) — RULE 0 applies: re-render the source 1:1, don't invent content; B) **build from scratch / market-led rebuild** — author new content, skeleton + timing are the baseline; C) **improve / re-evaluate an existing course** — RULE 0 does *not* apply, creating new content is expected (swap stale atoms, rewrite/renovate); audit against the skeleton + timing first, retrofit gaps and retime, but keep the chrome skeleton and timing fixed. **"Don't invent content" is scoped to Mode A (format conversion) only** — it never means "never create new content."
 
 ## Defaults when the user is silent
 
