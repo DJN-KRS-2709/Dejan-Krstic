@@ -259,6 +259,8 @@ The break and the cameras-on reminder are a **pair**. They sit immediately next 
 
 The "new superpower" / Skill Markdowns / tools-lecture style slide always lands **BEFORE** the break, never after. Energy and attention are highest before the pause — that's where the big-idea lecture should land. After the break is for the second half of the session (demo, Lab 2, etc.).
 
+**Where the pair sits in the module: mid-session, not at the close.** The break is the second-half energy reset — it lands *after the high-energy concept lecture and before the final lecture section + the lab*, not right before Key Takeaways. The Cameras-On copy must point *forward* ("we'll put this to work right after the break"), not toward wrap-up. Putting the break beside the takeaways is dead time (the *Shipping AI Agents* bug — moved across all six modules; mirror the move in the Instructor-Guide run-of-show).
+
 ```html
 <!-- BREAK — "Take a Beat" + ☕. Plain centered slide. -->
 <section class="centered" data-title="Break">
@@ -313,8 +315,10 @@ These slides are **always present** (see "The standard module skeleton" in `SKIL
 | # | Module 1 (full open) | Modules 2 → second-to-last | Final module (capstone) |
 |---|---|---|---|
 | open | Hero · Class Expectations · Introductions · Final Project · Set Up Repo · Syllabus · Agenda | Hero · Class Expectations · Agenda (+opt. Recall) | Hero · Class Expectations · Syllabus recap · Agenda |
-| body | …content… · Lab · Debrief · **Break + Cameras On** · …content… | …content… · Lab · **Break + Cameras On** · …content… | …content… · Capstone Lab · **Break + Cameras On** |
+| body | …opening sections… · **Break + Cameras On** · …final section… · Lab · Breakout · Debrief | …opening sections… · **Break + Cameras On** · …final section… · Lab · Breakout · Debrief | …opening sections… · **Break + Cameras On** · …final section… · Capstone Lab · Debrief |
 | close | Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge | Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge | Course Recap (`lj-frame`) · **Final Project Showcase** · Presentation Kick-Off · Key Takeaways · Resources & Templates · Submit · Q&A · Thank You |
+
+> **Break placement is mid-session, never beside the close.** Break + Cameras On land *after the high-energy concept lecture and before the final lecture section + the lab* — the energy reset that opens the second half. A break dropped right before Key Takeaways is dead time (the *Shipping AI Agents* bug, moved across all six modules). Move the matching Instructor-Guide run-of-show row too, and reword the Cameras-On "welcome back" copy to point *forward* to the rest of the session. Numbered **section separators** (`section_break` with `01`/`02`/`03`) divide the lecture and align 1:1 with the Agenda rows; the break lands between the second-to-last and last separator.
 
 ### `agenda(rows, content_budget=100, buffer=20)` — carries the session timing
 
@@ -398,6 +402,136 @@ The "final presentation," done the solo/async way. **No live or group demo.**
 ```
 
 > **Introductions, Final Project, Syllabus** follow the same patterns as `course_arc()` / `how_it_runs()` / `cards-grid` — see the *Shipping AI Agents* Module 1 deck (`exemplars.md`) for the canonical built-out versions of all of these.
+
+### `resources_and_templates()` — standardized clickable cards (MANDATORY)
+
+Every module's Resources slide uses the **same two-group grid of clickable `res-card` links** — never decorative tiles, never dead hrefs. Group 1 = **This module**; group 2 = **Whole course**. Every card resolves to a file that exists.
+
+- **This module:** Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (`.md`) · Glossary (`.md`).
+- **Whole course:** Template repo (one-click fork URL) · **Final Project Brief (HTML)** · cumulative Frameworks Reference Card (`.md`) · cumulative Glossary (`.md`). The **capstone module** adds the **Final Project Prompt Generator** (HTML) → 9 cards.
+
+```html
+<section data-title="Resources &amp; Templates">
+  <div class="inner">
+    <div class="section-label">Resources &amp; Templates</div>
+    <h2>Everything from today, one click away</h2>
+
+    <div class="res-group-label">This module</div>
+    <div class="res-grid">
+      <a class="res-card" href="Module 1 - Notes (Shareable).html" target="_blank" rel="noopener">
+        <span class="rc-ico">📝</span><span class="rc-title">Shareable Notes</span>
+        <span class="rc-desc">The full module narrative.</span><span class="rc-go">Open HTML →</span></a>
+      <a class="res-card" href="Module 1 - Lab Guide.html" target="_blank" rel="noopener">
+        <span class="rc-ico">🧪</span><span class="rc-title">Lab Guide</span>
+        <span class="rc-desc">Steps + the in-guide builder.</span><span class="rc-go">Open HTML →</span></a>
+      <a class="res-card" href="Module 1 - Frameworks Reference Card.md" target="_blank" rel="noopener">
+        <span class="rc-ico">🗂️</span><span class="rc-title">Frameworks Card</span>
+        <span class="rc-desc">This module's frameworks, one page.</span><span class="rc-go">Open MD →</span></a>
+      <a class="res-card" href="Module 1 - Glossary.md" target="_blank" rel="noopener">
+        <span class="rc-ico">📖</span><span class="rc-title">Glossary</span>
+        <span class="rc-desc">Terms defined this module.</span><span class="rc-go">Open MD →</span></a>
+    </div>
+
+    <div class="res-group-label">Whole course</div>
+    <div class="res-grid">
+      <a class="res-card" href="https://github.com/new?template_name={repo}&amp;template_owner={owner}" target="_blank" rel="noopener">
+        <span class="rc-ico">🍴</span><span class="rc-title">Template Repo</span>
+        <span class="rc-desc">One-click fork.</span><span class="rc-go">Create →</span></a>
+      <a class="res-card" href="../Final Project Brief.html" target="_blank" rel="noopener">
+        <span class="rc-ico">🏁</span><span class="rc-title">Final Project Brief</span>
+        <span class="rc-desc">What you ship by the end.</span><span class="rc-go">Open HTML →</span></a>
+      <a class="res-card" href="Frameworks Reference Card.md" target="_blank" rel="noopener">
+        <span class="rc-ico">🗃️</span><span class="rc-title">All Frameworks</span>
+        <span class="rc-desc">Every module's frameworks.</span><span class="rc-go">Open MD →</span></a>
+      <a class="res-card" href="Glossary.md" target="_blank" rel="noopener">
+        <span class="rc-ico">📚</span><span class="rc-title">Course Glossary</span>
+        <span class="rc-desc">Every term, cumulative.</span><span class="rc-go">Open MD →</span></a>
+    </div>
+  </div>
+</section>
+```
+
+```css
+.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:920px;margin:0 auto;}
+.res-group-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#60a5fa;margin:20px auto 10px;max-width:920px;text-align:left;}
+.res-card{display:flex;flex-direction:column;gap:5px;text-align:left;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 16px 14px;text-decoration:none;transition:transform .2s,border-color .2s,background .2s;}
+.res-card:hover{transform:translateY(-3px);border-color:rgba(96,165,250,0.5);background:rgba(96,165,250,0.07);}
+.res-card .rc-ico{font-size:22px;} .res-card .rc-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:13.5px;color:#fff;}
+.res-card .rc-desc{font-size:11px;color:#8899bb;line-height:1.4;} .res-card .rc-go{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;color:#60a5fa;margin-top:4px;}
+@media(max-width:760px){.res-grid{grid-template-columns:1fr 1fr;}}
+```
+
+**Verify every href resolves before shipping** — no card may point at a missing file:
+
+```bash
+d="Modules"; html="$d/Module 1 - Slides (Shareable).html"
+grep -oE 'href="[^"]+\.(html|md)"' "$html" | sed 's/^href="//;s/"$//' | while read -r p; do
+  case "$p" in http*) continue;; ../*) f="$d/../${p#../}";; *) f="$d/$p";; esac
+  [ -f "$f" ] || echo "MISSING: $p"
+done
+```
+
+### Lab Guide with embedded deliverable builder
+
+The Lab Guide is a **first-class HTML artifact** (`Modules/Module {N} - Lab Guide.html`), not just markdown steps. It carries the phased instructions **and an in-guide workspace** where the learner actually builds that module's deliverable, then exports it to commit to the repo. This closes the "I see *what* to do but not *where*" gap (Shipping AI Agents M1).
+
+Anatomy:
+
+1. Header + metadata + a `callout rule` stating the deliverable and where it commits (`NN-slug/{deliverable}.md`).
+2. `phase` blocks for each step (matching the Notes), with tables/bullets/`tool-btn`s.
+3. **The builder** — a `<table class="bd-table">` the learner edits (add/remove rows, dropdowns, text inputs). Where the module has a decision rule (e.g. M1's agent-line golden rule), the builder **auto-suggests** a verdict the learner can override. Reuse the **tool-as-walkthrough chip / starter pattern** (load a starter set; never start empty).
+4. A live **markdown preview** + **Copy markdown** and **Download {deliverable}.md** buttons, with a `toast` confirmation.
+5. `localStorage` autosave under `{course}-m{N}-{slug}-v1`.
+
+```html
+<div class="builder">
+  <div class="bd-actions">
+    <button class="bd-btn" onclick="addRow()">+ Add row</button>
+    <button class="bd-btn" onclick="loadStarter()">Load starter set</button>
+    <button class="bd-btn primary" onclick="copyMd()">Copy markdown</button>
+    <button class="bd-btn" onclick="downloadMd()">Download .md</button>
+  </div>
+  <table class="bd-table"><thead><tr><th>Decision</th><th>Reversible</th><th>Blast radius</th><th>Measurable</th><th>Verdict</th><th>Why</th><th></th></tr></thead>
+    <tbody id="bd-rows"></tbody></table>
+  <pre id="bd-preview" class="bd-preview"></pre>
+  <div id="bd-toast" class="toast"></div>
+</div>
+```
+
+```css
+.builder{background:rgba(7,22,44,0.55);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;margin:22px 0;}
+.bd-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.bd-btn{font-family:'Poppins',sans-serif;font-size:12.5px;font-weight:600;color:#cdd5e3;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);border-radius:8px;padding:8px 14px;cursor:pointer;transition:background .2s,border-color .2s;}
+.bd-btn:hover{background:rgba(96,165,250,0.12);border-color:rgba(96,165,250,0.5);}
+.bd-btn.primary{background:#1241B0;border-color:#1241B0;color:#fff;}
+.bd-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.bd-table th,.bd-table td{border:1px solid rgba(255,255,255,0.08);padding:7px 9px;text-align:left;vertical-align:top;}
+.bd-table input,.bd-table select{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:#e6e9f5;padding:6px 7px;font-size:12px;font-family:'Lato',sans-serif;}
+.bd-preview{background:#0a1d3c;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#cdd5e3;white-space:pre-wrap;max-height:280px;overflow:auto;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1241B0;color:#fff;padding:11px 22px;border-radius:10px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:50;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+```
+
+```js
+(function () {
+  var KEY = 'sa-m1-agentline-v1';
+  var AXES = ['High','Med','Low'], VERDICTS = ['Below','HITL','Above'];
+  var STARTER = [/* pre-filled decisions so the table is never empty — tool-as-walkthrough */];
+  var state = { rows: [] };
+  function load(){ try{ state = JSON.parse(localStorage.getItem(KEY)) || state; }catch(e){} }
+  function save(){ localStorage.setItem(KEY, JSON.stringify(state)); render(); }
+  // suggest(): encode the module's decision rule (e.g. reversible+low-blast+measurable ⇒ "Above the line")
+  function toMarkdown(){ /* build the deliverable .md from state */ }
+  function copyMd(){ navigator.clipboard.writeText(toMarkdown()).then(()=>toast('Copied — paste into your repo')); }
+  function downloadMd(){ var b=new Blob([toMarkdown()],{type:'text/markdown'}); var a=document.createElement('a');
+    a.href=URL.createObjectURL(b); a.download='agent-line-map.md'; a.click(); }
+  function toast(m){ var t=document.getElementById('bd-toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+  // render() paints rows from state, wires inputs to save(), and refreshes #bd-preview
+  load(); render();
+})();
+```
+
+The on-slide version of the same artifact is the `.agentline` above/below-the-line primitive (`visual-primitives.md`). The slide shows the concept; the Lab Guide builder is where the learner *produces* it and exports the markdown.
 
 ## Interactive tool skeleton (single-file HTML)
 

@@ -31,7 +31,9 @@ This skill is the canonical recipe for turning a course (slides, docs, exercises
 
 **Voice:** 100% individual format. No groups. No live presentation required. Submission = repo URL.
 
-**Visual vocabulary:** harmonised across modules via the helpers in [`visual-primitives.md`](visual-primitives.md) (`_m5_card`, `_m5_annotation`, `_m5_callout`, snake-roadmap, decision triangle, eval pyramid, AI iceberg, repo tree, "GIF-like" CSS animations). When you author module N, **scan that file before drawing a new layout** — the field-tested helpers are listed there for a reason.
+**Visual vocabulary:** harmonised across modules via the helpers in [`visual-primitives.md`](visual-primitives.md) (`_m5_card`, `_m5_annotation`, `_m5_callout`, snake-roadmap, decision triangle, eval pyramid, AI iceberg, repo tree, "GIF-like" CSS animations, plus the **conceptual diagram kit** — animated loop ring, orbital, above/below-the-line, control-handoff spectrum, flow pipeline, status grid). When you author module N, **scan that file before drawing a new layout** — the field-tested helpers are listed there for a reason.
+
+**Visuals lead — slides are not documents.** Every concept slide leads with a **diagram or structured layout**, supported by **at most one short paragraph** (balanced density; the depth lives in the Notes and Lab Guide). A wall of text, a flat bullet list, or a plain `ref-table` on a *concept* slide is a regression — turn it into a visual (loop/orbital for cycles, pipeline for sequences, spectrum for a continuum, above/below-the-line for a threshold call, a status/anatomy grid for a labelled set). Reference tables are fine on reference/worked-example slides; they are not fine as the primary way to teach a concept. (This is the *Shipping AI Agents* lesson: the first build shipped text-and-table concept slides and every one had to be redrawn — see `visual-primitives.md` → "Conceptual diagram kit.")
 
 ---
 
@@ -217,7 +219,16 @@ Each module's interactive tools must export markdown that lands directly in the 
 2. Names the folders the learner will commit into across M1–M6 (`01-prompting/`, `02-strategy/`, …).
 3. Shows the path to the first artefact they'll commit (e.g. `01-prompting/system-prompt.md`).
 
-**Resources & Templates per module — module-specific.** Each module's "Resources & Templates" tile lists tools / artefacts THAT module needs, not M1's list copy-pasted. Audit per module.
+**Resources & Templates per module — standardized clickable cards.** Every module's "Resources & Templates" slide uses the same two-group layout of **clickable `res-card` links** (see `component-templates.md` → "Resources & Templates (standardized)"):
+
+- **This module** — Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (`.md`) · Glossary (`.md`).
+- **Whole course** — Template repo (one-click fork URL) · **Final Project Brief (HTML)** · cumulative Frameworks Reference Card (`.md`) · cumulative Glossary (`.md`). The capstone module also links the **Final Project Prompt Generator**.
+
+Every card is a real `<a href>` that resolves to a file that exists — **no decorative, non-clickable cards** (the empty "Frameworks Card" / "Final Project Brief" tiles were a *Shipping AI Agents* bug). Verify each href resolves before shipping: `for f in $(grep -oE 'href="[^"]+"' "Module N - Slides (Shareable).html" | sed 's/href="//;s/"//'); do …` or a quick existence check.
+
+**The Final Project Brief is an HTML page, not a `.md`.** It lives at the course root (`Final Project Brief.html`) and is linked from every module's Resources slide as `../Final Project Brief.html`. (A root `.md` brief is not clickable on Pages — `Shipping AI Agents` shipped that way and it had to be converted.)
+
+**The Lab Guide is a first-class HTML artifact with an embedded builder.** Each module ships `Module {N} - Lab Guide.html` — the steps **plus** an in-guide workspace where the learner builds that module's deliverable (add rows / score / fill fields, with a golden-rule or rubric suggestion where relevant), then **Copy markdown** / **Download {deliverable}.md** to commit to the repo, with `localStorage` autosave and a live markdown preview. The lab slide's "Open Lab Guide ↗" button links to it. See `component-templates.md` → "Lab Guide with embedded deliverable builder." (Telling learners *what* to do without giving them *where* to do it was the gap closed in `Shipping AI Agents` M1.)
 
 **Capstone tool ships TWO artefacts.** The Final Project Deliverables Builder generates BOTH:
 
@@ -263,6 +274,7 @@ This certification family is solo-format. Every exercise, prompt, and rubric is 
 | `Modules/Module {N} - Notes (Shareable).md` | Shareable narrative notes |
 | `Modules/Module {N} - Frameworks Reference Card.md` | One-page module framework summary |
 | `Modules/Module {N} - Glossary.md` | Module-specific glossary |
+| `Modules/Module {N} - Lab Guide.html` | HTML lab guide with the in-guide deliverable builder |
 | `Modules/Module {N} - Pre-Read.md` | Pre-read for the module |
 | `Modules/M{N} - {Tool Name}.html` | Single-file interactive tool |
 | `Modules/Concepts Primer (Pre-Read).md` | Cross-cutting onboarding pre-read |
@@ -315,13 +327,14 @@ Every module ships with the certification-family **chrome** below. This is **not
 5. **Set Up Your Repo** — the one-click template URL (`https://github.com/new?template_name={repo}&template_owner={owner}`), the folder map (`01-…/` … `06-…/`), and the first artifact path.
 6. **Syllabus** — all N modules, today marked. `.waypoints` list.
 7. **Agenda** — today's run-of-show, carrying the **session-timing budget** (see below).
-   - *…teaching content (source-faithful)…*
-8. **Hands-On Lab** (section-break) → **Lab** (split) → **Debrief**.
-9. **Break** + **Cameras On** — always paired, in that order (`Design/cameras-on.png`).
-   - *…teaching content / close…*
-10. **Key Takeaways** · **Extra Practice** (Dig Deeper, optional) · **Resources & Templates** (module-specific) · **Q&A** · then the **Next-session bridge**.
+   - *…opening lecture sections (source-faithful), divided by numbered section separators that align with the Agenda…*
+8. **Break** + **Cameras On** — always paired, in that order (`Design/cameras-on.png`). **Placed mid-session** — after the high-energy concept lecture, *before* the final lecture section and the lab. **Never right before Key Takeaways / the close** (a break next to the takeaways is dead time — the *Shipping AI Agents* bug, moved across all six modules). The Cameras-On "welcome back" copy must point forward to the rest of the session, not "the close."
+   - *…final lecture section…*
+9. **Hands-On Lab** (section-break) → **Lab** (split, top-right `⏰ N min` timer; links to the **Lab Guide**, which carries the in-guide deliverable builder) → **Breakout** (peer pressure-test) → **Debrief**.
+   - *…close…*
+10. **Key Takeaways** · **Extra Practice** (Dig Deeper, optional) · **Resources & Templates** (standardized clickable cards — see "Resources & Templates" below) · **Q&A** · then the **Next-session bridge**.
 
-**Modules 2 → second-to-last (lighter open):** Hero · Class Expectations · Agenda (+ optional `recall_section` if the source set it up) · …content… · Lab block · Break + Cameras On · …close… · Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge.
+**Modules 2 → second-to-last (lighter open):** Hero · Class Expectations · Agenda (+ optional `recall_section` if the source set it up) · …opening lecture sections… · **Break + Cameras On (mid-session, before the final section + lab)** · …final section… · Lab block · Breakout · Debrief · Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge.
 
 **Final module (capstone close) — additionally:** Syllabus recap (final module marked "today") · Capstone Lab (assemble all deliverables) · **Learner-Journey / Course Recap** (the shared `lj-frame` rail — never a bespoke diagram) · **Final Project Showcase** (async, optional: 3-min Loom + repo URL in `#cohort-channel`; instructor replies in-thread within ~5 days; **no live/group demo**) · **Presentation Kick-Off** (assemble the pitch via the capstone tool) · **Submit Your Final Project** · **Q&A · Thank You**.
 
@@ -409,6 +422,11 @@ What stays fixed in *both*: the **chrome skeleton** and the **session timing**. 
 
 26. **The chrome skeleton is MANDATORY even with no source PPTX.** RULE 0 governs *teaching content*, not chrome. A module (or a whole course) that skips Class Expectations / Introductions / Final Project / Set Up Repo / Syllabus / Agenda / Break + Cameras On / Resources & Templates / Q&A / Final Showcase is a regression — the *Shipping AI Agents* market-led rebuild shipped exactly this way (it had no source deck, so the chrome was dropped) and had to be retrofitted across all six modules. After authoring, grep the `data-title` list against "The standard module skeleton" and fill every gap.
 27. **Time every module to the session length: ≈100 min run-of-show + a 20-min buffer in a 2-hour slot.** The deck Agenda, the Instructor-Guide run-of-show (per-row *and* phase totals), and the budget bar (`flex` values) must all reconcile to the same content budget (100 by default). The hands-on lab is the protected single-largest block — take cuts from lectures, Q&A, and the close, never the build. See "Session timing." (Default 120-min content with no buffer is the pre-retime state that bit Shipping AI Agents.)
+28. **Concept slides lead with a visual, not text.** A wall of text, a flat bullet list, or a plain `ref-table` *as the way to teach a concept* is a regression. Convert: a cycle → animated loop ring; a labelled set → orbital or status/anatomy grid; a sequence → flow pipeline; a continuum/trade-off → control-handoff spectrum; a threshold judgement → above/below-the-line. Pair the visual with **one** short paragraph (balanced density); push the depth into the Notes + Lab Guide. Reuse the **conceptual diagram kit** in `visual-primitives.md` → "Conceptual diagram kit" — don't redraw. (Every text-heavy concept slide in the first *Shipping AI Agents* build had to be redrawn.)
+29. **The Break is mid-session, never beside the close.** Break + Cameras On land *after the high-energy concept lecture and before the final lecture section + the lab* — the natural energy reset before the second half. A break placed right before Key Takeaways is dead time. Move it (and the matching Instructor-Guide run-of-show row) and reword the Cameras-On "welcome back" copy to point forward to the rest of the session. (Shipping AI Agents shipped the break at the end and it was moved across all six modules.)
+30. **Resources & Templates cards must all be real, resolving links.** Use the standardized two-group layout (This module / Whole course) of clickable `res-card` `<a href>`s — Notes HTML, Lab Guide HTML, Frameworks Card md, Glossary md, Template repo, Final Project Brief HTML, cumulative Frameworks + Glossary, and (capstone) the Prompt Generator. **No decorative, non-clickable tiles and no dead hrefs** — every card points at a file that exists. (Shipping AI Agents shipped an empty "Frameworks Card" tile and a non-clickable "Final Project Brief".)
+31. **The Final Project Brief is HTML at the course root, not a root `.md`.** `Final Project Brief.html`, linked from every Resources slide as `../Final Project Brief.html`. A `.md` brief isn't clickable on Pages.
+32. **The Lab Guide is HTML and embeds the deliverable builder.** `Module {N} - Lab Guide.html` carries the steps *and* an in-guide workspace (add rows / score / fill fields + golden-rule/rubric suggestion) that exports the module's deliverable via **Copy markdown** / **Download .md**, with `localStorage` autosave + live preview. The lab slide's "Open Lab Guide ↗" links to it. Don't ship a guide that only says *what* to do without giving learners *where* to do it. See `component-templates.md` → "Lab Guide with embedded deliverable builder."
 
 ## Reference files (progressive disclosure)
 
