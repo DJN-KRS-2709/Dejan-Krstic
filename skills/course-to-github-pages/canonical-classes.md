@@ -2,7 +2,7 @@
 
 > **READ ME BEFORE WRITING ANY NEW SECTION MARKUP.**
 >
-> Every class name listed here is **defined in `design-system.css`** and **already used in M1/M2/M3 of every shipped course**. If you need a tile, a card, a node, a strip, or any other primitive — use **exactly** these names. Do not invent parallel names like `expect-tile`, `arc-tile`, `section-desc`, or `cameras-right`. The audit script `scripts/audit_class_names.py` will flag any improvisation.
+> Every class name listed here is **defined in `design-system.css`** and **already used in M1/M2/M3 of every shipped course**. If you need a tile, a card, a node, a strip, or any other primitive, use **exactly** these names. Do not invent parallel names like `expect-tile`, `arc-tile`, `section-desc`, or `cameras-right`. The audit script `scripts/audit_class_names.py` will flag any improvisation.
 >
 > The rule: **if a class isn't in this catalog and isn't defined in the deck's own `<style>` block, you've improvised.** Find the canonical name (grep `design-system.css`) or extend the catalog explicitly.
 
@@ -13,7 +13,7 @@
 ```html
 <section class="hero" data-title="…">
   <div class="hero-logo"><img src="../Design/Product-School-Logo.png" alt="…"/></div>
-  <div class="section-label">Module N — Course Name</div>
+  <div class="section-label">Module N, Course Name</div>
   <h1>Title<br><span>subtitle</span></h1>
   <p class="subtitle">…</p>
   <div class="waypoints">
@@ -60,7 +60,7 @@ Canonical classes: `centered` · `inner` · `expect-grid` · **`expect-card`** (
 
 ---
 
-## 3. Course Arc (always horizontal node strip — never a grid of cards)
+## 3. Course Arc (always horizontal node strip: never a grid of cards)
 
 ```html
 <section class="centered" data-title="The Course Arc">
@@ -128,7 +128,7 @@ Canonical classes: `section-break` · `section-break-inner` · `section-num` · 
 
 Canonical classes: `cameras-section` · `cameras-inner` · `cameras-layout` · `cameras-left` · `cameras-logo` · `cameras-card` · `cameras-arrow` · **`cameras-photo-strip`** (NOT `cameras-right`, and NOT a fabricated artifact-preview block).
 
-Required asset: `Design/cameras-on.png` (a portrait photo). Don't replace this slide with a "today's GitHub deliverables" artifact preview — that's a regression.
+Required asset: `Design/cameras-on.png` (a portrait photo). Don't replace this slide with a "today's GitHub deliverables" artifact preview, that's a regression.
 
 ---
 
@@ -144,18 +144,18 @@ Required asset: `Design/cameras-on.png` (a portrait photo). Don't replace this s
       <div class="ap-title">End-of-Session Survey</div>
       <p style="font-size:14px; color:#cdd5e3; line-height:1.6;">…</p>
     </div>
-    <p style="font-size:14px; color:#8899bb; margin-top:18px; text-align:center;">See you in Module N+1 — <em>…</em>.</p>
+    <p style="font-size:14px; color:#8899bb; margin-top:18px; text-align:center;">See you in Module N+1, <em>…</em>.</p>
   </div>
 </section>
 ```
 
 Canonical classes: `centered` · `inner` · `demo-tag` (+ a tag modifier like `tag-debrief` / `tag-lecture` / `tag-activity`) · `subtitle` · `artifact-preview` · **`ap-title`**.
 
-Don't invent `end-slide` / `end-mark` / `ap-pill` / `ap-list`. There is no separate "Thank You" slide in M1/M2/M3 — the survey IS the closer. If a source PPTX has both a Survey and a final Thank-You, fold them or keep the Thank-You minimal using `.centered + .demo-tag + h2 + .subtitle + .artifact-preview`.
+Don't invent `end-slide` / `end-mark` / `ap-pill` / `ap-list`. There is no separate "Thank You" slide in M1/M2/M3, the survey IS the closer. If a source PPTX has both a Survey and a final Thank-You, fold them or keep the Thank-You minimal using `.centered + .demo-tag + h2 + .subtitle + .artifact-preview`.
 
 ---
 
-## 7. Agenda + waypoint pages — same primitives as the hero
+## 7. Agenda + waypoint pages: same primitives as the hero
 
 Reuse `.waypoints` / `.waypoint` / `.waypoint-num` / `.waypoint-text` / `.wt-title` / `.wt-desc` from §1.
 
@@ -303,15 +303,15 @@ Canonical classes: `cards-grid` · `card-item` · `card-icon` · `card-title` ·
 </div>
 ```
 
-Notes div has **no nested `<div>`** — only `<h4>`, `<p>`, `<em>`, `<strong>`, `<code>`, `<a>`. The shareable-deck regex relies on this. If you add inline divs inside notes, the shareable derivation will break.
+Notes div has **no nested `<div>`**: only `<h4>`, `<p>`, `<em>`, `<strong>`, `<code>`, `<a>`. The shareable-deck regex relies on this. If you add inline divs inside notes, the shareable derivation will break.
 
 ---
 
-## Hard rules — before you write any new section
+## Hard rules: before you write any new section
 
 1. **Grep `design-system.css` for the class you're about to use.** If it isn't defined, either:
    - You misremembered the name → find the canonical one in this catalog or in `design-system.css`.
    - The component genuinely doesn't exist → add it to `design-system.css` AND this catalog AND mention it in your PR description.
 2. **Never use generic suffixes that "feel" right but aren't here.** Forbidden first-pass guesses: `*-tile` (use `-card` or `-node`), `*-desc` for a section divider (use `lab-desc`), `*-right` (use the specific name like `cameras-photo-strip`), `end-slide` / `end-mark` (use `.centered` + `.artifact-preview`).
-3. **Module-specific CSS additions go at the END of `<style>`.** Use a clearly labelled block (`/* ============================================================  MODULE N — Topic-name specifics  ============================================================ */`). Inert classes inherited from earlier modules are fine; don't strip them.
+3. **Module-specific CSS additions go at the END of `<style>`.** Use a clearly labelled block (`/* ============================================================  MODULE N, Topic-name specifics  ============================================================ */`). Inert classes inherited from earlier modules are fine; don't strip them.
 4. **Run the audit script before committing.** It's a 5-second sanity check: `python3 scripts/audit_class_names.py path/to/Module\ N\ -\ Slides.html`.

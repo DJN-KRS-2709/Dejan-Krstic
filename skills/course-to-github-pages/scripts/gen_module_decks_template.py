@@ -2,14 +2,14 @@
 
 Adapt this template to a new course by editing three things:
     1. CONFIG block below (course name, logo path, modules meta).
-    2. The build_module_N() functions — fill in the per-module content.
-    3. MODULES_META — one tuple per module: (n, slug, short_label, full_title, subtitle, folder).
+    2. The build_module_N() functions, fill in the per-module content.
+    3. MODULES_META, one tuple per module: (n, slug, short_label, full_title, subtitle, folder).
 
 Run from the new course's repo root:
     python3 scripts/gen_module_decks.py
 
 This template imports the verbatim CSS + JS from sibling files
-(design-system.css and design-system.js) — keep those alongside it.
+(design-system.css and design-system.js), keep those alongside it.
 The scaffolds (hero, provocation, lecture_table, applied_work, case_study,
 takeaways, etc.) are the same canonical components used in the AI
 Product Strategy and AI Product Management certifications.
@@ -18,13 +18,13 @@ from __future__ import annotations
 from pathlib import Path
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CONFIG — EDIT THESE
+# CONFIG, EDIT THESE
 # ─────────────────────────────────────────────────────────────────────────────
 
 COURSE_NAME = "{Course Name} Certification"      # e.g. "AI Product Management Certification"
 COHORT_CHANNEL = "#{cohort-channel}"             # e.g. "#ai-pm-cohort"
-PROJECT_REPO_NAME = "{course-slug}"              # e.g. "juno-pm" — name of the project-template fork
-PROJECT_PROTAGONIST = "{Protagonist}"            # e.g. "Juno PM" — the throughline character
+PROJECT_REPO_NAME = "{course-slug}"              # e.g. "juno-pm", name of the project-template fork
+PROJECT_PROTAGONIST = "{Protagonist}"            # e.g. "Juno PM", the throughline character
 LOGO_REL = "../Design/logo.png"                  # path to logo, relative to a Modules/*.html file
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -36,24 +36,24 @@ JS  = (ASSETS_DIR / "design-system.js").read_text()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MODULE META — EDIT THESE
+# MODULE META, EDIT THESE
 # (n, slug, short_label, full_title, subtitle, folder)
 # short_label is the chip shown in the arc-flow strip; folder must match the
 # matching folder in the project-template repo.
 # ─────────────────────────────────────────────────────────────────────────────
 
 MODULES_META = [
-    (1, "module-1", "M1 Label", "Module 1 — Full Title",
+    (1, "module-1", "M1 Label", "Module 1: Full Title",
      "Module 1 subtitle / tagline.", "01-module-1"),
-    (2, "module-2", "M2 Label", "Module 2 — Full Title",
+    (2, "module-2", "M2 Label", "Module 2: Full Title",
      "Module 2 subtitle / tagline.", "02-module-2"),
     # ... add one tuple per module in the course.
 ]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Section builders — return raw HTML strings.
-# These are the canonical components — copy-paste verbatim.
+# Section builders, return raw HTML strings.
+# These are the canonical components, copy-paste verbatim.
 # Edit the *content* you pass in, not the templates themselves.
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -66,7 +66,7 @@ def hero(title_lead, title_accent, subtitle, waypoints, out_line, module_n):
     )
     return f"""<section class="hero" data-title="{title_lead} {title_accent}">
   <div class="hero-logo"><img src="{LOGO_REL}" alt="Course logo"/></div>
-  <div class="section-label">Module {module_n} &mdash; {COURSE_NAME}</div>
+  <div class="section-label">Module {module_n}, {COURSE_NAME}</div>
   <h1>{title_lead} <span>{title_accent}</span></h1>
   <p class="subtitle">{subtitle}</p>
   <div class="waypoints" style="max-width:640px;">
@@ -83,7 +83,7 @@ def how_it_runs():
         ("⏱", "~2 hours, async-friendly", "Self-paced. Each module builds one repo artifact."),
         ("👤", "100% individual", "No groups. No partner work. You own every deliverable."),
         ("🛠", "Open the tool", "Each exercise points at a single-file HTML tool you fill in."),
-        ("✅", "Self-review", "Each tool ships with a 4–6 item checklist. Do it before you commit."),
+        ("✅", "Self-review", "Each tool ships with a 4 to 6 item checklist. Do it before you commit."),
         ("🤖", "AI-review", "Paste your artifact + the verbatim prompt into ChatGPT or Claude."),
         ("📂", "Async share", f"Commit to your <code>{PROJECT_REPO_NAME}/</code> fork. Optional Loom in <code>{COHORT_CHANNEL}</code>."),
     ]
@@ -116,8 +116,8 @@ def course_arc(active_n):
     <h2>{len(MODULES_META)} Modules. One Living Repo.</h2>
     <div class="arc-flow">{flow}</div>
     <div class="artifact-preview" style="max-width:680px; margin:20px auto;">
-      <div class="ap-title">Your Throughline — {PROJECT_PROTAGONIST}, in a Repo You Build Across {len(MODULES_META)} Modules</div>
-      <p style="font-size:15px; color:#8899bb; line-height:1.5;">Not a deck. Not a Notion page. A <strong>GitHub repo</strong> — version-controlled, shareable, alive. One folder per module, one artifact each. <strong>Today &rarr; folder <code>{MODULES_META[active_n-1][5]}/</code>.</strong></p>
+      <div class="ap-title">Your Throughline, {PROJECT_PROTAGONIST}, in a Repo You Build Across {len(MODULES_META)} Modules</div>
+      <p style="font-size:15px; color:#8899bb; line-height:1.5;">Not a deck. Not a Notion page. A <strong>GitHub repo</strong>: version-controlled, shareable, alive. One folder per module, one artifact each. <strong>Today &rarr; folder <code>{MODULES_META[active_n-1][5]}/</code>.</strong></p>
     </div>
   </div>
 </section>
@@ -368,7 +368,7 @@ def synthesis(active_n, deliverables):
 
 def break_section():
     """Coffee break slide. ALWAYS paired with `cameras_on()` immediately after.
-    Never ship one without the other — see gotcha #22 in SKILL.md."""
+    Never ship one without the other, see gotcha #22 in SKILL.md."""
     return """<section class="centered" data-title="Break">
   <div class="inner">
     <div class="demo-tag tag-break">Take a Beat</div>
@@ -386,8 +386,8 @@ def cameras_on(course_logo_path="../Design/Product-School-Logo.png",
     immediately before. Photo strip on the right + reminder card on the left.
 
     Required Design assets:
-      - course_logo_path  (square logo, ~48px display) — e.g. ../Design/Product-School-Logo.png
-      - cameras_photo_path (portrait photo, ~220x480 ratio) — e.g. ../Design/cameras-on.png
+      - course_logo_path  (square logo, ~48px display), e.g. ../Design/Product-School-Logo.png
+      - cameras_photo_path (portrait photo, ~220x480 ratio), e.g. ../Design/cameras-on.png
 
     The `.cameras-section` CSS in design-system.css positions everything.
     See gotcha #22 in SKILL.md for the always-paired rule."""
@@ -451,7 +451,7 @@ def notes_block(text):
 def _add_builder(sections_inst, sections_share):
     """Returns an `add(html, note=..., takeaway=...)` callable.
     Instructor decks get speaker notes inside each section.
-    Shareable decks NEVER get per-slide takeaway boxes — only the
+    Shareable decks NEVER get per-slide takeaway boxes, only the
     consolidated `takeaways(...)` section near the end of each deck.
     """
     def add(html: str, note: str = "", takeaway: str = ""):
@@ -464,7 +464,7 @@ def _add_builder(sections_inst, sections_share):
 # ─────────────────────────────────────────────────────────────────────────────
 # Per-module builders. EDIT EACH ONE.
 # Pattern: 1 hero · how-it-runs · course-arc · scenario/recall · provocation
-#          · 1–3 lecture slides · section break (Lab) · applied work · break
+#          · 1 to 3 lecture slides · section break (Lab) · applied work · break
 #          · more lecture / applied · case study · synthesis · bridge
 #          · takeaways (one consolidated slide) · extra practice · Q&A
 # ─────────────────────────────────────────────────────────────────────────────
@@ -544,7 +544,7 @@ def render_page(title, body_sections):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Entry point — generate every deck (instructor + shareable).
+# Entry point, generate every deck (instructor + shareable).
 # ─────────────────────────────────────────────────────────────────────────────
 
 BUILDERS = {
@@ -560,7 +560,7 @@ def main():
     for n, _slug, _short, full_title, _subtitle, _folder in MODULES_META:
         builder = BUILDERS.get(n)
         if builder is None:
-            print(f"  · Module {n} — no builder defined yet, skipping.")
+            print(f"  · Module {n}, no builder defined yet, skipping.")
             continue
         sections_inst, sections_share = builder()
         instr_path = MODULES_DIR / f"Module {n} - Slides.html"

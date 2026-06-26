@@ -4,7 +4,7 @@ This is the catalog of every section component used across the certification fam
 
 If you're authoring HTML directly (no Python generator), copy the HTML pattern verbatim. The CSS classes resolve against `design-system.css`.
 
-> **For visual layouts inside individual slides** (cards with header bands, snake roadmap arrows, the AI iceberg, the PM Decision Triangle, the Eval Stack Pyramid, "GIF-like" CSS animations, the repo-tree visualisation) **see [`visual-primitives.md`](visual-primitives.md)**. Those helpers are field-tested across M1–M6 of AI Product Managers — reuse them rather than authoring bespoke layouts.
+> **For visual layouts inside individual slides** (cards with header bands, snake roadmap arrows, the AI iceberg, the PM Decision Triangle, the Eval Stack Pyramid, "GIF-like" CSS animations, the repo-tree visualisation) **see [`visual-primitives.md`](visual-primitives.md)**. Those helpers are field-tested across M1 to M6 of AI Product Managers, reuse them rather than authoring bespoke layouts.
 
 ---
 
@@ -17,7 +17,7 @@ Opening slide. 1 lead headline + 1 accent word in light-blue + 3 waypoints + an 
 ```html
 <section class="hero" data-title="Drive AI-First Execution with Prompting">
   <div class="hero-logo"><img src="../Design/logo.png" alt="Course logo"/></div>
-  <div class="section-label">Module 1 — AI Product Management Certification</div>
+  <div class="section-label">Module 1, AI Product Management Certification</div>
   <h1>Drive AI-First Execution with <span>Prompting</span></h1>
   <p class="subtitle">Stop chatting with AI. Start configuring it.</p>
   <div class="waypoints" style="max-width:640px;">
@@ -94,20 +94,20 @@ Module 2+ opener. Green-check waypoints reminding what was committed last module
 
 ### `provocation(headline, subtitle, claims)`
 
-3 thumb-vote claims — TRUE / FALSE / PARTIAL. `verdict_class ∈ {tf-true, tf-false, tf-partial}`. Click reveals.
+3 thumb-vote claims, TRUE / FALSE / PARTIAL. `verdict_class ∈ {tf-true, tf-false, tf-partial}`. Click reveals.
 
 ```html
 <section data-title="Provocation">
   <div class="inner">
     <div class="demo-tag tag-provocation">Provocation</div>
-    <h2>Prompting is product configuration —<br>not chatting.</h2>
-    <div class="subtitle">Thumb-vote each line — then we unpack with real teams.</div>
+    <h2>Prompting is product configuration ·<br>not chatting.</h2>
+    <div class="subtitle">Thumb-vote each line, then we unpack with real teams.</div>
     <div class="tf-grid">
       <div class="tf-item tf-false">
         <div class="tf-verdict">FALSE</div>
         <div class="tf-body">
-          <div class="tf-claim">"Prompts are throwaway — eng will rewrite them."</div>
-          <div class="tf-why">Production AI ships with versioned, evaled prompts. <em>OpenAI</em>, <em>Notion AI</em>, <em>Linear</em> — the system prompt IS the product surface.</div>
+          <div class="tf-claim">"Prompts are throwaway, eng will rewrite them."</div>
+          <div class="tf-why">Production AI ships with versioned, evaled prompts. <em>OpenAI</em>, <em>Notion AI</em>, <em>Linear</em>, the system prompt IS the product surface.</div>
         </div>
       </div>
       <!-- 2 more claims… -->
@@ -118,7 +118,7 @@ Module 2+ opener. Green-check waypoints reminding what was committed last module
 
 ### `lecture_table(title, subtitle, headers, rows, caption="", tag_label="Lecture")`
 
-Reference table — the densest format. Use for "comparison of N rows" or "framework with M dimensions". Two-column or three-column versions both work.
+Reference table, the densest format. Use for "comparison of N rows" or "framework with M dimensions". Two-column or three-column versions both work.
 
 ```html
 <section data-title="Every PM is now an AI PM">
@@ -129,7 +129,7 @@ Reference table — the densest format. Use for "comparison of N rows" or "frame
     <table class="ref-table">
       <thead><tr><th>Traditional PM assumption</th><th>What AI broke</th></tr></thead>
       <tbody>
-        <tr><td>Outputs are deterministic</td><td>Outputs are <em>probabilistic</em> — drift, hallucination, variance.</td></tr>
+        <tr><td>Outputs are deterministic</td><td>Outputs are <em>probabilistic</em>, drift, hallucination, variance.</td></tr>
         <!-- … -->
       </tbody>
     </table>
@@ -139,7 +139,7 @@ Reference table — the densest format. Use for "comparison of N rows" or "frame
 
 ### `lecture_cards(title, subtitle, cards, footer="")`
 
-Grid of small cards (icon + title + description). Use when content has 3–6 peer items. `cards = [(icon, title, desc), ...]`. Pass empty `icon=""` to skip the icon row.
+Grid of small cards (icon + title + description). Use when content has 3 to 6 peer items. `cards = [(icon, title, desc), ...]`. Pass empty `icon=""` to skip the icon row.
 
 ```html
 <section data-title="The Five Elements of Prompt Anatomy">
@@ -205,7 +205,7 @@ The actual hands-on slide. Has a top-right `⏰ N min` timer + the steps + an "O
 
 ### `case_study(title, headline, bet, crack, correct)`
 
-3-act case-study card row. Always uses the same three labels: **The Bet · The Crack · The Correction**. Real companies preferred — `Cursor` · `Linear` · `Notion AI` · `Google Assistant`.
+3-act case-study card row. Always uses the same three labels: **The Bet · The Crack · The Correction**. Real companies preferred, `Cursor` · `Linear` · `Notion AI` · `Google Assistant`.
 
 ```html
 <section data-title="Cursor: Configuration as Moat">
@@ -226,7 +226,7 @@ The actual hands-on slide. Has a top-right `⏰ N min` timer + the steps + an "O
 
 ### `synthesis(active_n, deliverables)`
 
-End-of-module repo strip. Shows folder per module — past in green-check, current in green-active with the deliverables called out, future in muted-blue.
+End-of-module repo strip. Shows folder per module, past in green-check, current in green-active with the deliverables called out, future in muted-blue.
 
 ### `bridge(active_n, headline_a, headline_b, bring)`
 
@@ -253,16 +253,16 @@ Single consolidated takeaways slide near the end of every deck. **This is the on
 
 Optional async exercises + a one-line teaser for the next module.
 
-### `break_section()` + `cameras_on()` — always paired
+### `break_section()` + `cameras_on()`: always paired
 
-The break and the cameras-on reminder are a **pair**. They sit immediately next to each other in every module deck (break first, cameras-on second). Shipping one without the other is a regression — the sequence is the rhythm reset, not just a pause.
+The break and the cameras-on reminder are a **pair**. They sit immediately next to each other in every module deck (break first, cameras-on second). Shipping one without the other is a regression, the sequence is the rhythm reset, not just a pause.
 
-The "new superpower" / Skill Markdowns / tools-lecture style slide always lands **BEFORE** the break, never after. Energy and attention are highest before the pause — that's where the big-idea lecture should land. After the break is for the second half of the session (demo, Lab 2, etc.).
+The "new superpower" / Skill Markdowns / tools-lecture style slide always lands **BEFORE** the break, never after. Energy and attention are highest before the pause, that's where the big-idea lecture should land. After the break is for the second half of the session (demo, Lab 2, etc.).
 
-**Where the pair sits in the module: mid-session, not at the close.** The break is the second-half energy reset — it lands *after the high-energy concept lecture and before the final lecture section + the lab*, not right before Key Takeaways. The Cameras-On copy must point *forward* ("we'll put this to work right after the break"), not toward wrap-up. Putting the break beside the takeaways is dead time (the *Shipping AI Agents* bug — moved across all six modules; mirror the move in the Instructor-Guide run-of-show).
+**Where the pair sits in the module: mid-session, not at the close.** The break is the second-half energy reset, it lands *after the high-energy concept lecture and before the final lecture section + the lab*, not right before Key Takeaways. The Cameras-On copy must point *forward* ("we'll put this to work right after the break"), not toward wrap-up. Putting the break beside the takeaways is dead time (the *Shipping AI Agents* bug, moved across all six modules; mirror the move in the Instructor-Guide run-of-show).
 
 ```html
-<!-- BREAK — "Take a Beat" + ☕. Plain centered slide. -->
+<!-- BREAK, "Take a Beat" + ☕. Plain centered slide. -->
 <section class="centered" data-title="Break">
   <div class="inner">
     <div class="demo-tag tag-break">Take a Beat</div>
@@ -271,7 +271,7 @@ The "new superpower" / Skill Markdowns / tools-lecture style slide always lands 
   </div>
 </section>
 
-<!-- CAMERAS ON — photo-strip pattern. Course logo + reminder card (left), portrait photo (right). -->
+<!-- CAMERAS ON, photo-strip pattern. Course logo + reminder card (left), portrait photo (right). -->
 <section class="cameras-section" data-title="Cameras On">
   <div class="cameras-inner">
     <div class="cameras-layout">
@@ -306,9 +306,9 @@ Standalone Q&A slide. No content to author.
 
 ---
 
-## Course-open & timing chrome (MANDATORY — not source-gated)
+## Course-open & timing chrome (MANDATORY: not source-gated)
 
-These slides are **always present** (see "The standard module skeleton" in `SKILL.md`/`PROMPT.md`). They are family chrome, not source content — author them even when there's no source deck. Reuse existing components where they already cover a slot (`how_it_runs()` → Class Expectations, `course_arc()`/Syllabus, `break_section()` + `cameras_on()`, `takeaways()`, `extra_practice()`, `qa_section()`). The templates below fill the slots those don't.
+These slides are **always present** (see "The standard module skeleton" in `SKILL.md`/`PROMPT.md`). They are family chrome, not source content, author them even when there's no source deck. Reuse existing components where they already cover a slot (`how_it_runs()` → Class Expectations, `course_arc()`/Syllabus, `break_section()` + `cameras_on()`, `takeaways()`, `extra_practice()`, `qa_section()`). The templates below fill the slots those don't.
 
 ### Mandatory order per module
 
@@ -318,9 +318,9 @@ These slides are **always present** (see "The standard module skeleton" in `SKIL
 | body | …opening sections… · **Break + Cameras On** · …final section… · Lab · Breakout · Debrief | …opening sections… · **Break + Cameras On** · …final section… · Lab · Breakout · Debrief | …opening sections… · **Break + Cameras On** · …final section… · Capstone Lab · Debrief |
 | close | Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge | Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge | Course Recap (`lj-frame`) · **Final Project Showcase** · Presentation Kick-Off · Key Takeaways · Resources & Templates · Submit · Q&A · Thank You |
 
-> **Break placement is mid-session, never beside the close.** Break + Cameras On land *after the high-energy concept lecture and before the final lecture section + the lab* — the energy reset that opens the second half. A break dropped right before Key Takeaways is dead time (the *Shipping AI Agents* bug, moved across all six modules). Move the matching Instructor-Guide run-of-show row too, and reword the Cameras-On "welcome back" copy to point *forward* to the rest of the session. Numbered **section separators** (`section_break` with `01`/`02`/`03`) divide the lecture and align 1:1 with the Agenda rows; the break lands between the second-to-last and last separator.
+> **Break placement is mid-session, never beside the close.** Break + Cameras On land *after the high-energy concept lecture and before the final lecture section + the lab*, the energy reset that opens the second half. A break dropped right before Key Takeaways is dead time (the *Shipping AI Agents* bug, moved across all six modules). Move the matching Instructor-Guide run-of-show row too, and reword the Cameras-On "welcome back" copy to point *forward* to the rest of the session. Numbered **section separators** (`section_break` with `01`/`02`/`03`) divide the lecture and align 1:1 with the Agenda rows; the break lands between the second-to-last and last separator.
 
-### `agenda(rows, content_budget=100, buffer=20)` — carries the session timing
+### `agenda(rows, content_budget=100, buffer=20)`: carries the session timing
 
 The Agenda slide is the learner-facing face of the run-of-show. Its time cells **sum to the content budget** (100 by default) and **match the Instructor-Guide run-of-show phase totals + the budget bar `flex` values**. State the buffer.
 
@@ -359,9 +359,9 @@ The Agenda slide is the learner-facing face of the run-of-show. Its time cells *
 @media (max-width: 768px) { .expect-grid { grid-template-columns: 1fr; } .cameras-strip { flex-direction: column; } .cameras-photo { flex: auto; height: 240px; min-height: 0; } }
 ```
 
-The matching Instructor-Guide **run-of-show** must reconcile: phase headers `<span class="phase-min">N min</span>`, per-row `<td class="t-time">Nm</td>` (rows sum to their phase), budget bar `flex:N` = phase minutes, and the note `Total ≈ 100 min — built to run in 1 h 40 m, leaving a 20-min buffer in the 2-hour slot.`
+The matching Instructor-Guide **run-of-show** must reconcile: phase headers `<span class="phase-min">N min</span>`, per-row `<td class="t-time">Nm</td>` (rows sum to their phase), budget bar `flex:N` = phase minutes, and the note `Total ≈ 100 min, built to run in 1 h 40 m, leaving a 20-min buffer in the 2-hour slot.`
 
-### `set_up_repo()` — M1, the one-click fork
+### `set_up_repo()`: M1, the one-click fork
 
 ```html
 <section class="centered" data-title="Set Up Your Repo">
@@ -382,7 +382,7 @@ The matching Instructor-Guide **run-of-show** must reconcile: phase headers `<sp
 </section>
 ```
 
-### `final_project_showcase()` — final module (async, individual)
+### `final_project_showcase()`: final module (async, individual)
 
 The "final presentation," done the solo/async way. **No live or group demo.**
 
@@ -390,22 +390,22 @@ The "final presentation," done the solo/async way. **No live or group demo.**
 <section class="centered" data-title="Final Project Showcase">
   <div class="inner">
     <div class="demo-tag tag-complete">Final Showcase</div>
-    <h2>Demo {Project} — your way</h2>
-    <p class="subtitle">Async and optional — share when you're ready.</p>
+    <h2>Demo {Project}, your way</h2>
+    <p class="subtitle">Async and optional, share when you're ready.</p>
     <div class="cards-grid">
       <div class="card-item" style="--card-accent:#60a5fa;"><div class="card-icon">🎥</div><div class="card-title">3-min Loom</div><div class="card-desc">Walk your build end to end.</div></div>
-      <div class="card-item" style="--card-accent:#3b82f6;"><div class="card-icon">🔗</div><div class="card-title">Repo URL</div><div class="card-desc">Your fork — the repo is the submission.</div></div>
+      <div class="card-item" style="--card-accent:#3b82f6;"><div class="card-icon">🔗</div><div class="card-title">Repo URL</div><div class="card-desc">Your fork, the repo is the submission.</div></div>
       <div class="card-item" style="--card-accent:#1241B0;"><div class="card-icon">💬</div><div class="card-title">Post in #cohort-channel</div><div class="card-desc">Instructor replies in-thread within ~5 days.</div></div>
     </div>
   </div>
 </section>
 ```
 
-> **Introductions, Final Project, Syllabus** follow the same patterns as `course_arc()` / `how_it_runs()` / `cards-grid` — see the *Shipping AI Agents* Module 1 deck (`exemplars.md`) for the canonical built-out versions of all of these.
+> **Introductions, Final Project, Syllabus** follow the same patterns as `course_arc()` / `how_it_runs()` / `cards-grid`, see the *Shipping AI Agents* Module 1 deck (`exemplars.md`) for the canonical built-out versions of all of these.
 
-### `resources_and_templates()` — standardized clickable cards (MANDATORY)
+### `resources_and_templates()`: standardized clickable cards (MANDATORY)
 
-Every module's Resources slide uses the **same two-group grid of clickable `res-card` links** — never decorative tiles, never dead hrefs. Group 1 = **This module**; group 2 = **Whole course**. Every card resolves to a file that exists.
+Every module's Resources slide uses the **same two-group grid of clickable `res-card` links**: never decorative tiles, never dead hrefs. Group 1 = **This module**; group 2 = **Whole course**. Every card resolves to a file that exists.
 
 - **This module:** Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (`.md`) · Glossary (`.md`).
 - **Whole course:** Template repo (one-click fork URL) · **Final Project Brief (HTML)** · cumulative Frameworks Reference Card (`.md`) · cumulative Glossary (`.md`). The **capstone module** adds the **Final Project Prompt Generator** (HTML) → 9 cards.
@@ -461,7 +461,7 @@ Every module's Resources slide uses the **same two-group grid of clickable `res-
 @media(max-width:760px){.res-grid{grid-template-columns:1fr 1fr;}}
 ```
 
-**Verify every href resolves before shipping** — no card may point at a missing file:
+**Verify every href resolves before shipping**: no card may point at a missing file:
 
 ```bash
 d="Modules"; html="$d/Module 1 - Slides (Shareable).html"
@@ -479,7 +479,7 @@ Anatomy:
 
 1. Header + metadata + a `callout rule` stating the deliverable and where it commits (`NN-slug/{deliverable}.md`).
 2. `phase` blocks for each step (matching the Notes), with tables/bullets/`tool-btn`s.
-3. **The builder** — a `<table class="bd-table">` the learner edits (add/remove rows, dropdowns, text inputs). Where the module has a decision rule (e.g. M1's agent-line golden rule), the builder **auto-suggests** a verdict the learner can override. Reuse the **tool-as-walkthrough chip / starter pattern** (load a starter set; never start empty).
+3. **The builder**: a `<table class="bd-table">` the learner edits (add/remove rows, dropdowns, text inputs). Where the module has a decision rule (e.g. M1's agent-line golden rule), the builder **auto-suggests** a verdict the learner can override. Reuse the **tool-as-walkthrough chip / starter pattern** (load a starter set; never start empty).
 4. A live **markdown preview** + **Copy markdown** and **Download {deliverable}.md** buttons, with a `toast` confirmation.
 5. `localStorage` autosave under `{course}-m{N}-{slug}-v1`.
 
@@ -516,13 +516,13 @@ Anatomy:
 (function () {
   var KEY = 'sa-m1-agentline-v1';
   var AXES = ['High','Med','Low'], VERDICTS = ['Below','HITL','Above'];
-  var STARTER = [/* pre-filled decisions so the table is never empty — tool-as-walkthrough */];
+  var STARTER = [/* pre-filled decisions so the table is never empty, tool-as-walkthrough */];
   var state = { rows: [] };
   function load(){ try{ state = JSON.parse(localStorage.getItem(KEY)) || state; }catch(e){} }
   function save(){ localStorage.setItem(KEY, JSON.stringify(state)); render(); }
   // suggest(): encode the module's decision rule (e.g. reversible+low-blast+measurable ⇒ "Above the line")
   function toMarkdown(){ /* build the deliverable .md from state */ }
-  function copyMd(){ navigator.clipboard.writeText(toMarkdown()).then(()=>toast('Copied — paste into your repo')); }
+  function copyMd(){ navigator.clipboard.writeText(toMarkdown()).then(()=>toast('Copied, paste into your repo')); }
   function downloadMd(){ var b=new Blob([toMarkdown()],{type:'text/markdown'}); var a=document.createElement('a');
     a.href=URL.createObjectURL(b); a.download='agent-line-map.md'; a.click(); }
   function toast(m){ var t=document.getElementById('bd-toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
@@ -543,7 +543,7 @@ Every interactive tool is one self-contained HTML file. This is the canonical sk
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>M1 — Prompt Anatomy Builder</title>
+<title>M1, Prompt Anatomy Builder</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
@@ -650,8 +650,8 @@ load();render();ids.forEach(i=>document.getElementById(i).addEventListener('inpu
 3. `localStorage` key formatted `m{N}-{tool-slug}`.
 4. CSS variables identical to the design system (navy `#07162C`, brand `#1241B0`, etc.).
 5. `@import` for Poppins · Lato · IBM Plex Mono at the very top of `<style>`.
-6. Toast on copy ("Copied to clipboard" — auto-hides after 1.4s).
-7. A single `md()` function that produces the export — same string used for clipboard, download, and live preview.
+6. Toast on copy ("Copied to clipboard", auto-hides after 1.4s).
+7. A single `md()` function that produces the export, same string used for clipboard, download, and live preview.
 
 ---
 
@@ -660,7 +660,7 @@ load();render();ids.forEach(i=>document.getElementById(i).addEventListener('inpu
 `{course-slug}-project-template/`
 
 ```
-README.md                    # Dashboard — links to every module folder
+README.md                    # Dashboard, links to every module folder
 01-{module-1-slug}/
   README.md                  # "What goes here · checklist · how to fill"
   (artifact files matching what the M1 tools export)
@@ -675,18 +675,18 @@ README.md                    # Dashboard — links to every module folder
 Each module folder's `README.md` mirrors the module deck's `applied_work` slides:
 
 ```markdown
-# 01 — Prompting
+# 01, Prompting
 
 This folder holds your Module 1 deliverables.
 
 ## Artifacts
 
-- `system-prompt.md` — Juno's persona, scope, refusal rules.
+- `system-prompt.md`, Juno's persona, scope, refusal rules.
   - Build with: [`Modules/M1 - System Prompt Builder.html`](#)
-- `anatomy-prompt.md` — Five-element prompt for one Juno task.
+- `anatomy-prompt.md`, Five-element prompt for one Juno task.
   - Build with: [`Modules/M1 - Prompt Anatomy Builder.html`](#)
-- `lovable-prototype.md` — URL of your Juno prototype + brief notes.
-- `toolkit.md` — Your AI PM stack — 5 categories.
+- `lovable-prototype.md`, URL of your Juno prototype + brief notes.
+- `toolkit.md`, Your AI PM stack, 5 categories.
 
 ## Self-review
 
@@ -699,7 +699,7 @@ This folder holds your Module 1 deliverables.
 <!-- Your reflection here. -->
 ```
 
-The top-level `README.md` of the project template is the **certificate**. Every module's `applied_work` slides feed into it. The Final Project Brief tells learners to finalise it in M6 using the `Final Project Deliverables Builder.html` tool — which generates BOTH `pitch.html` AND `README.md` (see "Pitch HTML output" below).
+The top-level `README.md` of the project template is the **certificate**. Every module's `applied_work` slides feed into it. The Final Project Brief tells learners to finalise it in M6 using the `Final Project Deliverables Builder.html` tool, which generates BOTH `pitch.html` AND `README.md` (see "Pitch HTML output" below).
 
 The project-template repo itself must have `is_template=true` so GitHub shows the "Use this template" button. The course's M1 deck links to it via the **one-click create URL**:
 
@@ -707,13 +707,13 @@ The project-template repo itself must have `is_template=true` so GitHub shows th
 https://github.com/new?template_name={template-repo-name}&template_owner={owner}
 ```
 
-This URL opens the GitHub "create from template" form pre-filled. Always link this form. Never link to the bare template repo URL — that requires the learner to find the "Use this template" button manually. (Set `is_template=true` via `gh api -X PATCH repos/{owner}/{repo} -f is_template=true`.)
+This URL opens the GitHub "create from template" form pre-filled. Always link this form. Never link to the bare template repo URL, that requires the learner to find the "Use this template" button manually. (Set `is_template=true` via `gh api -X PATCH repos/{owner}/{repo} -f is_template=true`.)
 
 ---
 
 ## Embedded video (Google Drive, Loom, YouTube, Vimeo)
 
-When the source slide references a video, embed it _and_ keep the link as a fallback. For Google Drive videos, use the `/preview` URL — `…/view` does not render in iframes.
+When the source slide references a video, embed it _and_ keep the link as a fallback. For Google Drive videos, use the `/preview` URL, `…/view` does not render in iframes.
 
 ```html
 <div style="display:flex; flex-direction:column; gap:14px; max-width:920px; margin:0 auto;">
@@ -734,13 +734,13 @@ For Loom: `https://www.loom.com/embed/{ID}`. For YouTube: `https://www.youtube.c
 
 ---
 
-## Tool-as-walkthrough — pre-selected chip pattern
+## Tool-as-walkthrough: pre-selected chip pattern
 
 When a tool replaces a paper-style worksheet that contains worked examples or option lists, the tool **starts with pre-selected option chips**. The learner toggles chips into a textarea (which is the source of truth for the export). This preserves the scaffolding the worksheet provided.
 
 ```html
 <div class="field">
-  <label>ROLE — Who is the model pretending to be?</label>
+  <label>ROLE, Who is the model pretending to be?</label>
   <p class="hint">Click chips to add / remove. Edit freely below.</p>
   <div class="chips" id="role-chips">
     <span class="chip selected" data-text="Frontend Engineer">Frontend Engineer</span>
@@ -801,12 +801,12 @@ The tool's right pane has:
 
 ### Pitch sections (in order)
 
-1. **Hero** — eyebrow badge ("AI Product Management Certification") · title (large, gradient white→light-blue) · one-line pitch · name/cohort meta · CTAs (`View the repo →` + optional `📹 3-min walkthrough`).
-2. **Module artefacts** (6-card grid) — one card per module, colour-coded with the module's accent (M1 blue, M2 amber, M3 violet, M4 green, M5 pink, M6 cyan). Each card shows the module number + name + linked artefact paths. Each path links to `${repo}/blob/main/${path}` so the recipient can click straight into the file on GitHub.
-3. **PM Execution Plan rail** — five cards: `01 · Now`, `02 · Next`, `03 · Watch`, `04 · Red lines`, `05 · Governance`. Each renders the textarea body with `<br>` for line breaks.
-4. **Build insights** — three cards in a row: `😣 Friction` (red border) · `🧠 Learning` (blue border) · `💡 Aha` (amber border).
+1. **Hero**: eyebrow badge ("AI Product Management Certification") · title (large, gradient white→light-blue) · one-line pitch · name/cohort meta · CTAs (`View the repo →` + optional `📹 3-min walkthrough`).
+2. **Module artefacts** (6-card grid), one card per module, colour-coded with the module's accent (M1 blue, M2 amber, M3 violet, M4 green, M5 pink, M6 cyan). Each card shows the module number + name + linked artefact paths. Each path links to `${repo}/blob/main/${path}` so the recipient can click straight into the file on GitHub.
+3. **PM Execution Plan rail**: five cards: `01 · Now`, `02 · Next`, `03 · Watch`, `04 · Red lines`, `05 · Governance`. Each renders the textarea body with `<br>` for line breaks.
+4. **Build insights**: three cards in a row: `😣 Friction` (red border) · `🧠 Learning` (blue border) · `💡 Aha` (amber border).
 5. **Loom callout** (only if the optional Loom URL was provided).
-6. **Footer** — `{name} · Certification submission · {Course Name}`.
+6. **Footer**: `{name} · Certification submission · {Course Name}`.
 
 ### Skeleton (JS function)
 
@@ -829,7 +829,7 @@ function pitchHTML() {
       <div class="m-body">${l}</div></div>`;
   };
   // ... build modulesHTML, execHTML, insightsHTML ...
-  return `<!doctype html><html><head><meta charset="utf-8"><title>${title} — Pitch</title>
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}, Pitch</title>
     <style>/* navy bg-glow, Poppins/Lato/IBM Plex Mono, color-coded module cards */</style></head>
     <body><main>
       <section class="hero">...</section>
@@ -881,21 +881,21 @@ function refreshPitchFrame() {
 </div>
 ```
 
-The full implementation is in the AI Product Management repo at `Modules/Final Project Deliverables Builder.html` — clone it as the starting point.
+The full implementation is in the AI Product Management repo at `Modules/Final Project Deliverables Builder.html`, clone it as the starting point.
 
 ---
 
 ## Prompt → HTML capstone variant (Final Project Deliverables Prompt Generator)
 
-Some courses (Advanced AI Agents, Product Experimentation) don't ship the final deck as a hand-built `pitch.html`. Instead the capstone tool aggregates the learner's work across all modules into **one master LLM prompt** the learner pastes into an agent (Cursor / Claude / ChatGPT) to *generate* their final presentation HTML. Pick this variant when the source's "Final Project Deliverables" template is a slide/section spec rather than a fixed one-pager — it hands the learner the same scroll-snap deck capability the course itself was built with.
+Some courses (Advanced AI Agents, Product Experimentation) don't ship the final deck as a hand-built `pitch.html`. Instead the capstone tool aggregates the learner's work across all modules into **one master LLM prompt** the learner pastes into an agent (Cursor / Claude / ChatGPT) to *generate* their final presentation HTML. Pick this variant when the source's "Final Project Deliverables" template is a slide/section spec rather than a fixed one-pager, it hands the learner the same scroll-snap deck capability the course itself was built with.
 
 Same single-file tool skeleton as every other tool (left input pane + right output pane, `localStorage`, Copy + Download + Reset). The differences:
 
-- **Input fields** mirror the deliverables template section-by-section — one field (or chip-scaffolded textarea) per required slide of the final deck (cover, the per-module deliverable, individual insights, etc.). Ship a **worked preset** (e.g. a FinWise button) so the learner sees a fully-populated example, exactly like the pre-selected chip pattern.
+- **Input fields** mirror the deliverables template section-by-section, one field (or chip-scaffolded textarea) per required slide of the final deck (cover, the per-module deliverable, individual insights, etc.). Ship a **worked preset** (e.g. a FinWise button) so the learner sees a fully-populated example, exactly like the pre-selected chip pattern.
 - **Outputs** (right-pane tabs):
-  1. **Master prompt** — a single copy-pasteable prompt that tells the agent to build a scroll-snap HTML deck in the Product School visual system from the learner's inputs. Bake the design-system constraints (navy `#07162C`, Poppins/Lato/IBM Plex Mono, one-section-per-slide, nav dots/progress bar) into the prompt text so the generated deck matches the family.
-  2. **README preview** — the repo deliverable, same as the pitch variant.
-  3. **Critic prompt** — a second prompt ("act as a VP of Growth / VP of Product and pressure-test this deck…") the learner runs after generating, to harden the narrative before submitting.
+  1. **Master prompt**: a single copy-pasteable prompt that tells the agent to build a scroll-snap HTML deck in the Product School visual system from the learner's inputs. Bake the design-system constraints (navy `#07162C`, Poppins/Lato/IBM Plex Mono, one-section-per-slide, nav dots/progress bar) into the prompt text so the generated deck matches the family.
+  2. **README preview**: the repo deliverable, same as the pitch variant.
+  3. **Critic prompt**: a second prompt ("act as a VP of Growth / VP of Product and pressure-test this deck…") the learner runs after generating, to harden the narrative before submitting.
 - Live preview re-renders the prompt on every keystroke (`textarea.value = buildPrompt()`); Copy-to-clipboard + Download `.md` on each output.
 
-Reference implementation: Product Experimentation `Modules/Final Project Deliverables Prompt Generator.html`. The two capstone variants are interchangeable per course — both still produce a `README.md`; choose pitch-HTML when the deliverable is a one-pager, prompt→HTML when the deliverable is a full generated deck.
+Reference implementation: Product Experimentation `Modules/Final Project Deliverables Prompt Generator.html`. The two capstone variants are interchangeable per course, both still produce a `README.md`; choose pitch-HTML when the deliverable is a one-pager, prompt→HTML when the deliverable is a full generated deck.

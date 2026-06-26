@@ -90,7 +90,7 @@ def hero_root(lead, accent, subtitle, waypoints, out_line, label, logo_path=ROOT
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Per-page builders. Edit each one to fit your course.
-# These are starter templates — extend with course-specific content.
+# These are starter templates, extend with course-specific content.
 # ─────────────────────────────────────────────────────────────────────────────
 
 def build_course_overview():
@@ -176,12 +176,12 @@ def main():
 
     pages = [
         (out / f"{COURSE_NAME} - Course Overview.html",
-         f"{COURSE_NAME} — Course Overview", build_course_overview(), ROOT_LOGO),
+         f"{COURSE_NAME}, Course Overview", build_course_overview(), ROOT_LOGO),
         (out / "Curriculum Map.html", "Curriculum Map", build_curriculum_map(), ROOT_LOGO),
         (out / "Final Project Brief.html", "Final Project Brief", build_final_project_brief(), ROOT_LOGO),
         (out / "Tools Overview.html", "Tools Overview", build_tools_overview(), ROOT_LOGO),
         (out_pitch / f"{COURSE_NAME} - Pitch Deck.html",
-         f"{COURSE_NAME} — Pitch Deck", build_pitch_deck(), PITCH_LOGO),
+         f"{COURSE_NAME}, Pitch Deck", build_pitch_deck(), PITCH_LOGO),
     ]
     for path, title, sections, logo in pages:
         path.write_text(render_root_page(title, sections, logo))

@@ -1,8 +1,8 @@
-# Visual Primitives — the M5 / M6 vocabulary
+# Visual Primitives: the M5 / M6 vocabulary
 
-Field-tested helpers from the AI Product Management certification (M1–M6 build), extended by the Product Experimentation certification (the **Learner-Journey rail** and the **grid-balance** rule below). Use these instead of authoring bespoke per-slide layouts. Every helper here has been battle-tested across at least two modules, so you get visual harmony for free if you reuse them.
+Field-tested helpers from the AI Product Management certification (M1 to M6 build), extended by the Product Experimentation certification (the **Learner-Journey rail** and the **grid-balance** rule below). Use these instead of authoring bespoke per-slide layouts. Every helper here has been battle-tested across at least two modules, so you get visual harmony for free if you reuse them.
 
-If you find yourself drawing a "card with a coloured header band and 1–2 metadata sub-blocks underneath", **stop** — use `_m5_card`. The same goes for triangles, pyramids, icebergs, and the snake roadmap. They are all listed below.
+If you find yourself drawing a "card with a coloured header band and 1 to 2 metadata sub-blocks underneath", **stop**: use `_m5_card`. The same goes for triangles, pyramids, icebergs, and the snake roadmap. They are all listed below.
 
 ---
 
@@ -12,7 +12,7 @@ The AI PM build went off the rails in M6 specifically because each slide was aut
 
 The fix: extract every pattern that survived two modules into a named helper, then call the helper from every later module. The helpers below are the result.
 
-**Rule:** before authoring a new slide layout, scan this file. If there is a 70% match, use the helper. If there is a 30% match, _extend_ the helper with optional parameters — do not duplicate it.
+**Rule:** before authoring a new slide layout, scan this file. If there is a 70% match, use the helper. If there is a 30% match, _extend_ the helper with optional parameters, do not duplicate it.
 
 ---
 
@@ -20,22 +20,22 @@ The fix: extract every pattern that survived two modules into a named helper, th
 
 ### `_m5_card(n, col, name, body_html, sub_blocks=None, icon="", title_size="17px", num_size="30px", padding="16px 20px")`
 
-Workhorse card. A coloured gradient header band carrying a number and title, then a body, then 0–N labelled sub-blocks. Used for KPI grids (M6 operationalize_risks), governance frameworks, lever cards, eval phases, agent anatomy slides, presentation kickoff cards — anywhere you have 3–6 peer items that each need a number + title + paragraph + optional metadata.
+Workhorse card. A coloured gradient header band carrying a number and title, then a body, then 0 to N labelled sub-blocks. Used for KPI grids (M6 operationalize_risks), governance frameworks, lever cards, eval phases, agent anatomy slides, presentation kickoff cards, anywhere you have 3 to 6 peer items that each need a number + title + paragraph + optional metadata.
 
 ```python
 def _m5_card(n, col, name, body_html, sub_blocks=None, icon="",
              title_size="17px", num_size="30px", padding="16px 20px"):
     """Gradient-header card with optional sub-blocks.
 
-    n            — short numeric/letter id ("01", "M3")
-    col          — accent colour ("#3b82f6")
-    name         — card title (single line)
-    body_html    — main paragraph (HTML allowed)
-    sub_blocks   — list of (label, body_html) tuples rendered under the body
-    icon         — emoji entity (e.g. "&#x1F6AB;") shown next to the number
-    title_size   — shrink for narrow grids (5+ cols)
-    num_size     — shrink the number when the row is tight
-    padding      — tighten when the column is narrow
+    n           , short numeric/letter id ("01", "M3")
+    col         , accent colour ("#3b82f6")
+    name        , card title (single line)
+    body_html   , main paragraph (HTML allowed)
+    sub_blocks  , list of (label, body_html) tuples rendered under the body
+    icon        , emoji entity (e.g. "&#x1F6AB;") shown next to the number
+    title_size  , shrink for narrow grids (5+ cols)
+    num_size    , shrink the number when the row is tight
+    padding     , tighten when the column is narrow
     """
     sub_html = ""
     if sub_blocks:
@@ -85,7 +85,7 @@ def _m5_annotation(col, label, body_html):
 
 ### `_m5_callout(body_html)`
 
-Bottom "PM rule" purple-tinted strip. One-liner that summarises the slide in plain language. Use sparingly — at most one per slide.
+Bottom "PM rule" purple-tinted strip. One-liner that summarises the slide in plain language. Use sparingly, at most one per slide.
 
 ```python
 def _m5_callout(body_html):
@@ -134,22 +134,22 @@ A single SVG path that snakes around a 2×2 grid of step blocks without ever tou
 </svg>
 ```
 
-**Why these exact numbers:** every `L → C` and `C → L` join has a matching tangent (the first control point of each `C` shares its y with the previous `L`'s endpoint, and the last control point shares y with the next `L`'s endpoint). That makes the path **C1-continuous** — no visible kinks at the corners. The viewBox is 1000×600 (60 units taller than the rings need) so the bottom pass at y=560 fits below the row-2 description text without clipping.
+**Why these exact numbers:** every `L → C` and `C → L` join has a matching tangent (the first control point of each `C` shares its y with the previous `L`'s endpoint, and the last control point shares y with the next `L`'s endpoint). That makes the path **C1-continuous**: no visible kinks at the corners. The viewBox is 1000×600 (60 units taller than the rings need) so the bottom pass at y=560 fits below the row-2 description text without clipping.
 
 ### AI Iceberg (M4)
 
-Three-tier iceberg SVG with **Surface · Connection · Underwater** layers. The visual itself is symbolic, but the slide _after_ it on M4 turns the same shapes into an interaction-flow diagram (user-tap on the surface → arrow into the connection layer → arrow into the underwater layer → arrow back up). Author both slides — the iceberg first, then the same shapes again with arrows showing communication flow between layers.
+Three-tier iceberg SVG with **Surface · Connection · Underwater** layers. The visual itself is symbolic, but the slide _after_ it on M4 turns the same shapes into an interaction-flow diagram (user-tap on the surface → arrow into the connection layer → arrow into the underwater layer → arrow back up). Author both slides, the iceberg first, then the same shapes again with arrows showing communication flow between layers.
 
 Important details:
 - The top tip of the iceberg must NOT be obscured by a "tip" or "callout" badge. If the source has the tip free, leave it free.
-- The connection-layer arrows (between surface and underwater) are downward and upward — they show round-trip communication, not a one-way pipe.
+- The connection-layer arrows (between surface and underwater) are downward and upward, they show round-trip communication, not a one-way pipe.
 
-### PM Decision Triangle (M5 — interactive)
+### PM Decision Triangle (M5: interactive)
 
 Equilateral triangle with the three trade-offs (Latency · Cost · Accuracy) at the corners. Inside, an animated "balance dot" cycles between the corners; learners can also drag it. A live readout panel shows the current weights as percentages computed from **barycentric coordinates** (each corner = 100% of itself, the centroid = 33.3% / 33.3% / 33.3%, etc.). A Pause / Play button stops the auto-cycle.
 
 Lessons from this build:
-- **Position lever boxes _outside_ the triangle**, not inside — the inside is reserved for the dot.
+- **Position lever boxes _outside_ the triangle**, not inside, the inside is reserved for the dot.
 - **Use IntersectionObserver to pause the auto-cycle when the slide is off-screen.** Otherwise CPU/battery drain on long decks.
 - **Tile overlap is a slip-back risk.** Multiple iterations were needed before the lever boxes, the readout, and the triangle all coexisted without occluding each other. Test at 1280px / 1024px / 768px container widths.
 
@@ -186,11 +186,11 @@ CSS:
 .tree .ind     { display:inline-block; color:#445; margin-right:6px; }
 ```
 
-### Learner-Journey rail (recap slide — CONSISTENCY-CRITICAL)
+### Learner-Journey rail (recap slide: CONSISTENCY-CRITICAL)
 
-The closing "look at everything you've built" / course-recap slide uses **one canonical layout across every course in the family**: a vertical title rail on the left + N numbered columns on the right (one per module), with the *current* module's column highlighted (`lj-active`). It is **not** a free-form diagram — authoring a bespoke node-path or scatter SVG per module is the regression this primitive exists to kill (Product Experimentation M6 originally shipped a diagonal node-path and had to be rebuilt to match AI Evals / AI PM).
+The closing "look at everything you've built" / course-recap slide uses **one canonical layout across every course in the family**: a vertical title rail on the left + N numbered columns on the right (one per module), with the *current* module's column highlighted (`lj-active`). It is **not** a free-form diagram, authoring a bespoke node-path or scatter SVG per module is the regression this primitive exists to kill (Product Experimentation M6 originally shipped a diagonal node-path and had to be rebuilt to match AI Evals / AI PM).
 
-Each column carries: an inline line-icon (24×24, `stroke="currentColor"`), a big number, the module title, and 2–3 short bullets (the first bolded as the module's headline takeaway). The active column recolours icon + number + bullet dots to the module's accent.
+Each column carries: an inline line-icon (24×24, `stroke="currentColor"`), a big number, the module title, and 2 to 3 short bullets (the first bolded as the module's headline takeaway). The active column recolours icon + number + bullet dots to the module's accent.
 
 ```html
 <div class="lj-frame">
@@ -212,7 +212,7 @@ Each column carries: an inline line-icon (24×24, `stroke="currentColor"`), a bi
 ```
 
 ```css
-.lj-section .inner{max-width:1340px;}                    /* widen the slide — 6 columns need it */
+.lj-section .inner{max-width:1340px;}                    /* widen the slide, 6 columns need it */
 .lj-frame{display:grid;grid-template-columns:78px 1fr;gap:16px;margin-top:22px;align-items:stretch;}
 .lj-title-rail{background:linear-gradient(180deg,rgba(96,165,250,0.15),rgba(167,139,250,0.14));
   border:1px solid rgba(96,165,250,0.28);border-radius:14px;display:flex;align-items:center;justify-content:center;padding:18px 0;}
@@ -243,11 +243,11 @@ Each column carries: an inline line-icon (24×24, `stroke="currentColor"`), a bi
 ```
 
 **Rules:**
-- The base accent is blue (`#79c0ff` / `#60a5fa`); the *active* column uses the current module's accent (Product Experimentation M6 used violet `#a78bfa`). Keep the structure identical across modules — only the active index and the per-column copy change.
+- The base accent is blue (`#79c0ff` / `#60a5fa`); the *active* column uses the current module's accent (Product Experimentation M6 used violet `#a78bfa`). Keep the structure identical across modules, only the active index and the per-column copy change.
 - Bump `.lj-section .inner` to `max-width:1340px` (the default 880px crushes 6 columns). Apply the `lj-section` class to the slide's `<section>`.
 - Six modules → six columns at full width, collapsing to 3-up then 2-up on narrow viewports.
 
-### Grid balance — never orphan the last card
+### Grid balance: never orphan the last card
 
 Resource/option grids built on `grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))` will **orphan the last card** when the item count doesn't divide evenly into the computed column count (4 cards render as a lopsided **3 + 1**). For any even-count grid, set the columns explicitly and centre the block:
 
@@ -256,11 +256,11 @@ Resource/option grids built on `grid-template-columns: repeat(auto-fit, minmax(2
 <div class="cards-grid" style="grid-template-columns:repeat(2,1fr);max-width:760px;margin-left:auto;margin-right:auto">…</div>
 ```
 
-For four peer items inside a slide, either one row of four or a 2×2 — never 3 + 1. If you need a 4-up variant of an existing 3-up grid, add a modifier class (`.eng-grid--4{grid-template-columns:repeat(4,1fr)}` with 2×2 / 1-col fallbacks) rather than mutating the shared grid. (Product Experimentation M6 hit this twice: the "How AI is changing pricing" slide and the Resources slide.)
+For four peer items inside a slide, either one row of four or a 2×2, never 3 + 1. If you need a 4-up variant of an existing 3-up grid, add a modifier class (`.eng-grid--4{grid-template-columns:repeat(4,1fr)}` with 2×2 / 1-col fallbacks) rather than mutating the shared grid. (Product Experimentation M6 hit this twice: the "How AI is changing pricing" slide and the Resources slide.)
 
 ### RAG flow (M3)
 
-Two slides — **How RAG works in practice** (a left-to-right pipeline: query → retriever → context window → LLM → response, with each stage as a card connected by arrows) and **Physics of RAG** (the same pipeline with a context-window timeline overlay so learners can see the time horizon: "what was retrieved when").
+Two slides, **How RAG works in practice** (a left-to-right pipeline: query → retriever → context window → LLM → response, with each stage as a card connected by arrows) and **Physics of RAG** (the same pipeline with a context-window timeline overlay so learners can see the time horizon: "what was retrieved when").
 
 Both must be visually pleasing. The early M3 build collapsed each into a flat box-with-text and took two iterations of feedback ("This is not a good visual representation") before becoming SVG-grade.
 
@@ -268,7 +268,7 @@ Both must be visually pleasing. The early M3 build collapsed each into a flat bo
 
 ## Conceptual diagram kit (Shipping AI Agents)
 
-**The #1 rule for concept slides: lead with a visual, not text.** A wall of text, a flat bullet list, or a plain `ref-table` is fine on a *reference / worked-example* slide, but as the way you *teach a concept* it is a regression. The first Shipping AI Agents build shipped text-and-table concept slides and every one had to be redrawn into one of the primitives below. Pair the chosen visual with **one** short supporting paragraph (balanced density) — the depth lives in the Notes + Lab Guide, not on the slide.
+**The #1 rule for concept slides: lead with a visual, not text.** A wall of text, a flat bullet list, or a plain `ref-table` is fine on a *reference / worked-example* slide, but as the way you *teach a concept* it is a regression. The first Shipping AI Agents build shipped text-and-table concept slides and every one had to be redrawn into one of the primitives below. Pair the chosen visual with **one** short supporting paragraph (balanced density), the depth lives in the Notes + Lab Guide, not on the slide.
 
 Pick the primitive by the *shape of the idea*:
 
@@ -283,7 +283,7 @@ Pick the primitive by the *shape of the idea*:
 
 All six reuse the same tokens (`#0c2244` node fill, per-node accent via `--n`/`--c`, navy background, Poppins titles, IBM Plex Mono micro-labels) so they harmonise with `_m5_card` and the rest of the family. Each replaced a table or a bullet wall.
 
-### Loop ring (`.loop-wrap`) — animated cycle
+### Loop ring (`.loop-wrap`): animated cycle
 
 A center label (the actor, e.g. the LLM) with N nodes on a ring and a glowing dash that flows around the track (`@keyframes loopflow`). Hover lifts each node. Nodes are absolutely positioned with **percentages** (`top`/`left`) computed from angles so they hold alignment at any width.
 
@@ -298,13 +298,13 @@ A center label (the actor, e.g. the LLM) with N nodes on a ring and a glowing da
 .loop-node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;
   background:#0c2244;border:1.5px solid var(--n,#3b82f6);border-radius:14px;padding:9px 15px;box-shadow:0 8px 24px rgba(0,0,0,0.45);min-width:78px;transition:transform .25s,box-shadow .25s;}
 .loop-node:hover{transform:translate(-50%,-50%) scale(1.06);}
-/* node positions: top/left = 50% ± 42%·sin/cos(angle) — percentages, never px */
+/* node positions: top/left = 50% ± 42%·sin/cos(angle), percentages, never px */
 @media(max-width:760px){.loop-wrap{width:78vw;}.loop-node{min-width:64px;padding:7px 10px;}}
 ```
 
-The `<defs><linearGradient id="loopGrad">` runs blue→light-blue. **Pause the animation off-screen via IntersectionObserver** (same as the GIF mockups below) — a perpetually animating dash pins a CPU core.
+The `<defs><linearGradient id="loopGrad">` runs blue→light-blue. **Pause the animation off-screen via IntersectionObserver** (same as the GIF mockups below), a perpetually animating dash pins a CPU core.
 
-### Orbital (`.orbit-wrap`) — center + parts
+### Orbital (`.orbit-wrap`): center + parts
 
 A glowing circular `.orbit-center` with N `.orbit-node` cards on a dashed `.orbit-ring`, connected by faint `.orbit-line`s. Use for "X needs these N things" or "what X is made of." Same percentage-positioning rule.
 
@@ -320,7 +320,7 @@ A glowing circular `.orbit-center` with N `.orbit-node` cards on a dashed `.orbi
 @media(max-width:760px){.orbit-wrap{width:92vw;}.orbit-node{width:30%;}}
 ```
 
-### Above/below-the-line (`.agentline`) — threshold judgement
+### Above/below-the-line (`.agentline`): threshold judgement
 
 Replaces a "which calls can the agent make on its own?" table. A red-tinted `.al-above` zone (human keeps control), a dashed `.al-line` with a centered pill tag ("THE AGENT LINE"), then a green-tinted `.al-below` zone (safe to automate). Decisions render as `.al-chip` cards (`.al-red` above, `.al-green` below) carrying a name + a mono score line.
 
@@ -337,7 +337,7 @@ Replaces a "which calls can the agent make on its own?" table. A red-tinted `.al
 
 This is the slide form of the **agent-line map** the learner builds in the M1 Lab Guide (see `component-templates.md` → "Lab Guide with embedded deliverable builder").
 
-### Control-handoff spectrum (`.control-grid`) — a continuum
+### Control-handoff spectrum (`.control-grid`): a continuum
 
 Three (or N) `.control-card`s with a coloured `border-top`, each carrying an icon, a name, a mono `.cc-badge` (who's in control), a `.cc-who` line and a `.cc-feel` line. Use for "copilot → workflow → agent" style spectrums where the axis is *how much control the human hands over*.
 
@@ -348,7 +348,7 @@ Three (or N) `.control-card`s with a coloured `border-top`, each carrying an ico
 @media(max-width:760px){.control-grid{grid-template-columns:1fr;}}
 ```
 
-### Flow pipeline (`.flow-pipe`) — a sequence
+### Flow pipeline (`.flow-pipe`): a sequence
 
 Horizontal `.flow-stage` cards joined by `.flow-arrow` (→). The active/important stage gets `.is-agent` (glow). Each stage: a mono `.flow-mode` label, an icon, a name, a one-line why. Use for "step 1 → step 2 → step 3" sequences; collapses to a vertical stack on mobile.
 
@@ -360,9 +360,9 @@ Horizontal `.flow-stage` cards joined by `.flow-arrow` (→). The active/importa
 @media(max-width:760px){.flow-pipe{flex-direction:column;}}
 ```
 
-### Status / anatomy grid (`.anat-grid`) — a labelled set with flags
+### Status / anatomy grid (`.anat-grid`): a labelled set with flags
 
-A grid of `.anat-card`s for a labelled set where some items are highlighted (e.g. "new this year"). The flagged card gets `.is-new` (green border + tint). Use for "the N parts of X, and these two are new" — replaces a two-column table.
+A grid of `.anat-card`s for a labelled set where some items are highlighted (e.g. "new this year"). The flagged card gets `.is-new` (green border + tint). Use for "the N parts of X, and these two are new", replaces a two-column table.
 
 ```css
 .anat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:24px auto 0;}
@@ -375,9 +375,9 @@ A grid of `.anat-card`s for a labelled set where some items are highlighted (e.g
 
 ---
 
-## Animation primitives — "GIF-like" mockups
+## Animation primitives: "GIF-like" mockups
 
-The AI PM source for M4 (trust gaps) contained animated GIFs showing each gap in motion: black-box gap, hallucination gap, control gap. The HTML deck must reproduce the motion using CSS keyframes — a static image is a regression.
+The AI PM source for M4 (trust gaps) contained animated GIFs showing each gap in motion: black-box gap, hallucination gap, control gap. The HTML deck must reproduce the motion using CSS keyframes, a static image is a regression.
 
 **Pattern:**
 
@@ -405,13 +405,13 @@ This is mandatory for any animated mockup. Otherwise long decks pin a CPU core t
 
 ---
 
-## Arrow rules (CRITICAL — multiple iterations needed to get right)
+## Arrow rules (CRITICAL: multiple iterations needed to get right)
 
 The single biggest source of regressions in the AI PM build was arrow routing. These rules apply to **every** SVG diagram you author.
 
 1. **Arrows never cross other tiles, boxes, or arrows.** Route around them.
-2. **Arrows take the SHORTEST path to the target box.** If the target is to the right and below, route right-then-down — don't loop up over the top first. (Real bug from the build: an arrow went up over the top because the start point's tangent pointed up, when going straight right would have been 60% shorter.)
-3. **All arrows in a diagram have the same stroke-width.** A 1.5 next to a 2.0 looks like one is "more important" — that signal must be intentional, not accidental.
+2. **Arrows take the SHORTEST path to the target box.** If the target is to the right and below, route right-then-down, don't loop up over the top first. (Real bug from the build: an arrow went up over the top because the start point's tangent pointed up, when going straight right would have been 60% shorter.)
+3. **All arrows in a diagram have the same stroke-width.** A 1.5 next to a 2.0 looks like one is "more important", that signal must be intentional, not accidental.
 4. **Use cubic Béziers with matched tangents at every L→C and C→L join.** This makes the path C1-continuous (no visible kinks). The first control point of a `C` shares its tangent direction with the incoming segment; the second control point shares its tangent direction with the outgoing segment.
 5. **For multi-step roadmap-style flows, prefer ONE single flowing path** (e.g. the M6 snake) over multiple separate arrows. A single path reads as a continuous journey; multiple separate arrows read as a series of jumps.
 6. **`stroke-linejoin="round"` and `stroke-linecap="round"`** on every path. Sharp joins look choppy on the navy background.
@@ -428,11 +428,11 @@ When you mix HTML content blocks with SVG diagrams (e.g. four step-cards plus a 
 3. **HTML content blocks are positioned with percentages**, never pixels. The percentages mirror the viewBox coordinates: e.g. a step block at `top: 80/600 = 13.33%` lines up with SVG y=80 at any container width.
 4. `preserveAspectRatio="none"` on the SVG so it stretches with the container.
 
-If you use pixel positioning anywhere, the alignment will drift the moment the container resizes (which it will — every tablet, every embed, every slide preview). Percentages are mandatory.
+If you use pixel positioning anywhere, the alignment will drift the moment the container resizes (which it will, every tablet, every embed, every slide preview). Percentages are mandatory.
 
 ---
 
-## "Tool-as-walkthrough" — pre-selected chip pattern
+## "Tool-as-walkthrough": pre-selected chip pattern
 
 Tools that replace a paper-style worksheet must NOT show empty placeholders that disappear when the learner starts typing. That throws away the scaffolding the source provides.
 
@@ -440,7 +440,7 @@ Tools that replace a paper-style worksheet must NOT show empty placeholders that
 
 ```html
 <div class="field">
-  <label>ROLE — Who is the model pretending to be?</label>
+  <label>ROLE, Who is the model pretending to be?</label>
   <div class="chips">
     <span class="chip selected" onclick="toggle(this)">Frontend Engineer</span>
     <span class="chip selected" onclick="toggle(this)">building dashboards</span>
@@ -459,12 +459,12 @@ The textarea is the source of truth (it produces the export). Clicking chips jus
 
 The README is the repo deliverable; the **pitch** is what people screen-share. The Final Project Deliverables Builder ships both:
 
-- `pitch.html` — visual one-pager. Hero (title + one-line pitch + name/cohort + "View the repo →" CTA), 6 colour-coded module cards with linked artefact paths (each path links to `${repo}/blob/main/${path}`), a 5-step PM Execution Plan rail (Now · Next · Watch · Red lines · Governance), three Build Insights cards (Friction / Learning / Aha), optional Loom callout. All inline CSS, fonts from Google CDN, self-contained — opens in any browser.
-- `README.md` — the existing markdown for the repo root.
+- `pitch.html`, visual one-pager. Hero (title + one-line pitch + name/cohort + "View the repo →" CTA), 6 colour-coded module cards with linked artefact paths (each path links to `${repo}/blob/main/${path}`), a 5-step PM Execution Plan rail (Now · Next · Watch · Red lines · Governance), three Build Insights cards (Friction / Learning / Aha), optional Loom callout. All inline CSS, fonts from Google CDN, self-contained, opens in any browser.
+- `README.md`, the existing markdown for the repo root.
 
 The tool has a live `iframe` preview of the pitch (re-renders on every keystroke) and **Download `pitch.html`** + **Open in new tab** buttons.
 
-The pitch HTML reuses the same colour tokens as the slide decks (`#07162C` background, Poppins/Lato fonts, navy `bg-glow`). It is _not_ a slide deck — it is a single-scroll one-pager. Learners present it in a browser tab; no PowerPoint export needed.
+The pitch HTML reuses the same colour tokens as the slide decks (`#07162C` background, Poppins/Lato fonts, navy `bg-glow`). It is _not_ a slide deck, it is a single-scroll one-pager. Learners present it in a browser tab; no PowerPoint export needed.
 
 ---
 
@@ -479,22 +479,22 @@ Every `applied_work` / lab / breakout slide must fit on one screen. The four man
 - Repo footer is one line.
 - Heading + subtitle ≤ 3 lines combined.
 
-If two breakouts fall on consecutive slides (M1 had this — Lab 1 builds Juno, Lab 2 configures Juno's system prompt), build **two separate tools** and link each slide to its own. Reusing one tool across both slides forces learners to scroll within the tool to find the part for the current slide — a known regression.
+If two breakouts fall on consecutive slides (M1 had this, Lab 1 builds Juno, Lab 2 configures Juno's system prompt), build **two separate tools** and link each slide to its own. Reusing one tool across both slides forces learners to scroll within the tool to find the part for the current slide, a known regression.
 
 ---
 
 ## Repo-as-concept onboarding (M1 specifically)
 
-The course is forkable — but if M1 doesn't say so, learners default to "where do I commit this?" mode. Add a slide _early_ in M1 (between the toolkit and the first lab) that:
+The course is forkable, but if M1 doesn't say so, learners default to "where do I commit this?" mode. Add a slide _early_ in M1 (between the toolkit and the first lab) that:
 
 1. Shows the **one-click GitHub template URL** to fork the project template:
-   `https://github.com/new?template_name={template-repo}&template_owner={owner}` — clicking this opens the GitHub "create from template" form pre-filled.
-2. Names the folders the learner will commit into across M1–M6 (`01-prompting/`, `02-strategy/`, …).
+   `https://github.com/new?template_name={template-repo}&template_owner={owner}`, clicking this opens the GitHub "create from template" form pre-filled.
+2. Names the folders the learner will commit into across M1 to M6 (`01-prompting/`, `02-strategy/`, …).
 3. Shows the path to the first artefact they'll commit (e.g. `01-prompting/system-prompt.md`).
 
 After this, every `applied_work` slide's repo footer (the green "Go to your repo →" line) refers back to a path the learner already has.
 
-**Resources & Templates per module.** Each module's slide listing tools / templates must reference the artefacts THAT module asks for — not the M1 list copy-pasted. Example: M2 references "Mapping Juno's Strategic Bet" + "Building Juno's AI One-Pager", not M1's Prompt Anatomy Builder.
+**Resources & Templates per module.** Each module's slide listing tools / templates must reference the artefacts THAT module asks for, not the M1 list copy-pasted. Example: M2 references "Mapping Juno's Strategic Bet" + "Building Juno's AI One-Pager", not M1's Prompt Anatomy Builder.
 
 ---
 
@@ -515,7 +515,7 @@ A common slip-back: swapping M5 and M6. The Curriculum Map page, the index landi
 
 ---
 
-## Reflection labels — "Reflection · 5 min", not "Solo Reflection"
+## Reflection labels: "Reflection · 5 min", not "Solo Reflection"
 
 The cohort format is implicitly solo. Adding "Solo" to every reflection tag is voice-noise. Render the timer tag as `Reflection · 5 min` or `Reflection`, not `Solo Reflection`. The same goes for `Lab` (not `Solo Lab`) and `Applied work` (not `Solo Applied Work`).
 
@@ -523,11 +523,11 @@ The cohort format is implicitly solo. Adding "Solo" to every reflection tag is v
 
 ---
 
-## Toolkit slide — keep examples current
+## Toolkit slide: keep examples current
 
-Every certification has a "PM's AI Toolkit" or "AI Stack" slide listing 8–12 real products (Cursor, Lovable, Bolt, v0, Claude, ChatGPT, Linear, Notion AI, Granola, …). This list ages quickly. Audit it whenever you regenerate:
+Every certification has a "PM's AI Toolkit" or "AI Stack" slide listing 8 to 12 real products (Cursor, Lovable, Bolt, v0, Claude, ChatGPT, Linear, Notion AI, Granola, …). This list ages quickly. Audit it whenever you regenerate:
 
 - Replace defunct or merged products (e.g. dropping Microsoft Bing).
 - Swap in the most-hyped new entrants (within the last ~6 months).
-- Keep the count steady (8–12). Don't bloat to 20.
-- Each product gets one line of context — what it does, why it matters for AI PMs.
+- Keep the count steady (8 to 12). Don't bloat to 20.
+- Each product gets one line of context, what it does, why it matters for AI PMs.
