@@ -538,6 +538,43 @@ Anatomy:
 
 The on-slide version of the same artifact is the `.agentline` above/below-the-line primitive (`visual-primitives.md`). The slide shows the concept; the Lab Guide builder is where the learner *produces* it and exports the markdown.
 
+### Schema-driven lab builder (reusable engine)
+
+The hand-rolled example above is the right shape when the deliverable has a bespoke decision rule (M1's agent-line golden rule auto-suggests a verdict). For the common case, **don't re-implement the JS per module**, every module still needs a builder, but most deliverables are just a set of fields plus the odd repeatable table. Describe the deliverable as a small JSON **schema** and inject the shared engine with `scripts/add_lab_builder.py`:
+
+```bash
+python3 scripts/add_lab_builder.py --html "Modules/Module 2 - Lab Guide.html" --config m2.json
+```
+
+The engine renders the schema, autosaves to `localStorage`, builds the deliverable markdown, and wires **Copy markdown** / **Download {filename}.md** + a live preview, identical chrome to the M1 builder. It injects just before the `<div class="deliverable">` summary and is idempotent (re-running replaces the prior block). Field types:
+
+- `select` / `text` / `textarea`, single values rendered as `## label` blocks.
+- `group` with `subs`, a fieldset of labelled sub-textareas, rendered as a `## label` bullet list (`- **sub**: value`).
+- `rows` with `columns` (each `text` or `select`) and an optional `starter` set, a repeatable add/remove table rendered as a markdown table (never start empty, load the starter).
+- optional `subject` (a top "Agent / workflow" field that becomes the H1 suffix) and `debrief` (the `#cohort-channel` reflection appended last).
+
+```json
+{
+  "key": "shipping-ai-agents-m2-loopspec-v1",
+  "filename": "loop-spec.md",
+  "docTitle": "Loop Spec",
+  "subject": { "label": "Agent / workflow", "value": "Atlas" },
+  "intro": "Design the loop, then <strong>copy</strong> or <strong>download</strong> <code>loop-spec.md</code> and commit it to <code>02-loop-design/</code>.",
+  "sections": [
+    { "id": "looptype", "type": "select", "label": "Trigger and loop type", "opts": ["Hook", "Cron", "Heartbeat", "Goal loop", "Hook + cron backup"], "value": "Hook + cron backup" },
+    { "id": "why", "type": "textarea", "label": "Why this loop type", "hint": "One or two sentences; rule out the others." },
+    { "id": "stop", "type": "group", "label": "Stop conditions", "subs": [
+      { "id": "success", "label": "Success" }, { "id": "stuck", "label": "Stuck" }, { "id": "escalate", "label": "Escalate" } ] },
+    { "id": "roster", "type": "rows", "label": "The five components", "columns": [
+      { "id": "name", "label": "Component", "type": "text" }, { "id": "fill", "label": "Filled for this agent", "type": "text" } ],
+      "starter": [ { "name": "Work tree", "fill": "" }, { "name": "Skills", "fill": "" } ] }
+  ],
+  "debrief": { "label": "For #cohort-channel", "hint": "Which stop condition is doing the heavy lifting?" }
+}
+```
+
+The engine is banned-characters safe (title separator `:`, empty cell `·`, no em/en-dash). Keep the `key` course-scoped and versioned (`{course}-m{N}-{slug}-v1`) so one learner's modules never collide.
+
 ## Interactive tool skeleton (single-file HTML)
 
 Every interactive tool is one self-contained HTML file. This is the canonical skeleton. **Do not** introduce frameworks, build steps, or external state. `localStorage` only.
