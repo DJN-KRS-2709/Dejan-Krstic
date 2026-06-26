@@ -273,7 +273,8 @@ This certification family is solo-format. Every exercise, prompt, and rubric is 
 |---|---|
 | `Modules/Module {N} - Slides.html` | Instructor deck (with speaker notes) |
 | `Modules/Module {N} - Slides (Shareable).html` | Shareable deck (no notes) |
-| `Modules/Module {N} - Notes (Shareable).md` | Shareable narrative notes |
+| `Modules/Module {N} - Notes (Shareable).md` | Shareable narrative notes (source) |
+| `Modules/Module {N} - Notes (Shareable).html` | Populated notes page (hero + filled chapters); never ship header-only. `scripts/populate_notes.py` fills bodies from the `.md` |
 | `Modules/Module {N} - Frameworks Reference Card.md` | One-page module framework summary (source) |
 | `Modules/Module {N} - Frameworks Reference Card.html` | HTML companion (the linked artifact); render with `scripts/md_to_reference_html.py` |
 | `Modules/Module {N} - Glossary.md` | Module-specific glossary (source) |
@@ -434,6 +435,7 @@ What stays fixed in *both*: the **chrome skeleton** and the **session timing**. 
 31. **The Final Project Brief is HTML at the course root, not a root `.md`.** `Final Project Brief.html`, linked from every Resources slide as `../Final Project Brief.html`. A `.md` brief isn't clickable on Pages.
 32. **The Lab Guide is HTML and embeds the deliverable builder.** `Module {N} - Lab Guide.html` carries the steps *and* an in-guide workspace (add rows / score / fill fields + golden-rule/rubric suggestion) that exports the module's deliverable via **Copy markdown** / **Download .md**, with `localStorage` autosave + live preview. The lab slide's "Open Lab Guide ↗" links to it. Don't ship a guide that only says *what* to do without giving learners *where* to do it. See `component-templates.md` → "Lab Guide with embedded deliverable builder."
 33. **No em-dashes or en-dashes, anywhere.** `—` (U+2014) and `–` (U+2013) are the #1 AI tell and are banned in every material and in the generators that emit them. Replace by meaning (label→def `:` · clause `,` · range `to` · compound `-` · empty cell `·`); the plain hyphen is fine. Author dash-clean; fix the generator, not the rendered file. Region-aware sweeper: `python3 scripts/dedash.py --apply .` (prose vs. `<script>`/`<style>`/regex, so it never corrupts code). Audit: `grep -rlP "[\x{2014}\x{2013}]" Modules/ *.html` must return nothing. See `voice.md` → "Banned characters."
+34. **Notes (Shareable) HTML must be fully populated, never header-only stubs.** A recurring regression ships the Notes HTML with the hero + numbered chapter headers (`section-label` + `h2`) but **empty chapter bodies**, while the real narrative sits only in the `.md`. Each chapter must explain its slide(s): the goal, the core elements, the worked example, in the family components (`<p>`, `<h3>`, `<ul>/<ol>`, `.pull-quote`, `.notice-table`, `.takeaway` cards). Audit body length, not just presence: `<main>` body should be hundreds of words per module, not ~100. If a populated `.md` already exists, render it in with `python3 scripts/populate_notes.py "Modules"` (injects each `## section` body under the matching `<h2>`, order-matched, dash-clean, code-span-safe). Caught when Shipping AI Agents shipped all 6 Notes as ~100-word stubs and AI Evals M5 shipped a 570-word stub against a 3,000-word source.
 
 ## Reference files (progressive disclosure)
 
@@ -450,6 +452,7 @@ What stays fixed in *both*: the **chrome skeleton** and the **session timing**. 
 - [`scripts/refresh_tool_palette.py`](scripts/refresh_tool_palette.py), idempotent CSS palette refresh for interactive tools.
 - [`scripts/dedash.py`](scripts/dedash.py), region-aware em/en-dash sweeper. `python3 scripts/dedash.py --dry .` (report) / `--apply .` (rewrite). Treats prose vs. `<script>`/`<style>`/regex/code differently so it never corrupts JS placeholders (`'—'` to `'·'`) or regex classes (`[-—]` to `[-·]`); converts label to `:`, clause to `,`, range to `to`, compound to `-`.
 - [`scripts/md_to_reference_html.py`](scripts/md_to_reference_html.py), render the Frameworks Reference Card + Glossary markdown (per-module and cumulative) into styled **HTML companions** in the family document style, so Resources cards link HTML, never raw `.md`. `python3 scripts/md_to_reference_html.py --modules-dir Modules --course "Course Name"` (auto-detects module count; keep the `.md` as source and re-run when it changes).
+- [`scripts/populate_notes.py`](scripts/populate_notes.py), fill empty/stub **Notes (Shareable) HTML** chapter bodies from the matching `.md` (renders each `## section` into `<p>`/`<h3>`/lists/`.pull-quote`/`.notice-table`/`.takeaway` cards, injected under the existing `<h2>`, order-matched). `python3 scripts/populate_notes.py "Modules"`. Use only on header-only stubs; it overwrites chapter bodies, so don't run it over already-authored notes.
 - [`scripts/extract_pptx.py`](scripts/extract_pptx.py), extract slide text + speaker notes from `.pptx`.
 - [`scripts/extract_pdf.py`](scripts/extract_pdf.py), extract plain text from `.pdf`.
 - [`exemplars.md`](exemplars.md), the two reference courses already shipped with this skill (clone-and-fork-able).
