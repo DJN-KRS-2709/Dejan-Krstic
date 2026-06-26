@@ -221,8 +221,9 @@ Each module's interactive tools must export markdown that lands directly in the 
 
 **Resources & Templates per module, standardized clickable cards.** Every module's "Resources & Templates" slide uses the same two-group layout of **clickable `res-card` links** (see `component-templates.md` → "Resources & Templates (standardized)"):
 
-- **This module**: Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (`.md`) · Glossary (`.md`).
-- **Whole course**: Template repo (one-click fork URL) · **Final Project Brief (HTML)** · cumulative Frameworks Reference Card (`.md`) · cumulative Glossary (`.md`). The capstone module also links the **Final Project Prompt Generator**.
+- **This module**: Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (**HTML**) · Glossary (**HTML**), all scoped to *this* module. **Link the HTML companion, never the raw `.md`** (a `.md` opens as plain text on Pages). Render with `scripts/md_to_reference_html.py`; the `.md` stays the source.
+- **Whole course (M1 → second-to-last module)**: Template repo (one-click fork URL) · **Final Project Brief (HTML)** — just those two (centre the grid so 2 cards don't orphan).
+- **Whole course (final module ONLY)**: the same two **plus** the **Final Project Prompt Generator (HTML)**, the **cumulative Frameworks Reference Card (HTML, "all 6")** and the **cumulative Glossary (HTML, "all 6")**. The consolidated "all 6" pair lives **only on the capstone** — earlier modules show *their own* Frameworks + Glossary, never the whole-course roll-up.
 
 Every card is a real `<a href>` that resolves to a file that exists, **no decorative, non-clickable cards** (the empty "Frameworks Card" / "Final Project Brief" tiles were a *Shipping AI Agents* bug). Verify each href resolves before shipping: `for f in $(grep -oE 'href="[^"]+"' "Module N - Slides (Shareable).html" | sed 's/href="//;s/"//'); do …` or a quick existence check.
 
@@ -273,14 +274,18 @@ This certification family is solo-format. Every exercise, prompt, and rubric is 
 | `Modules/Module {N} - Slides.html` | Instructor deck (with speaker notes) |
 | `Modules/Module {N} - Slides (Shareable).html` | Shareable deck (no notes) |
 | `Modules/Module {N} - Notes (Shareable).md` | Shareable narrative notes |
-| `Modules/Module {N} - Frameworks Reference Card.md` | One-page module framework summary |
-| `Modules/Module {N} - Glossary.md` | Module-specific glossary |
+| `Modules/Module {N} - Frameworks Reference Card.md` | One-page module framework summary (source) |
+| `Modules/Module {N} - Frameworks Reference Card.html` | HTML companion (the linked artifact); render with `scripts/md_to_reference_html.py` |
+| `Modules/Module {N} - Glossary.md` | Module-specific glossary (source) |
+| `Modules/Module {N} - Glossary.html` | HTML companion (the linked artifact); render with `scripts/md_to_reference_html.py` |
 | `Modules/Module {N} - Lab Guide.html` | HTML lab guide with the in-guide deliverable builder |
 | `Modules/Module {N} - Pre-Read.md` | Pre-read for the module |
 | `Modules/M{N} - {Tool Name}.html` | Single-file interactive tool |
 | `Modules/Concepts Primer (Pre-Read).md` | Cross-cutting onboarding pre-read |
-| `Modules/Frameworks Reference Card.md` | Cross-cutting frameworks summary |
-| `Modules/Glossary.md` | Cross-cutting glossary |
+| `Modules/Frameworks Reference Card.md` | Cumulative "all 6" frameworks summary (source) |
+| `Modules/Frameworks Reference Card.html` | Cumulative HTML companion — linked **only** from the final module |
+| `Modules/Glossary.md` | Cumulative "all 6" glossary (source) |
+| `Modules/Glossary.html` | Cumulative HTML companion — linked **only** from the final module |
 | `index.html` | Landing page |
 | `Pitch/{course} - Pitch Deck.html` | Internal pitch deck |
 | `course-architecture.md`, `storyline.md`, `course-status.md` | Governing docs |
@@ -425,7 +430,7 @@ What stays fixed in *both*: the **chrome skeleton** and the **session timing**. 
 27. **Time every module to the session length: ≈100 min run-of-show + a 20-min buffer in a 2-hour slot.** The deck Agenda, the Instructor-Guide run-of-show (per-row *and* phase totals), and the budget bar (`flex` values) must all reconcile to the same content budget (100 by default). The hands-on lab is the protected single-largest block, take cuts from lectures, Q&A, and the close, never the build. See "Session timing." (Default 120-min content with no buffer is the pre-retime state that bit Shipping AI Agents.)
 28. **Concept slides lead with a visual, not text.** A wall of text, a flat bullet list, or a plain `ref-table` *as the way to teach a concept* is a regression. Convert: a cycle → animated loop ring; a labelled set → orbital or status/anatomy grid; a sequence → flow pipeline; a continuum/trade-off → control-handoff spectrum; a threshold judgement → above/below-the-line. Pair the visual with **one** short paragraph (balanced density); push the depth into the Notes + Lab Guide. Reuse the **conceptual diagram kit** in `visual-primitives.md` → "Conceptual diagram kit", don't redraw. (Every text-heavy concept slide in the first *Shipping AI Agents* build had to be redrawn.)
 29. **The Break is mid-session, never beside the close.** Break + Cameras On land *after the high-energy concept lecture and before the final lecture section + the lab*, the natural energy reset before the second half. A break placed right before Key Takeaways is dead time. Move it (and the matching Instructor-Guide run-of-show row) and reword the Cameras-On "welcome back" copy to point forward to the rest of the session. (Shipping AI Agents shipped the break at the end and it was moved across all six modules.)
-30. **Resources & Templates cards must all be real, resolving links.** Use the standardized two-group layout (This module / Whole course) of clickable `res-card` `<a href>`s, Notes HTML, Lab Guide HTML, Frameworks Card md, Glossary md, Template repo, Final Project Brief HTML, cumulative Frameworks + Glossary, and (capstone) the Prompt Generator. **No decorative, non-clickable tiles and no dead hrefs**: every card points at a file that exists. (Shipping AI Agents shipped an empty "Frameworks Card" tile and a non-clickable "Final Project Brief".)
+30. **Resources & Templates cards must all be real, resolving HTML links.** Use the standardized two-group layout (This module / Whole course) of clickable `res-card` `<a href>`s: Notes HTML, Lab Guide HTML, Frameworks Card **HTML**, Glossary **HTML**, Template repo, Final Project Brief HTML, and — **on the final module only** — the Prompt Generator + cumulative ("all 6") Frameworks **HTML** + Glossary **HTML**. **Never link a raw `.md`** (it renders as plain text on Pages): render the Frameworks/Glossary HTML companions with `scripts/md_to_reference_html.py`. **The cumulative "all 6" pair is capstone-only** — M1..N-1 link only their own module's Frameworks + Glossary. **No decorative, non-clickable tiles and no dead hrefs**: every card points at a file that exists. (Shipping AI Agents shipped an empty "Frameworks Card" tile, a non-clickable "Final Project Brief", `.md` links that rendered as raw text, and the cumulative pair on every module instead of just M6.)
 31. **The Final Project Brief is HTML at the course root, not a root `.md`.** `Final Project Brief.html`, linked from every Resources slide as `../Final Project Brief.html`. A `.md` brief isn't clickable on Pages.
 32. **The Lab Guide is HTML and embeds the deliverable builder.** `Module {N} - Lab Guide.html` carries the steps *and* an in-guide workspace (add rows / score / fill fields + golden-rule/rubric suggestion) that exports the module's deliverable via **Copy markdown** / **Download .md**, with `localStorage` autosave + live preview. The lab slide's "Open Lab Guide ↗" links to it. Don't ship a guide that only says *what* to do without giving learners *where* to do it. See `component-templates.md` → "Lab Guide with embedded deliverable builder."
 33. **No em-dashes or en-dashes, anywhere.** `—` (U+2014) and `–` (U+2013) are the #1 AI tell and are banned in every material and in the generators that emit them. Replace by meaning (label→def `:` · clause `,` · range `to` · compound `-` · empty cell `·`); the plain hyphen is fine. Author dash-clean; fix the generator, not the rendered file. Region-aware sweeper: `python3 scripts/dedash.py --apply .` (prose vs. `<script>`/`<style>`/regex, so it never corrupts code). Audit: `grep -rlP "[\x{2014}\x{2013}]" Modules/ *.html` must return nothing. See `voice.md` → "Banned characters."
@@ -444,6 +449,7 @@ What stays fixed in *both*: the **chrome skeleton** and the **session timing**. 
 - [`scripts/gen_root_pages_template.py`](scripts/gen_root_pages_template.py), root-pages generator skeleton.
 - [`scripts/refresh_tool_palette.py`](scripts/refresh_tool_palette.py), idempotent CSS palette refresh for interactive tools.
 - [`scripts/dedash.py`](scripts/dedash.py), region-aware em/en-dash sweeper. `python3 scripts/dedash.py --dry .` (report) / `--apply .` (rewrite). Treats prose vs. `<script>`/`<style>`/regex/code differently so it never corrupts JS placeholders (`'—'` to `'·'`) or regex classes (`[-—]` to `[-·]`); converts label to `:`, clause to `,`, range to `to`, compound to `-`.
+- [`scripts/md_to_reference_html.py`](scripts/md_to_reference_html.py), render the Frameworks Reference Card + Glossary markdown (per-module and cumulative) into styled **HTML companions** in the family document style, so Resources cards link HTML, never raw `.md`. `python3 scripts/md_to_reference_html.py --modules-dir Modules --course "Course Name"` (auto-detects module count; keep the `.md` as source and re-run when it changes).
 - [`scripts/extract_pptx.py`](scripts/extract_pptx.py), extract slide text + speaker notes from `.pptx`.
 - [`scripts/extract_pdf.py`](scripts/extract_pdf.py), extract plain text from `.pdf`.
 - [`exemplars.md`](exemplars.md), the two reference courses already shipped with this skill (clone-and-fork-able).

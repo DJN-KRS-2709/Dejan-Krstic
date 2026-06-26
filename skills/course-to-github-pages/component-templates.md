@@ -405,10 +405,13 @@ The "final presentation," done the solo/async way. **No live or group demo.**
 
 ### `resources_and_templates()`: standardized clickable cards (MANDATORY)
 
-Every module's Resources slide uses the **same two-group grid of clickable `res-card` links**: never decorative tiles, never dead hrefs. Group 1 = **This module**; group 2 = **Whole course**. Every card resolves to a file that exists.
+Every module's Resources slide uses the **same two-group grid of clickable `res-card` links**: never decorative tiles, never dead hrefs. Group 1 = **This module**; group 2 = **Whole course**. Every card resolves to a file that exists. **Every reference links the HTML companion, never a raw `.md`** (a `.md` opens as plain text on Pages). Render the Frameworks Card and Glossary to HTML in the family document style with `scripts/md_to_reference_html.py`; keep the `.md` as the source of truth and regenerate the HTML when it changes.
 
-- **This module:** Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (`.md`) · Glossary (`.md`).
-- **Whole course:** Template repo (one-click fork URL) · **Final Project Brief (HTML)** · cumulative Frameworks Reference Card (`.md`) · cumulative Glossary (`.md`). The **capstone module** adds the **Final Project Prompt Generator** (HTML) → 9 cards.
+- **This module (every module):** Notes (Shareable **HTML**) · Lab Guide (**HTML**) · Frameworks Reference Card (**HTML**) · Glossary (**HTML**) — all scoped to *this* module.
+- **Whole course (M1 → second-to-last):** Template repo (one-click fork URL) · **Final Project Brief (HTML)**. That's it — 2 cards (centre the grid: `repeat(2,1fr)` so they don't orphan).
+- **Whole course (final module only):** the same two **plus** the **Final Project Prompt Generator** (HTML), the **cumulative Frameworks Reference Card (HTML, "all 6")** and the **cumulative Glossary (HTML, "all 6")** → 5 cards (centre as 3+2; see "Grid balance").
+
+> **The cumulative "all 6" Frameworks and Glossary appear ONLY on the final module's Resources slide.** Before the final module, a learner has only covered modules 1..N, so showing the whole-course consolidation early is misleading — each module shows *its own* Frameworks and Glossary, and the capstone is where the consolidated pair lands. (This is the *Shipping AI Agents* fix: M1–M5 linked the cumulative pair and it was pulled back to M6 only.)
 
 ```html
 <section data-title="Resources &amp; Templates">
@@ -424,29 +427,31 @@ Every module's Resources slide uses the **same two-group grid of clickable `res-
       <a class="res-card" href="Module 1 - Lab Guide.html" target="_blank" rel="noopener">
         <span class="rc-ico">🧪</span><span class="rc-title">Lab Guide</span>
         <span class="rc-desc">Steps + the in-guide builder.</span><span class="rc-go">Open HTML →</span></a>
-      <a class="res-card" href="Module 1 - Frameworks Reference Card.md" target="_blank" rel="noopener">
+      <a class="res-card" href="Module 1 - Frameworks Reference Card.html" target="_blank" rel="noopener">
         <span class="rc-ico">🗂️</span><span class="rc-title">Frameworks Card</span>
-        <span class="rc-desc">This module's frameworks, one page.</span><span class="rc-go">Open MD →</span></a>
-      <a class="res-card" href="Module 1 - Glossary.md" target="_blank" rel="noopener">
+        <span class="rc-desc">This module's frameworks, one page.</span><span class="rc-go">Open HTML →</span></a>
+      <a class="res-card" href="Module 1 - Glossary.html" target="_blank" rel="noopener">
         <span class="rc-ico">📖</span><span class="rc-title">Glossary</span>
-        <span class="rc-desc">Terms defined this module.</span><span class="rc-go">Open MD →</span></a>
+        <span class="rc-desc">Terms defined this module.</span><span class="rc-go">Open HTML →</span></a>
     </div>
 
+    <!-- M1 → second-to-last: just these two, centred so they don't orphan -->
     <div class="res-group-label">Whole course</div>
-    <div class="res-grid">
+    <div class="res-grid" style="grid-template-columns:repeat(2,1fr); max-width:520px; margin-left:auto; margin-right:auto;">
       <a class="res-card" href="https://github.com/new?template_name={repo}&amp;template_owner={owner}" target="_blank" rel="noopener">
         <span class="rc-ico">🍴</span><span class="rc-title">Template Repo</span>
         <span class="rc-desc">One-click fork.</span><span class="rc-go">Create →</span></a>
       <a class="res-card" href="../Final Project Brief.html" target="_blank" rel="noopener">
         <span class="rc-ico">🏁</span><span class="rc-title">Final Project Brief</span>
         <span class="rc-desc">What you ship by the end.</span><span class="rc-go">Open HTML →</span></a>
-      <a class="res-card" href="Frameworks Reference Card.md" target="_blank" rel="noopener">
-        <span class="rc-ico">🗃️</span><span class="rc-title">All Frameworks</span>
-        <span class="rc-desc">Every module's frameworks.</span><span class="rc-go">Open MD →</span></a>
-      <a class="res-card" href="Glossary.md" target="_blank" rel="noopener">
-        <span class="rc-ico">📚</span><span class="rc-title">Course Glossary</span>
-        <span class="rc-desc">Every term, cumulative.</span><span class="rc-go">Open MD →</span></a>
     </div>
+
+    <!-- FINAL MODULE ONLY: append the Prompt Generator + the cumulative "all 6" pair (HTML).
+         Centre the 5 cards 3+2 (flex), and DROP the repeat(2,1fr) override above.
+      <a class="res-card" style="flex:0 1 210px" href="Final Project Deliverables Prompt Generator.html" …>Prompt Generator</a>
+      <a class="res-card" style="flex:0 1 210px" href="Frameworks Reference Card.html" …>Frameworks · all 6</a>
+      <a class="res-card" style="flex:0 1 210px" href="Glossary.html" …>Glossary · all 6</a>
+    -->
   </div>
 </section>
 ```
