@@ -345,6 +345,7 @@ Every exercise needs all five:
 | `Modules/Module {N} - Slides.html` | Instructor deck (with speaker notes) |
 | `Modules/Module {N} - Slides (Shareable).html` | Shareable deck (no notes) |
 | `Modules/Module {N} - Notes (Shareable).md` | Shareable narrative notes |
+| `Modules/Module {N} - Notes (Shareable).html` | Populated notes page (filled chapters, never header-only); `scripts/populate_notes.py` fills bodies from the `.md` |
 | `Modules/Module {N} - Frameworks Reference Card.md` | Module framework summary (source) |
 | `Modules/Module {N} - Frameworks Reference Card.html` | HTML companion (the linked artifact); `scripts/md_to_reference_html.py` |
 | `Modules/Module {N} - Glossary.md` | Module-specific glossary (source) |
@@ -402,6 +403,7 @@ Every exercise needs all five:
 29. **The Final Project Brief is HTML at the course root** (`Final Project Brief.html`, linked `../Final Project Brief.html`), not a non-clickable root `.md`.
 30. **The Lab Guide is HTML and embeds the deliverable builder.** `Module {N} - Lab Guide.html` carries the steps *and* an in-guide workspace that exports the deliverable via Copy markdown / Download .md (with `localStorage` autosave + live preview). The lab slide's "Open Lab Guide ↗" links to it. Don't ship a guide that says *what* without giving learners *where*. See `component-templates.md` → "Lab Guide with embedded deliverable builder."
 31. **No em-dashes or en-dashes, anywhere.** `—` (U+2014) and `–` (U+2013) are banned in every material and in the generators that emit them (the #1 AI tell). Replace by meaning: label→def `:` · clause `,` · range `to` · compound `-` · empty cell `·`. The plain hyphen is fine. Author dash-clean; fix the generator, not the rendered file. Region-aware sweeper `scripts/dedash.py` (prose vs. code) cleans an existing tree without corrupting `<script>`/`<style>`/regex. Audit `grep -rlP "[\x{2014}\x{2013}]" Modules/ *.html` must return nothing. See `voice.md` → "Banned characters."
+32. **Notes (Shareable) HTML must be fully populated, never header-only stubs.** Don't ship Notes HTML with hero + chapter headers (`section-label` + `h2`) but empty bodies while the narrative lives only in the `.md`. Each chapter explains its slide(s): goal, core elements, worked example, in family components (`<p>`/`<h3>`/`<ul>`/`<ol>`/`.pull-quote`/`.notice-table`/`.takeaway`). Audit body word count per module (hundreds, not ~100). If a populated `.md` exists, fill it with `python3 scripts/populate_notes.py "Modules"` (order-matched, dash-clean). Caught: Shipping AI Agents shipped 6 stub notes; AI Evals M5 shipped a 570-word stub vs a 3k-word source.
 
 ## REFERENCE ASSETS (fetch on demand)
 
