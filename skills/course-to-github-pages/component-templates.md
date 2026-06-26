@@ -304,6 +304,101 @@ Standalone Q&A slide. No content to author.
 
 ---
 
+## Course-open & timing chrome (MANDATORY — not source-gated)
+
+These slides are **always present** (see "The standard module skeleton" in `SKILL.md`/`PROMPT.md`). They are family chrome, not source content — author them even when there's no source deck. Reuse existing components where they already cover a slot (`how_it_runs()` → Class Expectations, `course_arc()`/Syllabus, `break_section()` + `cameras_on()`, `takeaways()`, `extra_practice()`, `qa_section()`). The templates below fill the slots those don't.
+
+### Mandatory order per module
+
+| # | Module 1 (full open) | Modules 2 → second-to-last | Final module (capstone) |
+|---|---|---|---|
+| open | Hero · Class Expectations · Introductions · Final Project · Set Up Repo · Syllabus · Agenda | Hero · Class Expectations · Agenda (+opt. Recall) | Hero · Class Expectations · Syllabus recap · Agenda |
+| body | …content… · Lab · Debrief · **Break + Cameras On** · …content… | …content… · Lab · **Break + Cameras On** · …content… | …content… · Capstone Lab · **Break + Cameras On** |
+| close | Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge | Key Takeaways · Extra Practice · Resources & Templates · Q&A · Next bridge | Course Recap (`lj-frame`) · **Final Project Showcase** · Presentation Kick-Off · Key Takeaways · Resources & Templates · Submit · Q&A · Thank You |
+
+### `agenda(rows, content_budget=100, buffer=20)` — carries the session timing
+
+The Agenda slide is the learner-facing face of the run-of-show. Its time cells **sum to the content budget** (100 by default) and **match the Instructor-Guide run-of-show phase totals + the budget bar `flex` values**. State the buffer.
+
+```html
+<section class="centered" data-title="Agenda">
+  <div class="inner">
+    <div class="section-label">Today · 2-hour session</div>
+    <h2>Agenda</h2>
+    <p class="subtitle">≈ 100 min run-of-show + a 20-min buffer. Lecture, then a protected hands-on lab where the deliverable gets made.</p>
+    <table class="ref-table agenda-table">
+      <thead><tr><th>Section</th><th>Focus</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td>Open &amp; frame</td><td>Expectations, the throughline, the frameworks</td><td>10 min</td></tr>
+        <!-- …phase rows… the protected lab is the single largest -->
+        <tr><td>Hands-On Lab</td><td>The deliverable</td><td>38 min</td></tr>
+        <tr><td>Anatomy &amp; close</td><td>Takeaways, debrief</td><td>10 min</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px; color:#8899bb; margin-top:14px;">Total ≈ 100 min · 20-min buffer for Q&amp;A and overruns in the 2-hour slot.</p>
+  </div>
+</section>
+```
+
+**Timing CSS** (add once per deck, before `</style>`; reuse the existing `expect-grid`, `cards-grid`, `ref-table`, `waypoints`, `artifact-preview`, `section-break`):
+
+```css
+.expect-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
+.agenda-table td:first-child { color: #60a5fa; }
+.break-emoji { font-size: 72px; margin: 8px 0 16px; }
+.cameras-strip { display: flex; gap: 28px; align-items: stretch; margin-top: 26px; }
+.cameras-reminder { flex: 1; background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.2); border-radius: 16px; padding: 34px 36px; text-align: left; display: flex; flex-direction: column; justify-content: center; }
+.cameras-reminder h3 { font-size: 24px; color: #fff; margin-bottom: 10px; }
+.cameras-photo { flex: 0 0 36%; border-radius: 16px; overflow: hidden; min-height: 280px; }
+.cameras-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.qa-mark { font-size: 88px; font-weight: 900; color: #1241B0; font-family: 'Poppins', sans-serif; line-height: 1; }
+@media (max-width: 768px) { .expect-grid { grid-template-columns: 1fr; } .cameras-strip { flex-direction: column; } .cameras-photo { flex: auto; height: 240px; min-height: 0; } }
+```
+
+The matching Instructor-Guide **run-of-show** must reconcile: phase headers `<span class="phase-min">N min</span>`, per-row `<td class="t-time">Nm</td>` (rows sum to their phase), budget bar `flex:N` = phase minutes, and the note `Total ≈ 100 min — built to run in 1 h 40 m, leaving a 20-min buffer in the 2-hour slot.`
+
+### `set_up_repo()` — M1, the one-click fork
+
+```html
+<section class="centered" data-title="Set Up Your Repo">
+  <div class="inner">
+    <div class="demo-tag tag-build">Set Up · 2 min</div>
+    <h2>Fork the repo before we start</h2>
+    <p class="subtitle">One click creates your own copy. You'll commit into it every module.</p>
+    <div class="artifact-preview" style="text-align:left;">
+      <div class="ap-title">One-click template</div>
+      <p>Open <code>github.com/new?template_name={repo}&amp;template_owner={owner}</code> → name it <code>{fork-name}</code> → Create.</p>
+      <div class="ap-title">What's inside</div>
+      <div class="arc-flow" style="margin:14px 0 0;">
+        <div class="arc-node" style="background:#0c2244;">01-…</div><div class="arc-node" style="background:#0c2244;">02-…</div><!-- …one per module… -->
+      </div>
+    </div>
+    <p style="font-size:15px; color:#8899bb;">Today's commit lands in <code>01-…/{first-artifact}.md</code>.</p>
+  </div>
+</section>
+```
+
+### `final_project_showcase()` — final module (async, individual)
+
+The "final presentation," done the solo/async way. **No live or group demo.**
+
+```html
+<section class="centered" data-title="Final Project Showcase">
+  <div class="inner">
+    <div class="demo-tag tag-complete">Final Showcase</div>
+    <h2>Demo {Project} — your way</h2>
+    <p class="subtitle">Async and optional — share when you're ready.</p>
+    <div class="cards-grid">
+      <div class="card-item" style="--card-accent:#60a5fa;"><div class="card-icon">🎥</div><div class="card-title">3-min Loom</div><div class="card-desc">Walk your build end to end.</div></div>
+      <div class="card-item" style="--card-accent:#3b82f6;"><div class="card-icon">🔗</div><div class="card-title">Repo URL</div><div class="card-desc">Your fork — the repo is the submission.</div></div>
+      <div class="card-item" style="--card-accent:#1241B0;"><div class="card-icon">💬</div><div class="card-title">Post in #cohort-channel</div><div class="card-desc">Instructor replies in-thread within ~5 days.</div></div>
+    </div>
+  </div>
+</section>
+```
+
+> **Introductions, Final Project, Syllabus** follow the same patterns as `course_arc()` / `how_it_runs()` / `cards-grid` — see the *Shipping AI Agents* Module 1 deck (`exemplars.md`) for the canonical built-out versions of all of these.
+
 ## Interactive tool skeleton (single-file HTML)
 
 Every interactive tool is one self-contained HTML file. This is the canonical skeleton. **Do not** introduce frameworks, build steps, or external state. `localStorage` only.

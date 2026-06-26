@@ -1,6 +1,6 @@
 # Exemplars
 
-Three production courses ship with this design system. When in doubt, clone the closest exemplar and adapt.
+Four production courses ship with this design system. When in doubt, clone the closest exemplar and adapt.
 
 ## 1. AI Product Strategy Certification
 
@@ -59,12 +59,30 @@ When you start a new course, treat this as the floor. Every pattern below was ha
 - **Prompt → HTML capstone variant.** A second, interchangeable capstone shape for courses whose final deliverable is a full generated deck rather than a one-pager.
 - **Compounding `MN_EXTRA_CSS` per-module generators.** Each module's CSS extends the previous module's, so later modules inherit every stabilised component for free.
 
+## 4. Shipping AI Agents Certification
+
+- **Repo:** `Product-School-Platform/ps-content-library` → `outputs/certifications/shipping-ai-agents/`
+- **Throughline:** ship **Atlas**, an agent that does real work, across 6 modules.
+- **Core idea:** "a loop is just a prompt that fires itself" — four loop types, five components. (Framing sourced to Claire Vo's *How I AI* podcast + Lenny's Newsletter, cited on the M2 deck.)
+- **Build mode:** **B — market-led rebuild.** There was **no source PPTX**; the course was authored from a brief. This is the exemplar for building from scratch into the mandatory skeleton.
+
+### What this exemplar contributed back to the skill
+
+This course shipped the *content* well but initially **skipped the entire chrome skeleton** (no Class Expectations, Introductions, Final Project, Set Up Repo, Syllabus, Agenda, Break + Cameras On, Resources & Templates, Q&A, Final Showcase) — because there was no source deck and RULE 0 was read as "only render what the source has." It then ran **120 min of content with no buffer**. Both were retrofitted across all six modules. The fixes are now codified:
+
+- **The chrome skeleton is mandatory — even with no source.** RULE 0 governs *teaching content*, not chrome. Codified in "The standard module skeleton" (`SKILL.md`/`PROMPT.md`), gotcha #26/#24, and the mandatory order table + `set_up_repo()` / `agenda()` / `final_project_showcase()` templates in `component-templates.md`.
+- **Session timing: ≈100 min run-of-show + a 20-min buffer in a 2-hour slot.** The deck Agenda, the Instructor-Guide run-of-show (per-row + phase totals), and the budget bar (`flex`) all reconcile to 100; the hands-on lab is the protected single-largest block (~38 min). Codified in "Session timing" + the `agenda()` component.
+- **Three operating modes** (build-from-source · build-from-scratch · improve-existing), with the skeleton + timing mandatory in all three — so "improve a course later" keeps the skeleton stable and just retrofits/retimes.
+- **Final Project Showcase done async/individual** — 3-min Loom + repo URL in `#cohort-channel`, instructor replies within ~5 days, **no live or group demo** (`final_project_showcase()`).
+- **Source citation on a framing slide** — when a core concept comes from an external talk/podcast/newsletter, cite it inline (mono caption) rather than presenting it unattributed.
+
 ## When you're starting a new course, do this
 
+0. **Pick your mode and lay the skeleton first.** Source exists → mode A. No source / replacing a retired course → mode B. Updating a live course → mode C (audit first, keep the skeleton stable). In every mode, lay the **mandatory chrome skeleton** and the **≈100 min + 20-min-buffer timing** before any content — see "The standard module skeleton" and "Session timing" in `SKILL.md`/`PROMPT.md`. Clone Shipping AI Agents' Module 1 for the built-out chrome.
 1. Clone the AI Product Management repo as your starting reference.
 2. Copy `scripts/gen_module_decks.py` and `scripts/gen_root_pages.py` into your new repo.
 3. Edit `MODULES_META` at the top of `gen_module_decks.py` — and **verify the (N → title) map against the original Curriculum Map** (M5/M6 ordering is a common slip-back).
-4. **For each module, list the source PowerPoint slides in order.** That list is your `build_module_N()` outline. Render each source slide with a single `add(...)` call using the matching component from the palette. Do not insert components the source doesn't have (see `SKILL.md` Rule 0 — Source Fidelity).
+4. **For each module, list the source PowerPoint slides in order** (mode A). That list is your `build_module_N()` content outline — rendered *inside* the mandatory chrome skeleton. Render each source slide with a single `add(...)` call using the matching component; don't insert *content* components the source lacks (Rule 0). **Modes B/C:** there's no source list — author the content from the brief, but the chrome skeleton is non-negotiable. Either way, the open/close chrome is always present.
 5. **Before authoring any visual layout, scan [`visual-primitives.md`](visual-primitives.md).** Reuse `_m5_card` / `_m5_annotation` / `_m5_callout` / the snake roadmap / the iceberg / the decision triangle / the eval pyramid / the repo tree / the GIF animation patterns. Bespoke per-slide layouts are the #1 regression risk.
 6. Author the interactive tools. Use the skeleton in [`component-templates.md`](component-templates.md). For tools that replace worked-example worksheets, use the **pre-selected chip pattern**.
 7. **Add the M1 repo-onboarding slide.** A slide early in M1 between the toolkit and the first lab, showing the one-click template URL + the 6 folder paths.
@@ -88,4 +106,7 @@ When you start a new course, treat this as the floor. Every pattern below was ha
 - All arrows in any diagram: same `stroke-width`, take the shortest path, never cross tiles or each other, C1-continuous Bézier joins, `stroke-linejoin="round"`.
 - Capstone tool ships BOTH `pitch.html` (screen-shareable visual one-pager) and `README.md` (repo deliverable).
 
-**The shared visual vocabulary is the design system + the visual primitives, not a fixed slide order.** The slide order belongs to each course's source PowerPoint and is mirrored 1:1.
+- **The chrome skeleton is fixed; the *content* order is not.** The mandatory open/close chrome (Class Expectations → … → Q&A; final-module Showcase) is identical across every module and course. The *teaching content* between them belongs to each course's source (mode A) or brief (modes B/C) and is mirrored/authored 1:1.
+- **Every module fits a 2-hour slot:** ≈100 min run-of-show + a 20-min buffer; Agenda + run-of-show + budget bar reconcile to 100; the hands-on lab is the protected largest block.
+
+**The shared visual vocabulary is the design system + the visual primitives + the chrome skeleton + the session timing — not the content slide order.** The content order belongs to each course's source (mode A) or brief (modes B/C); the chrome and timing are fixed.
