@@ -269,7 +269,7 @@ section.centered ul li::before { display: none; }
 .diag-axis .da-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
 .diag-axis .da-q { font-size: 13px; color: #8899bb; line-height: 1.4; }
 
-/* CAMERAS ON — photo-strip pattern. Always paired with the Break slide and sits
+/* CAMERAS ON, photo-strip pattern. Always paired with the Break slide and sits
    immediately after it. Course logo + reminder card on the left, portrait photo
    on the right. Required assets: ../Design/{course-logo}.png and ../Design/cameras-on.png. */
 section.cameras-section { padding: 0; }

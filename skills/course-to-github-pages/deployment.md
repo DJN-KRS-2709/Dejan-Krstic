@@ -1,4 +1,4 @@
-# Deployment — GitHub Pages
+# Deployment: GitHub Pages
 
 This skill ships courses as static GitHub Pages sites. Pages serves `main` branch root by default.
 
@@ -43,7 +43,7 @@ gh api repos/{owner}/{course-slug}/pages/builds \
 Statuses you'll see:
 
 - `queued` → just kicked off, wait ~30s.
-- `building` → wait ~30–90s.
+- `building` → wait ~30 to 90s.
 - `built` → live. Reload the URL.
 - `errored` → look at the `.error.message` field.
 
@@ -52,7 +52,7 @@ If you push a fix and the cache is sticky in a browser, the URL `?v={timestamp}`
 ## .gitignore essentials
 
 ```gitignore
-# Source archives — NEVER push these to the repo.
+# Source archives, NEVER push these to the repo.
 # (.pptx and .pdf reference materials can be 100MB+ each.)
 Old artefacts*/
 {Source course folder}/
@@ -73,7 +73,7 @@ __pycache__/
 git init
 git branch -M main
 
-# 2. First commit — usually the design system + scripts only
+# 2. First commit, usually the design system + scripts only
 git add SKILL.md design-system.css design-system.js scripts/ .gitignore README.md
 git commit -m "course: initial scaffold with design system + generators"
 
@@ -99,7 +99,7 @@ gh repo create {owner}/{course-slug} --public --source . --push
 | Module deck (shareable) | `https://{owner}.github.io/{course-slug}/Modules/Module N - Slides (Shareable).html` |
 | Interactive tool | `https://{owner}.github.io/{course-slug}/Modules/MN - Tool Name.html` |
 
-Spaces are valid in URLs (browsers encode them as `%20`). Don't rename files just to remove spaces — match the original filenames so they sort naturally in GitHub's directory listing.
+Spaces are valid in URLs (browsers encode them as `%20`). Don't rename files just to remove spaces, match the original filenames so they sort naturally in GitHub's directory listing.
 
 ## Forkable project template
 
@@ -113,7 +113,7 @@ gh api -X PATCH repos/{owner}/{course-slug}-project-template -f is_template=true
 
 Now the **Use this template** button shows up in the GitHub UI.
 
-### One-click create URL (use this everywhere — never link to the bare template repo)
+### One-click create URL (use this everywhere: never link to the bare template repo)
 
 ```
 https://github.com/new?template_name={course-slug}-project-template&template_owner={owner}
@@ -126,7 +126,7 @@ This URL opens the GitHub "Create a new repository from template" form pre-fille
 - The **Course Overview** root page.
 - Every **Resources & Templates** tile that references the template.
 
-Linking to the bare template repo URL (`https://github.com/{owner}/{course-slug}-project-template`) requires the learner to find the "Use this template" button manually — that is friction, not progress.
+Linking to the bare template repo URL (`https://github.com/{owner}/{course-slug}-project-template`) requires the learner to find the "Use this template" button manually, that is friction, not progress.
 
 Verify `is_template=true`:
 
@@ -137,7 +137,7 @@ gh api repos/{owner}/{course-slug}-project-template --jq '.is_template'
 
 ## Re-running on a working course (idempotent)
 
-The generators overwrite the deck files. **Never hand-edit a generated deck** — always update the generator + re-run.
+The generators overwrite the deck files. **Never hand-edit a generated deck**: always update the generator + re-run.
 
 ```bash
 # Full regenerate + push

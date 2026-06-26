@@ -12,7 +12,7 @@ inventing parallel names like `expect-tile`, `arc-tile`, `section-desc`,
 `cameras-right`, `end-slide`, `ap-pill`, `ap-list`, etc.
 
 Also reports tag balance for <section> and <div> as a structural sanity
-check — these must always match.
+check, these must always match.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 # Known JS template-literal / pseudo-selector noise that the naive
-# class-extractor will surface — filter these out.
+# class-extractor will surface, filter these out.
 _FALSE_POSITIVES_PREFIX = ("${", "'")
 _FALSE_POSITIVES_LITERAL = {"?", ":", ""}
 
@@ -55,7 +55,7 @@ def audit(path: Path) -> int:
         )
     )
 
-    # Tag balance — sections and divs must match
+    # Tag balance, sections and divs must match
     sec_open = len(re.findall(r"<section\b", src))
     sec_close = len(re.findall(r"</section>", src))
     div_open = len(re.findall(r"<div\b", src))
@@ -86,7 +86,7 @@ def audit(path: Path) -> int:
 
     if sec_open != sec_close or div_open != div_close:
         print(
-            "\n✗ Tag balance broken. Re-check recent StrReplace edits — "
+            "\n✗ Tag balance broken. Re-check recent StrReplace edits, "
             "look for stripped closing tags."
         )
         failed = True

@@ -1,6 +1,6 @@
-# Voice — individual-only
+# Voice: individual-only
 
-This certification family is solo-format. Every exercise, prompt, and rubric is rewritten for individual learners. Group-format language is the most common regression — search for it after every regeneration.
+This certification family is solo-format. Every exercise, prompt, and rubric is rewritten for individual learners. Group-format language is the most common regression, search for it after every regeneration.
 
 ## Banned phrases (replace immediately)
 
@@ -25,15 +25,31 @@ This certification family is solo-format. Every exercise, prompt, and rubric is 
 
 > **Exception:** the source label `Instructor-Led Q&A` stays literal. The instructor still runs it live; async cohort learners post their answer in `#cohort-channel`. Do not rebrand it as a reflection.
 
+## Banned characters: no em-dashes or en-dashes
+
+**Never use the em-dash (`—`, U+2014) or the en-dash (`–`, U+2013) in any material** (slides, notes, glossaries, frameworks cards, lab guides, briefs, tool UI/strings, README/template files). They are the most common "AI tell" and the user does not want them anywhere. The regular hyphen (`-`) is fine. Replace by meaning:
+
+| Was | Use | Example |
+|---|---|---|
+| label `—` definition | colon `:` | `Blast radius: how much damage it does` |
+| clause break in prose | comma `,` (or split into two sentences) | `ship it, ideally via a subagent` |
+| title / heading separator | colon `:` | `Reliability Contract Builder: Module 4` |
+| numeric range (`5–10`, `M4–M6`, `P0–P3`) | `to` | `pages 5 to 10`, `M4 to M6` |
+| compound name / spectrum (`Build–Show–Learn`, `client–server`) | hyphen `-` | `Build-Show-Learn-Decide` |
+| standalone "no value" cell (`—`) | middot `·` | a dim `·` in a comparison/stat cell |
+| inside code (JS placeholder `'—'`, regex `[-—]`) | middot `·` | `'·'`, `[-·]` |
+
+This applies in **generators too** (`gen_*.py`): the Python that emits the HTML must not write em/en-dashes into the strings. Fix the generator, not the rendered file. The repo ships `scripts/dedash.py` (region-aware: prose vs. `<script>`/`<style>`/code) to sweep an existing tree, but new content should be authored dash-clean so the sweep finds nothing.
+
 ## Required structure for every exercise
 
 Every exercise on every module deck must have all five of these:
 
-1. **Time-box** — `⏰ {N} min` lab timer in the top-right of the section.
-2. **Open the tool** — explicit step pointing at the matching single-file HTML tool by filename.
-3. **Self-review checklist** — 4–6 line items, embedded inside the tool's right pane.
-4. **AI-review prompt** — verbatim prompt the learner pastes into ChatGPT or Claude. Lives inside the tool's right pane under a "Paste this into ChatGPT/Claude" heading.
-5. **Async share** — `commit to {repo_path}` · optional Loom in `#cohort-channel`. NEVER "share with the room."
+1. **Time-box**: `⏰ {N} min` lab timer in the top-right of the section.
+2. **Open the tool**: explicit step pointing at the matching single-file HTML tool by filename.
+3. **Self-review checklist**: 4 to 6 line items, embedded inside the tool's right pane.
+4. **AI-review prompt**: verbatim prompt the learner pastes into ChatGPT or Claude. Lives inside the tool's right pane under a "Paste this into ChatGPT/Claude" heading.
+5. **Async share**: `commit to {repo_path}` · optional Loom in `#cohort-channel`. NEVER "share with the room."
 
 ## Submission rules (write these into the Final Project Brief)
 
@@ -41,27 +57,27 @@ Every exercise on every module deck must have all five of these:
 - **Window:** 7 days post-cohort.
 - **Format:** 100% solo. No live demo required. No group rubric.
 - **Optional showcase:** Async, 3-min Loom posted to `#cohort-channel` with the repo URL. Instructor responds in-thread within ~5 days.
-- **Rubric dimensions** (4 — keep them in this order):
-  1. Application of Concepts — how well the M1–MN frameworks land in the artifacts.
-  2. Credibility & Reasoning — whether decisions hold up to scrutiny.
-  3. Clarity — whether a stranger could read the README and "get" the throughline.
-  4. Strategic Thinking — whether the bet, the bar, and the trade-offs are coherent.
-- **Scale:** 1 — Poor (0–49) · 2 — Sufficient (50–79) · 3 — Excellent (80–100).
+- **Rubric dimensions** (4, keep them in this order):
+  1. Application of Concepts, how well the M1 to MN frameworks land in the artifacts.
+  2. Credibility & Reasoning, whether decisions hold up to scrutiny.
+  3. Clarity, whether a stranger could read the README and "get" the throughline.
+  4. Strategic Thinking, whether the bet, the bar, and the trade-offs are coherent.
+- **Scale:** 1, Poor (0 to 49) · 2, Sufficient (50 to 79) · 3, Excellent (80 to 100).
 
 ## Tone
 
 - **Direct, not cheerful.** "Stop chatting with AI. Start configuring it." not "Let's explore prompting!"
-- **Render what the source says, sharper.** The voice tightens existing source copy (kills filler, lifts speaker-note answers onto the slide for solo learners) — it doesn't fabricate new framings, contrast spreads, or "wrong-vs-right" theatrics that aren't in the source.
+- **Render what the source says, sharper.** The voice tightens existing source copy (kills filler, lifts speaker-note answers onto the slide for solo learners), it doesn't fabricate new framings, contrast spreads, or "wrong-vs-right" theatrics that aren't in the source.
 - **Provocation framing is OPTIONAL.** Use the `provocation()` component only when the source slide is itself a "true / false / it depends" question slide. Don't manufacture provocations to "open" a module.
-- **Real companies as evidence.** When you cite an example, prefer the same public product the source slide cites. If the source mentions Perplexity, keep Perplexity — don't substitute or stack additional examples.
+- **Real companies as evidence.** When you cite an example, prefer the same public product the source slide cites. If the source mentions Perplexity, keep Perplexity, don't substitute or stack additional examples.
 - **Live preview always.** Every tool has a right-pane markdown preview that updates as the learner types. The preview is what they commit.
-- **Toolkit slides — current entrants only.** Audit "PM's AI Toolkit" / "AI Stack" every regeneration. Drop defunct or merged products (e.g. retire Microsoft Bing). Swap in the most-hyped recent entrants. Keep the count steady at 8–12. Each product gets one line of context — what it does, why it matters for AI PMs.
+- **Toolkit slides, current entrants only.** Audit "PM's AI Toolkit" / "AI Stack" every regeneration. Drop defunct or merged products (e.g. retire Microsoft Bing). Swap in the most-hyped recent entrants. Keep the count steady at 8 to 12. Each product gets one line of context, what it does, why it matters for AI PMs.
 
-## Tool-as-walkthrough — pre-selected option chips
+## Tool-as-walkthrough: pre-selected option chips
 
 When a tool replaces a paper-style worksheet (M1 Prompt Anatomy Builder, M2 Decision Matrix, etc.), the tool **must start with pre-selected option chips** that the learner can toggle/edit. Empty placeholders that disappear on first keystroke throw away the scaffolding the worksheet provided.
 
-**Pattern:** for each field, render 3–6 chips, with 1–2 pre-selected. Clicking a chip toggles it into a textarea below; the textarea is the source of truth for the export. The learner can edit the textarea freely after seeding it from chips.
+**Pattern:** for each field, render 3 to 6 chips, with 1 to 2 pre-selected. Clicking a chip toggles it into a textarea below; the textarea is the source of truth for the export. The learner can edit the textarea freely after seeding it from chips.
 
 This is mandatory wherever the source has worked examples or a list of options. See `visual-primitives.md` for the full pattern + HTML.
 
@@ -69,11 +85,11 @@ This is mandatory wherever the source has worked examples or a list of options. 
 
 The course is forkable, but unless M1 says so, learners default to "where do I commit this?" mode. Add a slide _early_ in M1 (between the toolkit and the first lab) that:
 
-1. Shows the **one-click GitHub template URL**: `https://github.com/new?template_name={template-repo}&template_owner={owner}` — opens the GitHub "create from template" form pre-filled. Always link this URL form; never link to the bare template repo.
-2. Names the folders the learner will commit into across M1–M6.
+1. Shows the **one-click GitHub template URL**: `https://github.com/new?template_name={template-repo}&template_owner={owner}`, opens the GitHub "create from template" form pre-filled. Always link this URL form; never link to the bare template repo.
+2. Names the folders the learner will commit into across M1 to M6.
 3. Shows the path to the first artefact they'll commit.
 
-Every later module's "Resources & Templates" tile lists tools / artefacts THAT module needs — not M1's list copy-pasted.
+Every later module's "Resources & Templates" tile lists tools / artefacts THAT module needs, not M1's list copy-pasted.
 
 ## Single-viewport breakout slides
 
@@ -94,24 +110,30 @@ If the source has Lab 1 (build it) and Lab 2 (configure it) on consecutive slide
 
 The README is the repo deliverable; the **pitch** is what the learner screen-shares. The Final Project Deliverables Builder generates BOTH:
 
-- `pitch.html` — visual one-page deck (hero, 6 module cards, PM Execution Plan rail, Build Insights, optional Loom).
-- `README.md` — markdown for the repo root.
+- `pitch.html`, visual one-page deck (hero, 6 module cards, PM Execution Plan rail, Build Insights, optional Loom).
+- `README.md`, markdown for the repo root.
 
-Slide language across the M6 capstone deck and Final Project Brief must reference both deliverables explicitly. Don't say "the README is the pitch" — they are different artefacts with different audiences.
+Slide language across the M6 capstone deck and Final Project Brief must reference both deliverables explicitly. Don't say "the README is the pitch", they are different artefacts with different audiences.
 
 ## Voice across deck types
 
 | Deck | Voice |
 |---|---|
 | Instructor (`Module N - Slides.html`) | Same body voice + speaker notes (`Speaker Notes` blocks) saying *what* to read, *what* to push back on, *which* anecdote to drop. |
-| Shareable (`Module N - Slides (Shareable).html`) | Same body. **No** speaker notes. **No** per-slide takeaway boxes — only the consolidated `takeaways(...)` slide near the end. |
+| Shareable (`Module N - Slides (Shareable).html`) | Same body. **No** speaker notes. **No** per-slide takeaway boxes, only the consolidated `takeaways(...)` slide near the end. |
 | Notes (`Module N - Notes (Shareable).md`) | Long-form narrative version of the deck. Reads like a book chapter. Same throughline. |
 
 ## Do this after every regeneration
 
 ```bash
-# Quick voice audit — banned phrases must return zero.
+# Quick voice audit, banned phrases must return zero.
 grep -rEi "your group|as a team|round[ -]?robin|pair up|with a partner|breakout|peer red[- ]team|report back|solo (reflection|lab|applied)" Modules/ index.html *.html
+
+# Banned characters, em-dash (—) and en-dash (–) must return zero everywhere.
+grep -rlP "[\x{2014}\x{2013}]" Modules/ index.html *.html 2>/dev/null
+# Sweep them out (region-aware: never corrupts <script>/<style>/regex):
+python3 scripts/dedash.py --dry  .   # report
+python3 scripts/dedash.py --apply .  # rewrite, then fix the generator so it stops emitting them
 ```
 
 If any return matches, fix the source generator (not the rendered HTML) and re-run.
@@ -122,9 +144,9 @@ Also audit:
 # Module-ordering sanity (should print one match per module, in order)
 grep -nE "Module [1-6]" Curriculum\ Map.html | head -20
 
-# Toolkit currency — Bing/old products should not appear unless the source still cites them
+# Toolkit currency, Bing/old products should not appear unless the source still cites them
 grep -niE "(microsoft bing|bing search|cortana)" Modules/*.html
 
-# Capstone deliverables — should reference BOTH pitch.html and README.md
+# Capstone deliverables, should reference BOTH pitch.html and README.md
 grep -niE "(pitch\.html|README\.md)" Modules/Module\ 6*.html "Final Project Brief.html"
 ```
