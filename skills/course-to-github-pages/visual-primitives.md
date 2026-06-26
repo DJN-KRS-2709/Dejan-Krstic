@@ -266,6 +266,115 @@ Both must be visually pleasing. The early M3 build collapsed each into a flat bo
 
 ---
 
+## Conceptual diagram kit (Shipping AI Agents)
+
+**The #1 rule for concept slides: lead with a visual, not text.** A wall of text, a flat bullet list, or a plain `ref-table` is fine on a *reference / worked-example* slide, but as the way you *teach a concept* it is a regression. The first Shipping AI Agents build shipped text-and-table concept slides and every one had to be redrawn into one of the primitives below. Pair the chosen visual with **one** short supporting paragraph (balanced density) — the depth lives in the Notes + Lab Guide, not on the slide.
+
+Pick the primitive by the *shape of the idea*:
+
+| The idea is a… | Use | Example (Shipping AI Agents) |
+|---|---|---|
+| **cycle / feedback loop** | animated **loop ring** (`.loop-wrap`) | "A loop is just a prompt that fires itself" (M2) |
+| **central thing + its parts** | **orbital** (`.orbit-wrap`) | "Five things every loop needs" (M2); "What an agent is" (M1) |
+| **threshold judgement** (this side / that side of a line) | **above/below-the-line** (`.agentline`) | "Worked example: the agent line" (M1) |
+| **continuum / spectrum of control** | **control-handoff spectrum** (`.control-grid`) | "Agent vs. workflow vs. copilot" (M1) |
+| **a sequence of stages** | **flow pipeline** (`.flow-pipe`) | "One workflow, three modes" (M1) |
+| **a labelled set, some items flagged** | **status / anatomy grid** (`.anat-grid`) | "The 2026 agent anatomy" (M1) |
+
+All six reuse the same tokens (`#0c2244` node fill, per-node accent via `--n`/`--c`, navy background, Poppins titles, IBM Plex Mono micro-labels) so they harmonise with `_m5_card` and the rest of the family. Each replaced a table or a bullet wall.
+
+### Loop ring (`.loop-wrap`) — animated cycle
+
+A center label (the actor, e.g. the LLM) with N nodes on a ring and a glowing dash that flows around the track (`@keyframes loopflow`). Hover lifts each node. Nodes are absolutely positioned with **percentages** (`top`/`left`) computed from angles so they hold alignment at any width.
+
+```css
+.loop-wrap{position:relative;width:min(44vh,440px);aspect-ratio:1;margin:18px auto 8px;}
+.loop-svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+.loop-track{fill:none;stroke:rgba(255,255,255,0.07);stroke-width:7;}
+.loop-flow{fill:none;stroke:url(#loopGrad);stroke-width:7;stroke-linecap:round;
+  stroke-dasharray:70 872;animation:loopflow 4.5s linear infinite;filter:drop-shadow(0 0 6px rgba(96,165,250,0.5));}
+@keyframes loopflow{to{stroke-dashoffset:-942;}}
+.loop-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;width:46%;}
+.loop-node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:#0c2244;border:1.5px solid var(--n,#3b82f6);border-radius:14px;padding:9px 15px;box-shadow:0 8px 24px rgba(0,0,0,0.45);min-width:78px;transition:transform .25s,box-shadow .25s;}
+.loop-node:hover{transform:translate(-50%,-50%) scale(1.06);}
+/* node positions: top/left = 50% ± 42%·sin/cos(angle) — percentages, never px */
+@media(max-width:760px){.loop-wrap{width:78vw;}.loop-node{min-width:64px;padding:7px 10px;}}
+```
+
+The `<defs><linearGradient id="loopGrad">` runs blue→light-blue. **Pause the animation off-screen via IntersectionObserver** (same as the GIF mockups below) — a perpetually animating dash pins a CPU core.
+
+### Orbital (`.orbit-wrap`) — center + parts
+
+A glowing circular `.orbit-center` with N `.orbit-node` cards on a dashed `.orbit-ring`, connected by faint `.orbit-line`s. Use for "X needs these N things" or "what X is made of." Same percentage-positioning rule.
+
+```css
+.orbit-wrap{position:relative;width:min(56vh,540px);aspect-ratio:1;margin:10px auto 4px;}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50% 32%,#1a4fc4,#0a1d3c);border:1.5px solid rgba(96,165,250,0.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 0 44px rgba(18,65,176,0.55);}
+.orbit-node{position:absolute;transform:translate(-50%,-50%);width:27%;max-width:152px;background:#0c2244;
+  border:1.5px solid var(--n,#3b82f6);border-radius:14px;padding:12px 11px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.45);transition:transform .25s,box-shadow .25s;}
+.orbit-ring{fill:none;stroke:rgba(255,255,255,0.07);stroke-width:1.5;stroke-dasharray:4 9;}
+.orbit-line{stroke:rgba(96,165,250,0.20);stroke-width:1.5;}
+@media(max-width:760px){.orbit-wrap{width:92vw;}.orbit-node{width:30%;}}
+```
+
+### Above/below-the-line (`.agentline`) — threshold judgement
+
+Replaces a "which calls can the agent make on its own?" table. A red-tinted `.al-above` zone (human keeps control), a dashed `.al-line` with a centered pill tag ("THE AGENT LINE"), then a green-tinted `.al-below` zone (safe to automate). Decisions render as `.al-chip` cards (`.al-red` above, `.al-green` below) carrying a name + a mono score line.
+
+```css
+.agentline{max-width:760px;margin:22px auto 0;}
+.al-above{background:linear-gradient(180deg,rgba(248,81,73,0.12),rgba(248,81,73,0));border-radius:14px 14px 0 0;padding:14px 16px;}
+.al-below{background:linear-gradient(0deg,rgba(52,211,153,0.12),rgba(52,211,153,0));border-radius:0 0 14px 14px;padding:14px 16px;}
+.al-line{position:relative;height:0;border-top:2px dashed rgba(96,165,250,0.7);margin:4px 0;}
+.al-line-tag{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#07162C;padding:4px 14px;
+  border:1px solid rgba(96,165,250,0.5);border-radius:999px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;color:#60a5fa;white-space:nowrap;}
+.al-chip{background:#0c2244;border:1.5px solid var(--c,#3b82f6);border-radius:12px;padding:11px 18px;text-align:left;min-width:210px;box-shadow:0 8px 20px rgba(0,0,0,0.35);}
+.al-green{--c:#34d399;} .al-red{--c:#f85149;}
+```
+
+This is the slide form of the **agent-line map** the learner builds in the M1 Lab Guide (see `component-templates.md` → "Lab Guide with embedded deliverable builder").
+
+### Control-handoff spectrum (`.control-grid`) — a continuum
+
+Three (or N) `.control-card`s with a coloured `border-top`, each carrying an icon, a name, a mono `.cc-badge` (who's in control), a `.cc-who` line and a `.cc-feel` line. Use for "copilot → workflow → agent" style spectrums where the axis is *how much control the human hands over*.
+
+```css
+.control-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:880px;margin:0 auto;}
+.control-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-top:3px solid var(--c,#3b82f6);border-radius:14px;padding:22px 20px;text-align:left;transition:transform .25s;}
+.control-card:hover{transform:translateY(-3px);}
+@media(max-width:760px){.control-grid{grid-template-columns:1fr;}}
+```
+
+### Flow pipeline (`.flow-pipe`) — a sequence
+
+Horizontal `.flow-stage` cards joined by `.flow-arrow` (→). The active/important stage gets `.is-agent` (glow). Each stage: a mono `.flow-mode` label, an icon, a name, a one-line why. Use for "step 1 → step 2 → step 3" sequences; collapses to a vertical stack on mobile.
+
+```css
+.flow-pipe{display:flex;align-items:stretch;justify-content:center;gap:4px;margin:28px auto 0;max-width:940px;}
+.flow-stage{flex:1;background:rgba(255,255,255,0.04);border:1.5px solid var(--c,#3b82f6);border-radius:16px;padding:22px 16px;text-align:center;}
+.flow-stage.is-agent{background:rgba(96,165,250,0.10);box-shadow:0 0 30px rgba(59,130,246,0.28);}
+.flow-arrow{display:flex;align-items:center;color:#60a5fa;font-size:24px;flex:0 0 auto;}
+@media(max-width:760px){.flow-pipe{flex-direction:column;}}
+```
+
+### Status / anatomy grid (`.anat-grid`) — a labelled set with flags
+
+A grid of `.anat-card`s for a labelled set where some items are highlighted (e.g. "new this year"). The flagged card gets `.is-new` (green border + tint). Use for "the N parts of X, and these two are new" — replaces a two-column table.
+
+```css
+.anat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:920px;margin:24px auto 0;}
+.anat-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px;text-align:left;transition:transform .25s,border-color .25s;}
+.anat-card.is-new{border-color:rgba(52,211,153,0.4);background:rgba(52,211,153,0.06);}
+@media(max-width:760px){.anat-grid{grid-template-columns:1fr;}}
+```
+
+**Rule for all six:** any node positioned over an SVG ring/line uses **percentages**, not pixels (see "Responsive SVG-HTML alignment"); any animation pauses off-screen via IntersectionObserver; reuse the kit before drawing a bespoke diagram. If a new shape recurs across two modules, add it here.
+
+---
+
 ## Animation primitives — "GIF-like" mockups
 
 The AI PM source for M4 (trust gaps) contained animated GIFs showing each gap in motion: black-box gap, hallucination gap, control gap. The HTML deck must reproduce the motion using CSS keyframes — a static image is a regression.
