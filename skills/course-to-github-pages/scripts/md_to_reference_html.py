@@ -13,26 +13,21 @@ import os, re, sys, html as _html
 
 # ---- inline markdown -----------------------------------------------------
 def inline(s):
+    # 1) pull code spans out into private-use placeholders so emphasis can wrap them
+    codes = []
+    def _stash(m):
+        codes.append(m.group(1)); return "\ue000%d\ue001" % (len(codes) - 1)
+    s = re.sub(r"`([^`]+)`", _stash, s)
+    # 2) escape, then run links + emphasis on the full string (placeholders span fine)
     s = _html.escape(s, quote=False)
-    out = []
-    i = 0
-    # protect inline code first
-    parts = re.split(r"(`[^`]+`)", s)
-    for part in parts:
-        if part.startswith("`") and part.endswith("`") and len(part) >= 2:
-            out.append("<code>" + part[1:-1] + "</code>")
-        else:
-            part = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', part)
-            # bold + italic ***x***
-            part = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", part)
-            # bold ending in an italic: **a *b***
-            part = re.sub(r"\*\*([^*]+?)\*([^*]+?)\*\*\*", r"<strong>\1<em>\2</em></strong>", part)
-            # generic bold (non-greedy, leaves inner single-star italics for the next pass)
-            part = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", part)
-            # italic
-            part = re.sub(r"(?<![\*\w])\*([^*\n]+)\*(?!\w)", r"<em>\1</em>", part)
-            out.append(part)
-    return "".join(out)
+    s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
+    s = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", s)   # ***x***
+    s = re.sub(r"\*\*([^*]+?)\*([^*]+?)\*\*\*", r"<strong>\1<em>\2</em></strong>", s)  # **a *b***
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)               # **bold**
+    s = re.sub(r"(?<![\*\w])\*([^*\n]+)\*(?!\w)", r"<em>\1</em>", s)      # *italic*
+    # 3) restore code spans
+    s = re.sub("\ue000(\\d+)\ue001", lambda m: "<code>" + _html.escape(codes[int(m.group(1))], quote=False) + "</code>", s)
+    return s
 
 # ---- block markdown ------------------------------------------------------
 def render_body(md):
