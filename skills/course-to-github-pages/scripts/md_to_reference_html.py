@@ -20,7 +20,7 @@ def inline(s):
     s = re.sub(r"`([^`]+)`", _stash, s)
     # 2) escape, then run links + emphasis on the full string (placeholders span fine)
     s = _html.escape(s, quote=False)
-    s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
+    s = re.sub(r"\[([^\]]+)\]\(((?:[^()]|\([^()]*\))+)\)", r'<a href="\2">\1</a>', s)
     s = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", s)   # ***x***
     s = re.sub(r"\*\*([^*]+?)\*([^*]+?)\*\*\*", r"<strong>\1<em>\2</em></strong>", s)  # **a *b***
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)               # **bold**
