@@ -175,7 +175,7 @@ Copy [`scripts/gen_root_pages_template.py`](scripts/gen_root_pages_template.py).
 
 - `AI Product Management - Course Overview.html` (or your equivalent)
 - `Curriculum Map.html`
-- `Final Project Brief.html`
+- `Final Project Brief.html` (only for a course that lives outside `ps-content-library`; for the ten PS certifications the brief is generated, see "Final Project Brief: generated, not hand-authored" below)
 - `Tools Overview.html`
 - `Pitch/{course} - Pitch Deck.html`
 
@@ -186,6 +186,54 @@ python3 scripts/gen_root_pages.py
 ```
 
 The landing `index.html` is hand-authored (not generated). Use the AI Product Strategy outline page as reference: a 6-card grid showing each module's number, full title, the question it answers, and a 1-line description.
+
+#### Final Project Brief: generated, not hand-authored
+
+The ten certification briefs are now **one shared design plus per-course data**, not ten hand-built
+HTML files (`ps-content-library` PRs #183 and #184). If the course lives in
+`outputs/certifications/`, do **not** author brief HTML by hand and do **not** let
+`gen_root_pages_template.py` emit it. All four paths below are in `ps-content-library`, not in this
+skill's own `scripts/`:
+
+- **Design:** `scripts/fpb/template.html`, byte-identical across all ten briefs. Change layout or CSS
+  there once and all ten follow.
+- **Content:** `scripts/fpb/data/<shortCode>.json`, clean semantic fields, no HTML.
+- **Render:** `python scripts/build_final_project_briefs.py` writes
+  `outputs/certifications/<shortCode>/<version>/Final Project Brief.html`.
+- **Guard:** `python scripts/build_final_project_briefs.py --check` must print `ALL 10 MATCH`. A brief
+  that was hand-edited away from its data file fails here. Run it before shipping.
+
+A new course is one new data file plus a build. The eight sections, in order, keyed as in the data
+schema:
+
+| Key | Section |
+|---|---|
+| root fields | `title`, `brand`, `hero_h1`, `lede`, `chips[4]` |
+| `scenario` | narrative scenario cards, Context then Challenge then Goal |
+| `build` | the deliverables list |
+| `repo` | create-from-template steps, setup video, source-template link, repo tree |
+| `tools` | "What you'll need", real requirements with links |
+| `submit` | the submit-both steps and the deadline |
+| `classtime` | what happens in class |
+| `faqs` | student-facing FAQ set |
+
+Content rules, all carried from #183:
+
+- The scenario is a **narrative grounded in that course's own source material**, in a Context,
+  Challenge, Goal structure. Not a generic prompt.
+- Submission is **submit both**, repo *and* presentation, on the **Learning Platform**.
+- Learners **create from template**, they do not fork. The setup walkthrough video sits at that step,
+  next to a "view the source template" link (instructor feedback: the source must stay visible).
+- New repos default to **private**, with a documented path to public.
+- The **grading rubric is uniform** across all ten courses, and the universal FAQs are identical
+  across courses. Course-specific FAQs go on top of that set, never instead of it.
+- **No dated years** anywhere. Tool pricing says "paid plan", never a figure. Use **official course
+  names**. **No outbound navigation** out of the brief.
+- Zero em dashes (`scripts/dedash.py`).
+
+Planned in the library and not yet built: a `style_lint` gate (P2) and an authoring stage in
+`content_agent` that drafts scenarios from course source through a critic and rubric (P3). Until P2
+lands, the style rules above are yours to enforce.
 
 ### Step 5: Build interactive tools + project template
 
@@ -227,7 +275,7 @@ Each module's interactive tools must export markdown that lands directly in the 
 
 Every card is a real `<a href>` that resolves to a file that exists, **no decorative, non-clickable cards** (the empty "Frameworks Card" / "Final Project Brief" tiles were a *Shipping AI Agents* bug). Verify each href resolves before shipping: `for f in $(grep -oE 'href="[^"]+"' "Module N - Slides (Shareable).html" | sed 's/href="//;s/"//'); do …` or a quick existence check.
 
-**The Final Project Brief is an HTML page, not a `.md`.** It lives at the course root (`Final Project Brief.html`) and is linked from every module's Resources slide as `../Final Project Brief.html`. (A root `.md` brief is not clickable on Pages, `Shipping AI Agents` shipped that way and it had to be converted.)
+**The Final Project Brief is an HTML page, not a `.md`.** It lives at the course root (`Final Project Brief.html`) and is linked from every module's Resources slide as `../Final Project Brief.html`. (A root `.md` brief is not clickable on Pages, `Shipping AI Agents` shipped that way and it had to be converted.) **For a course in `ps-content-library`, that file is generated** from `scripts/fpb/data/<shortCode>.json` via `scripts/build_final_project_briefs.py`, so edit the data file and rebuild, never the HTML. See "Final Project Brief: generated, not hand-authored" in Step 4.
 
 **The Lab Guide is a first-class HTML artifact with an embedded builder.** Each module ships `Module {N} - Lab Guide.html`, the steps **plus** an in-guide workspace where the learner builds that module's deliverable (add rows / score / fill fields, with a golden-rule or rubric suggestion where relevant), then **Copy markdown** / **Download {deliverable}.md** to commit to the repo, with `localStorage` autosave and a live markdown preview. The lab slide's "Open Lab Guide ↗" button links to it. See `component-templates.md` → "Lab Guide with embedded deliverable builder." (Telling learners *what* to do without giving them *where* to do it was the gap closed in `Shipping AI Agents` M1.)
 
@@ -432,7 +480,7 @@ What stays fixed in *both*: the **chrome skeleton** and the **session timing**. 
 28. **Concept slides lead with a visual, not text.** A wall of text, a flat bullet list, or a plain `ref-table` *as the way to teach a concept* is a regression. Convert: a cycle → animated loop ring; a labelled set → orbital or status/anatomy grid; a sequence → flow pipeline; a continuum/trade-off → control-handoff spectrum; a threshold judgement → above/below-the-line. Pair the visual with **one** short paragraph (balanced density); push the depth into the Notes + Lab Guide. Reuse the **conceptual diagram kit** in `visual-primitives.md` → "Conceptual diagram kit", don't redraw. (Every text-heavy concept slide in the first *Shipping AI Agents* build had to be redrawn.)
 29. **The Break is mid-session, never beside the close.** Break + Cameras On land *after the high-energy concept lecture and before the final lecture section + the lab*, the natural energy reset before the second half. A break placed right before Key Takeaways is dead time. Move it (and the matching Instructor-Guide run-of-show row) and reword the Cameras-On "welcome back" copy to point forward to the rest of the session. (Shipping AI Agents shipped the break at the end and it was moved across all six modules.)
 30. **Resources & Templates cards must all be real, resolving HTML links.** Use the standardized two-group layout (This module / Whole course) of clickable `res-card` `<a href>`s: Notes HTML, Lab Guide HTML, Frameworks Card **HTML**, Glossary **HTML**, Template repo, Final Project Brief HTML, and — **on the final module only** — the Prompt Generator + cumulative ("all 6") Frameworks **HTML** + Glossary **HTML**. **Never link a raw `.md`** (it renders as plain text on Pages): render the Frameworks/Glossary HTML companions with `scripts/md_to_reference_html.py`. **The cumulative "all 6" pair is capstone-only** — M1..N-1 link only their own module's Frameworks + Glossary. **No decorative, non-clickable tiles and no dead hrefs**: every card points at a file that exists. (Shipping AI Agents shipped an empty "Frameworks Card" tile, a non-clickable "Final Project Brief", `.md` links that rendered as raw text, and the cumulative pair on every module instead of just M6.)
-31. **The Final Project Brief is HTML at the course root, not a root `.md`.** `Final Project Brief.html`, linked from every Resources slide as `../Final Project Brief.html`. A `.md` brief isn't clickable on Pages.
+31. **The Final Project Brief is HTML at the course root, not a root `.md`.** `Final Project Brief.html`, linked from every Resources slide as `../Final Project Brief.html`. A `.md` brief isn't clickable on Pages. **And for the ten PS certifications it is generated, not written.** Edit `scripts/fpb/data/<shortCode>.json` and run `scripts/build_final_project_briefs.py`; `--check` must print `ALL 10 MATCH` before you ship. Hand-editing the HTML makes the drift guard fail.
 32. **The Lab Guide is HTML and embeds the deliverable builder.** `Module {N} - Lab Guide.html` carries the steps *and* an in-guide workspace (add rows / score / fill fields + golden-rule/rubric suggestion) that exports the module's deliverable via **Copy markdown** / **Download .md**, with `localStorage` autosave + live preview. The lab slide's "Open Lab Guide ↗" links to it. Don't ship a guide that only says *what* to do without giving learners *where* to do it. **Every module gets one (not just M1)** and it must mirror the M1 quality bar across the course (this was the gap when Shipping AI Agents M2..M6 shipped static step guides while only M1 had the workspace). Don't hand-code the JS per module: author the deliverable as a JSON schema and run `scripts/add_lab_builder.py --html "Modules/Module {N} - Lab Guide.html" --config mN.json` (field types: `select`/`text`/`textarea`/`group`/`rows`). See `component-templates.md` → "Lab Guide with embedded deliverable builder" and "Schema-driven lab builder (reusable engine)."
 33. **No em-dashes or en-dashes, anywhere.** `—` (U+2014) and `–` (U+2013) are the #1 AI tell and are banned in every material and in the generators that emit them. Replace by meaning (label→def `:` · clause `,` · range `to` · compound `-` · empty cell `·`); the plain hyphen is fine. Author dash-clean; fix the generator, not the rendered file. Region-aware sweeper: `python3 scripts/dedash.py --apply .` (prose vs. `<script>`/`<style>`/regex, so it never corrupts code). Audit: `grep -rlP "[\x{2014}\x{2013}]" Modules/ *.html` must return nothing. See `voice.md` → "Banned characters."
 34. **Notes (Shareable) HTML must be fully populated, never header-only stubs.** A recurring regression ships the Notes HTML with the hero + numbered chapter headers (`section-label` + `h2`) but **empty chapter bodies**, while the real narrative sits only in the `.md`. Each chapter must explain its slide(s): the goal, the core elements, the worked example, in the family components (`<p>`, `<h3>`, `<ul>/<ol>`, `.pull-quote`, `.notice-table`, `.takeaway` cards). Audit body length, not just presence: `<main>` body should be hundreds of words per module, not ~100. If a populated `.md` already exists, render it in with `python3 scripts/populate_notes.py "Modules"` (injects each `## section` body under the matching `<h2>`, order-matched, dash-clean, code-span-safe). Caught when Shipping AI Agents shipped all 6 Notes as ~100-word stubs and AI Evals M5 shipped a 570-word stub against a 3,000-word source.

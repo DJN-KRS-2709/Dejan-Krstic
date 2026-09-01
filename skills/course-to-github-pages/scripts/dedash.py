@@ -50,7 +50,9 @@ def tx_text(s):
     s = re.sub(r"(</(?:b|strong|em|code|i|h[1-6])>)[ \t]*" + EM + r"[ \t]+", r"\1: ", s)
     # "Module N —" title separator -> colon
     s = re.sub(r"(\bModules?\s+[0-9A-Za-z]+)[ \t]+" + EM + r"[ \t]+", r"\1: ", s)
-    # default em-dash (clause break) -> comma
+    # default em-dash (clause break) -> comma. Never collapse `,.` afterwards:
+    # that also matches CSS `rgba(255,255,255,.03)` and turns frosted navy
+    # cards into opaque white (PLC M4 student-deck regression).
     s = re.sub(r"[ \t]*" + EM + r"[ \t]*", ", ", s)
     # spaced en-dash punctuation -> comma; leftover en -> hyphen
     s = re.sub(r"[ \t]*" + EN + r"[ \t]*", ", ", s)
