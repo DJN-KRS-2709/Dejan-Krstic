@@ -100,6 +100,46 @@ They follow a TDD-for-skills philosophy: every skill exists because an AI agent 
 | [strategic-deck](./strategic-deck/) | Builds a strategic HTML presentation in the FinE-leadership-tested style. Beat-by-beat HTML files, Python assembler with scoped CSS, scroll-snap navigation, dark navy + Poppins/Lato system. Encodes hard rules: no em-dashes, no "X, not Y" rhetoric, 12 main beats max, 3 asks max. Bundles assembler and template-beat scaffold. |
 | [course-to-github-pages](./course-to-github-pages/) | Transforms a legacy course (Word docs, PowerPoint, PDFs) into a GitHub Pages design library: scroll-snap HTML decks (instructor + shareable), Markdown notes, single-file interactive tools, a forkable project template, and root pages — all in the Product School AI certification visual system (navy `#07162C`, Poppins/Lato/IBM Plex Mono). Tool-agnostic: ships `PROMPT.md` (paste anywhere), `CLAUDE.md` (Claude Code/Project), and `SKILL.md` (Cursor/Claude Code skills). |
 
+### AI Search Visibility (GEO)
+
+| Skill | Description |
+|-------|-------------|
+| [ai-search-readiness-checker](./ai-search-readiness-checker/) | Scores one page on how likely AI assistants are to quote it for a given question, with a ranked fix list. |
+| [ai-content-audit](./ai-content-audit/) | Audits 3 to 10 pages for AI citation potential, finds site wide patterns and builds a four week fix plan. |
+| [brand-mention-tracker](./brand-mention-tracker/) | Builds 50+ test questions and a log sheet to see how ChatGPT, Perplexity, Gemini and Claude describe and rank a brand or person. |
+| [geo-content-brief-ai](./geo-content-brief-ai/) | Writes a content brief built around quote targets: the exact questions a page should answer and the passages assistants should lift. |
+| [competitor-gap-analyzer-ai](./competitor-gap-analyzer-ai/) | Compares AI visibility against 2 or 3 alternatives, question by question, and turns gaps into a tiered plan. |
+| [schema-generator-ai](./schema-generator-ai/) | Generates valid JSON-LD (Person, Course, Event, FAQPage, Organization and more) that helps search engines and assistants understand an offer. |
+
+### Design
+
+| Skill | Description |
+|-------|-------------|
+| [ui-designer](./ui-designer/) | Visual system and polish rules: spacing, type scale, color, components, layout, dark mode, motion and a pre-ship checklist. |
+| [ux-designer](./ux-designer/) | Experience design: understand the user first, share a UX plan, psychology lenses, flows, all states, accessibility and what to test. |
+
+### Writing & Go-to-Market
+
+| Skill | Description |
+|-------|-------------|
+| [copywriting](./copywriting/) | Outcome-first page and interface copy for course pages, Maven listings and the site. Answers what we do, how, and what you leave with. |
+| [dejan-voice](./dejan-voice/) | LinkedIn posts and articles in Dejan's first-person voice, with LinkedIn format rules, a freshness scan, a quality gate and a fixed output format. |
+| [email-creator](./email-creator/) | Launch, sales, nurture and event emails for a Maven cohort, a masterclass funnel and team workshops, with a launch sequence planner. |
+| [gtm-skill](./gtm-skill/) | Go-to-market copilot in four modes: market intelligence, product marketing, demand gen and content, sales outreach. Maven is the sales channel. |
+
+### Content Production
+
+| Skill | Description |
+|-------|-------------|
+| [shorts-planner](./shorts-planner/) | Plans Instagram Reels and YouTube Shorts from a long recording: clip picks, schedule from the account's own data, hooks, titles and captions. |
+| [transcript-cleaner](./transcript-cleaner/) | Cleans raw transcripts into publishable text with speaker labels, sections and YouTube chapters. Never commits coaching or client transcripts. |
+
+### Agent Quality
+
+| Skill | Description |
+|-------|-------------|
+| [agent-instructions-review](./agent-instructions-review/) | Reviews an agent's system prompt against its real tools and runtime limits, reports findings, and rewrites the prompt on request. |
+
 ### Workspace Management
 
 | Skill | Description |
@@ -164,7 +204,12 @@ skills/<name>/
 | Prototyping & Visualization | 4 |
 | Workspace Management | 6 |
 | Meta / Skill Development | 2 |
-| **Total** | **38** |
+| AI Search Visibility (GEO) | 6 |
+| Design | 2 |
+| Writing & Go-to-Market | 4 |
+| Content Production | 2 |
+| Agent Quality | 1 |
+| **Total** | **53** |
 
 ---
 
